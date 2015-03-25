@@ -22,6 +22,7 @@
     <Content Include="lib\configMySQl.json" />
     <Compile Include="lib\proyectos_api.js" />
     <Compile Include="lib\proyectos_db_mysql.js" />
+    <Content Include="public\blank_.html" />
     <Content Include="public\index.html" />
     <Content Include="public\login.html" />
     <Content Include="public\ajax\email-compose.html" />
