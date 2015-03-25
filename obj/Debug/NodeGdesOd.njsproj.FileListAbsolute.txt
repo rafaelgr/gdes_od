@@ -1,0 +1,2 @@
+C:\Proyectos\gdes_od\obj\Debug\NodeGdesOd.njsprojResolveAssemblyReference.cache
+C:\Proyectos\gdes_od\bin\Microsoft.NodejsTools.WebRole.dll
