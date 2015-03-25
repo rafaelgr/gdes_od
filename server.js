@@ -2,6 +2,7 @@
 // Servidor de la aplicación de gestión de área de conocimiento.
 // -----------------------
 // Cargar los paquetes exteriores
+// -- prueba git --
 
 var fs = require("fs"); // (file system) Maneja el acceso a ficheros
 var moment = require("moment"); // Maeja las variables de fecha y hora en diversos formatos
