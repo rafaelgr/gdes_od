@@ -53,7 +53,7 @@ function mostrarMensajeSmartSiNo(mens) {
 var errorAjax = function (xhr, textStatus, errorThrwon) {
     var m = xhr.responseText;
     if (!m) m = "Error general posiblemente falla la conexión";
-    mostrarMensaje(m);
+    mostrarMensajeSmart(m);
 }
 
 // gup stands from Get Url Parameters
@@ -108,19 +108,23 @@ function getCookie(c_name) {
 
 function getVersionFooter() {
     $.ajax({
-        type: "POST",
-        url: "VersionApi.aspx/GetVersion",
+        type: "GET",
+        url: "/api/version",
         dataType: "json",
         contentType: "application/json",
         success: function (data, status) {
             // Regresa el mensaje
-            if (!data.d) {
+            if (!data.version) {
                 mostrarMensaje('No se pudo obtener la versión ');
             }
-            var a = data.d;
+            var a = data.version;
             $("#versionFooter").text(a);
 
         },
-        error: errorAjax
+        error: function (xhr, textStatus, errorThrwon) {
+            var m = xhr.responseText;
+            if (!m) m = "Error general posiblemente falla la conexión";
+            mostrarMensaje(m);
+        }
     });
 }

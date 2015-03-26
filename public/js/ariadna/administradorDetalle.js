@@ -2,8 +2,9 @@
 administradorDetalle.js
 Funciones js par la página AdministradorDetalle.html
 ---------------------------------------------------------------------------*/
+var adminId = 0; 
 function initForm() {
-    comprobarLogin();
+    // comprobarLogin();
     // de smart admin
     pageSetUp();
     // 
@@ -17,47 +18,45 @@ function initForm() {
         return false;
     });
 
-    var adminId = gup('AdministradorId');
+    adminId = gup('AdministradorId');
     if (adminId != 0) {
         var data = {
-            id: adminId
+            administradorId: adminId
         }
         // hay que buscar ese elemento en concreto
         $.ajax({
-            type: "POST",
-            url: "AdministradorApi.aspx/GetAdministradorById",
+            type: "GET",
+            url: "/api/administradores/" + adminId,
             dataType: "json",
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (data, status) {
                 // hay que mostrarlo en la zona de datos
-                loadData(data.d);
+                loadData(data);
             },
             error: errorAjax
         });
     } else {
         // se trata de un alta ponemos el id a cero para indicarlo.
-        vm.AdministradorId(0);
+        vm.administradorId(0);
     }
 }
 
 function admData() {
     var self = this;
-    self.AdministradorId = ko.observable();
-    self.Nombre = ko.observable();
-    self.Login = ko.observable();
-    self.Password = ko.observable();
-    self.Email = ko.observable();
-    self.Certsn = ko.observable();
+    self.administradorId = ko.observable();
+    self.nombre = ko.observable();
+    self.login = ko.observable();
+    self.password = ko.observable();
+    self.email = ko.observable();
 }
 
 function loadData(data) {
-    vm.AdministradorId(data.AdministradorId);
-    vm.Nombre(data.Nombre);
-    vm.Login(data.Login);
-    vm.Password(data.Password);
-    vm.Email(data.Email);
-    vm.Certsn(data.Certsn);
+    vm.administradorId(data.administradorId);
+    vm.nombre(data.nombre);
+    vm.login(data.login);
+    vm.password(data.password);
+    vm.email(data.email);
 }
 
 function datosOK() {
@@ -68,43 +67,32 @@ function datosOK() {
             mostrarMensajeSmart('Las contraseñas no coinciden');
             return false;
         }
-        vm.Password($("#txtPassword1").val());
+        vm.password($("#txtPassword1").val());
     } else {
-        vm.Password("");
+        vm.password("");
     }
     // controlamos que si es un alta debe dar una contraseña.
-    if (vm.AdministradorId() === 0 && $('#txtPassword1').val() === ""){
+    if (vm.administradorId() === 0 && $('#txtPassword1').val() === ""){
         mostrarMensajeSmart('Debe introducir una contraseña en el alta');
         return false;
     }
     $('#frmAdministrador').validate({
-                                        rules: {
+        rules: {
             txtNombre: { required: true },
             txtLogin: { required: true },
-            txtEmail: { required: true, email:true },
-            txtCertSn: { required: true }
+            txtEmail: { required: true, email:true }
         },
-                                        // Messages for form validation
-                                        messages: {
-            txtNombre: {
-                                                required: 'Introduzca el nombre'
-                                            },
-            txtLogin: {
-                                                required: 'Introduzca el login'
-                                            },
-            txtEmail: {
-                                                required: 'Introduzca el correo',
-                                                email: 'Debe usar un correo válido'
-                                            },
-            txtCertSn: {
-                                                required: 'Introduzca la clave de su certificado'
-                                            }
+        // Messages for form validation
+        messages: {
+            txtNombre: {required: 'Introduzca el nombre'},
+            txtLogin: {required: 'Introduzca el login'},
+            txtEmail: {required: 'Introduzca el correo', email: 'Debe usar un correo válido'}
         },
-                                        // Do not change code below
-                                        errorPlacement: function (error, element) {
-                                            error.insertAfter(element.parent());
-                                        }
-                                    });
+        // Do not change code below
+        errorPlacement: function (error, element) {
+            error.insertAfter(element.parent());
+        }
+    });
     return $('#frmAdministrador').valid();
 }
 
@@ -114,29 +102,46 @@ function aceptar() {
             return;
         var data = {
             administrador: {
-                "AdministradorId": vm.AdministradorId(),
-                "Certsn": vm.Certsn(),
-                "Login": vm.Login(),
-                "Email": vm.Email(),
-                "Nombre": vm.Nombre(),
-                "Password": vm.Password()
+                "administradorId": vm.administradorId(),
+                "login": vm.login(),
+                "email": vm.email(),
+                "nombre": vm.nombre(),
+                "password": vm.password()
             }
         };
-        $.ajax({
-                   type: "POST",
-                   url: "AdministradorApi.aspx/SetAdministrador",
-                   dataType: "json",
-                   contentType: "application/json",
-                   data: JSON.stringify(data),
-                   success: function (data, status) {
-                       // hay que mostrarlo en la zona de datos
-                       loadData(data.d);
-                       // Nos volvemos al general
-                       var url = "AdministradorGeneral.html?AdministradorId=" + vm.AdministradorId();
-                       window.open(url, '_self');
-                   },
-                   error: errorAjax
-               });
+        if (adminId == 0) {
+            $.ajax({
+                type: "POST",
+                url: "api/administradores",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (data, status) {
+                    // hay que mostrarlo en la zona de datos
+                    loadData(data);
+                    // Nos volvemos al general
+                    var url = "AdministradorGeneral.html?AdministradorId=" + vm.administradorId();
+                    window.open(url, '_self');
+                },
+                error: errorAjax
+            });
+        } else {
+            $.ajax({
+                type: "PUT",
+                url: "api/administradores/" + adminId,
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (data, status) {
+                    // hay que mostrarlo en la zona de datos
+                    loadData(data);
+                    // Nos volvemos al general
+                    var url = "AdministradorGeneral.html?AdministradorId=" + vm.administradorId();
+                    window.open(url, '_self');
+                },
+                error: errorAjax
+            });
+        }
     };
     return mf;
 }

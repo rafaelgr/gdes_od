@@ -20,6 +20,7 @@
     <Content Include="package.json" />
     <Compile Include="lib\administradores_api.js" />
     <Compile Include="lib\administradores_db_mysql.js" />
+    <Compile Include="lib\version_api.js" />
     <Compile Include="server.js" />
     <Content Include="lib\configMySQl.json" />
     <Compile Include="lib\proyectos_api.js" />

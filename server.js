@@ -20,6 +20,7 @@ var config = require("./config.json");
 // apoyo a las api
 var proyectos_api = require("./lib/proyectos_api");
 var administradores_api = require("./lib/administradores_api");
+var version_api = require("./lib/version_api.js");
 
 
 
@@ -89,6 +90,11 @@ router.get("/", function(req, res){
 // Rutas específicas.
 //================================================================
 
+// --> Relacionadas con control de versiones
+router.route("/version")
+	.get(version_api.getVersion);
+
+
 // --> Relacionadas con proyectos
 router.route("/proyectos")
 	.get(proyectos_api.getProyectos)
@@ -110,6 +116,9 @@ router.route("/administradores/:administradorId")
 	.get(administradores_api.getAdministrador)
 	.put(administradores_api.putAdministrador)
 	.delete(administradores_api.deleteAdministrador);
+
+router.route("/administradores-buscar")
+	.post(administradores_api.postAdministradoresBuscar);
 
 //================================================================
 // Registro de rutas y arranque del servidor

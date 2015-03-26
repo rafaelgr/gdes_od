@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en-us">
     <head>
         <meta charset="utf-8">
-        <title> AriFace (Administrador) </title>
+        <title>  GDESOD (Administradores) </title>
         <meta name="description" content="">
         <meta name="author" content="">
 
@@ -29,8 +29,8 @@
         <link rel="stylesheet" type="text/css" media="screen" href="css/demo.min.css">
 
         <!-- #FAVICONS -->
-        <link rel="shortcut icon" href="img/favicon/favicon.ico" type="image/x-icon">
-        <link rel="icon" href="img/favicon/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="img/favicon/favicon.png" type="image/x-icon">
+        <link rel="icon" href="img/favicon/favicon.png" type="image/x-icon">
 
         <!-- #GOOGLE FONT -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700">
@@ -100,19 +100,18 @@
     <body class="">
 
         <!-- #HEADER -->
-        <header id="header">
+        <header id="header" style="background-color:beige; background-image:none;">
             <!-- #PROJECTS: projects dropdown -->
             <div>
-                <span id="logo"> <img src="img/ariface/logo_ariadna.png" alt="AriFace" style="height:30px;"> </span>
+                <span id="logo"> <img src="img/ariface/logo_ariadna.png" alt="Gdes Od" style="height:30px;"> </span>
             </div>
             <div>
 
             </div>
-            <div>
-                <h1>AriFace (Gestión de facturas electrónicas)</h1>
+            <div style="padding-left:5px">
+                <h1>Objetivos y Desempeño</h1>
             </div>
             <!-- end projects dropdown -->
-
             <!-- #TOGGLE LAYOUT BUTTONS -->
             <!-- pulled right: nav area -->
             <div class="pull-right">
@@ -126,7 +125,6 @@
                     </span>
                 </div>
                 <!-- end collapse menu -->
-
                 <!-- logout button -->
                 <div id="logout" class="btn-header transparent pull-right">
                     <span>
@@ -136,7 +134,6 @@
                     </span>
                 </div>
                 <!-- end logout button -->
-
                 <!-- fullscreen button -->
                 <div id="fullscreen" class="btn-header transparent pull-right">
                     <span>
@@ -170,50 +167,65 @@
                 <ul>
                     <li>
                         <a href="index.html" title="Dashboard">
-                            <i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Inicio</span>
+                            <i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">INICIO</span>
                         </a>
                     </li>
                     <li>
                         <a href="#">
-                            <i class="fa fa-lg fa-fw fa-th-large"></i> <span class="menu-item-parent">Administración</span>
+                            <i class="fa fa-lg fa-fw fa-bank"></i> <span class="menu-item-parent">ADMINISTRACIÓN</span>
                         </a>
                         <ul>
                             <li>
-                                <a href="AdministradorGeneral.html"><i class="fa fa-users"></i>Administradores</a>
+                                <a href="AdministradorGeneral.html">
+                                    <i class="fa fa-mortar-board"></i> Administradores
+                                </a>
                             </li>
                             <li>
-                                <a href="EmpresaRaizGeneral.html"><i class="fa fa-cubes"></i>Empresas raiz</a>
+                                <a href="EjercicioGeneral.html">
+                                    <i class="fa fa-cubes"></i> Ejercicios
+                                </a>
                             </li>
                             <li>
-                                <a href="ClienteGeneral.html"><i class="fa fa-cube"></i>Clientes</a>
+                                <a href="PaisGeneral.html">
+                                    <i class="fa fa-globe"></i> Paises
+                                </a>
                             </li>
                             <li>
-                                <a href="UsuarioGeneral.html"><i class="fa fa-user"></i>Usuarios</a>
+                                <a href="UnidadNegocioGeneral.html">
+                                    <i class="fa fa-sitemap"></i> Unidades negocio
+                                </a>
                             </li>
                             <li>
-                                <a href="FacturaGeneral.html"><i class="fa fa-copy"></i>Facturas</a>
+                                <a href="PuestoTrabajoGeneral.html">
+                                    <i class="fa fa-random"></i> Puestos de trabajo
+                                </a>
                             </li>
                             <li>
-                                <a href="EnvioGeneral.html"><i class="fa fa-envelope"></i>Envios</a>
+                                <a href="TrabajadorGeneral.html">
+                                    <i class="fa fa-users"></i> Trabajadores
+                                </a>
                             </li>
                             <li>
-                                <a href="PlantillaGeneral.html"><i class="fa fa-paste"></i>Plantillas</a>
+                                <a href="ObjetivoGeneral.html">
+                                    <i class="fa fa-bullseye"></i> Objetivos
+                                </a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a href="#">
-                            <i class="fa fa-lg fa-fw fa-bank"></i> <span class="menu-item-parent">FACE</span>
+                            <i class="fa fa-lg fa-fw fa-gears"></i> <span class="menu-item-parent">ASIGNACIONES</span>
                         </a>
                         <ul>
                             <li>
-                                <a href="EstadoGeneral.html"><i class="fa fa-folder-o"></i>Estados</a>
+                                <a href="AsgTrabajadorGeneral.html">
+                                    <i class="fa fa-puzzle-piece"></i> Asg. Trabajadores
+                                </a>
                             </li>
                             <li>
-                                <a href="UnidadGeneral.html"><i class="fa fa-folder-o"></i>Unidades</a>
-                            </li>
-                            <li>
-                                <a href="TestFace.html"><i class="fa fa-bug"></i>Utilidades</a>
+                                <a href="AsgObjetivoGeneral.html">
+                                    <i class="fa fa-share-alt"></i> Asg. Objetivos
+                                </a>
                             </li>
                         </ul>
                     </li>
@@ -264,7 +276,7 @@
 
                             <!-- PAGE HEADER -->
                             <i class="fa-fw fa fa-users"></i>
-                            Detalle administrador <a href="http://ariface.ariadnasw.com/help/AriFace%202015%20(ADMINISTRADORES).html?Administradores.html" title="Ayuda"><i class="fa fa-question"></i></a>
+                            Detalle administrador <a href="#" title="Ayuda"><i class="fa fa-question"></i></a>
                         </h1>
                     </div>
                     <!-- end col -->
@@ -350,13 +362,13 @@
                                                     <section class="col col-md-6">
                                                         <label class="label">Nombre</label>
                                                         <label class="input">
-                                                            <input id="txtNombre" name="txtNombre" type="text" data-bind="value: Nombre" />
+                                                            <input id="txtNombre" name="txtNombre" type="text" data-bind="value: nombre" />
                                                         </label>
                                                     </section>
                                                     <section class="col col-md-6">
                                                         <label class="label">Login</label>
                                                         <label class="input">
-                                                            <input id="txtLogin" name="txtLogin" type="text" data-bind="value: Login" />
+                                                            <input id="txtLogin" name="txtLogin" type="text" data-bind="value: login" />
                                                         </label>
                                                     </section>
                                                 </div>
@@ -378,14 +390,10 @@
                                                     <section class="col col-md-6">
                                                         <label class="label">Correo electrónico</label>
                                                         <label class="input">
-                                                            <input id="txtEmail" name="txtEmail" type="email" data-bind="value: Email" />
+                                                            <input id="txtEmail" name="txtEmail" type="email" data-bind="value: email" />
                                                         </label>
                                                     </section>
                                                     <section class="col col-md-6">
-                                                        <label class="label">Clave certificado</label>
-                                                        <label class="input">
-                                                            <input id="txtCertSn" name="txtCertSn" type="text" data-bind="value: Certsn" />
-                                                        </label>
                                                     </section>
                                                 </div>
 
@@ -525,8 +533,8 @@
 
         <!-- PAGE RELATED PLUGIN(S) 
         <script src="..."></script>-->
-        <script src="js/ariface/administradorDetalle.js"></script>
-        <script src="js/ariface/ariface.js"></script>
+        <script src="js/ariadna/administradorDetalle.js"></script>
+        <script src="js/ariadna/comun.js"></script>
 
         <!-- PAGE RELATED PLUGIN(S) -->
         <script src="js/plugin/datatables/jquery.dataTables.min.js"></script>

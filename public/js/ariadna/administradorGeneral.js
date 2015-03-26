@@ -28,6 +28,10 @@ function initForm() {
     $('#frmBuscar').submit(function () {
         return false
     });
+    //$('#txtBuscar').keypress(function (e) {
+    //    if (e.keyCode == 13)
+    //        buscarAdministradores();
+    //});
     //
     initTablaAdministradores();
     // comprobamos parámetros
@@ -39,14 +43,14 @@ function initForm() {
         }
         // hay que buscar ese elemento en concreto
         $.ajax({
-            type: "POST",
-            url: "AdministradorApi.aspx/GetAdministradorById",
+            type: "GET",
+            url: "api/administradores/" + administradorId,
             dataType: "json",
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (data, status) {
                 // hay que mostrarlo en la zona de datos
-                var data2 = [data.d];
+                var data2 = [data];
                 loadTablaAdministradores(data2);
             },
             error: errorAjax
@@ -91,13 +95,13 @@ function initTablaAdministradores() {
         },
         data: dataAdministradores,
         columns: [{
-            data: "Nombre"
+            data: "nombre"
         }, {
-            data: "Login"
+            data: "login"
         }, {
-            data: "Email"
+            data: "email"
         }, {
-            data: "AdministradorId",
+            data: "administradorId",
             render: function (data, type, row) {
                 var bt1 = "<button class='btn btn-circle btn-danger btn-lg' onclick='deleteAdministrador(" + data + ");' title='Eliminar registro'> <i class='fa fa-trash-o fa-fw'></i> </button>";
                 var bt2 = "<button class='btn btn-circle btn-success btn-lg' onclick='editAdministrador(" + data + ");' title='Editar registro'> <i class='fa fa-edit fa-fw'></i> </button>";
@@ -150,17 +154,17 @@ function buscarAdministradores() {
         var aBuscar = $('#txtBuscar').val();
         // enviar la consulta por la red (AJAX)
         var data = {
-            "aBuscar": aBuscar
+            "nombre": aBuscar
         };
         $.ajax({
             type: "POST",
-            url: "AdministradorApi.aspx/BuscarAdministradores",
+            url: "api/administradores-buscar",
             dataType: "json",
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (data, status) {
                 // hay que mostrarlo en la zona de datos
-                loadTablaAdministradores(data.d);
+                loadTablaAdministradores(data);
             },
             error: errorAjax
         });
@@ -186,11 +190,11 @@ function deleteAdministrador(id) {
     }, function (ButtonPressed) {
         if (ButtonPressed === "Aceptar") {
             var data = {
-                id: id
+                administradorId: id
             };
             $.ajax({
-                type: "POST",
-                url: "AdministradorApi.aspx/DeleteAdministrador",
+                type: "DELETE",
+                url: "api/administradores/" + id,
                 dataType: "json",
                 contentType: "application/json",
                 data: JSON.stringify(data),
