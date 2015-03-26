@@ -18,11 +18,16 @@
   <ItemGroup>
     <Content Include="config.json" />
     <Content Include="package.json" />
+    <Compile Include="lib\administradores_api.js" />
+    <Compile Include="lib\administradores_db_mysql.js" />
     <Compile Include="server.js" />
     <Content Include="lib\configMySQl.json" />
     <Compile Include="lib\proyectos_api.js" />
     <Compile Include="lib\proyectos_db_mysql.js" />
     <Content Include="public\blank_.html" />
+    <Content Include="public\img\fondo2.jpg" />
+    <Content Include="public\img\fondo3.jpg" />
+    <Content Include="public\img\fondo4.jpg" />
     <Content Include="public\index.html" />
     <Content Include="public\login.html" />
     <Content Include="public\ajax\email-compose.html" />
