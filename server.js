@@ -21,6 +21,7 @@ var config = require("./config.json");
 var proyectos_api = require("./lib/proyectos_api");
 var administradores_api = require("./lib/administradores_api");
 var version_api = require("./lib/version_api.js");
+var ejercicios_api = require("./lib/ejercicios_api.js");
 
 
 
@@ -119,6 +120,21 @@ router.route("/administradores/:administradorId")
 
 router.route("/administradores-buscar")
 	.post(administradores_api.postAdministradoresBuscar);
+
+// --> Relacionadas con ejercicios
+router.route("/ejercicios")
+	.get(ejercicios_api.getEjercicios)
+	.post(ejercicios_api.postEjercicio);
+
+
+router.route("/ejercicios/:ejercicioId")
+	.get(ejercicios_api.getEjercicio)
+	.put(ejercicios_api.putEjercicio)
+	.delete(ejercicios_api.deleteEjercicio);
+
+router.route("/ejercicios-buscar")
+	.post(ejercicios_api.postEjerciciosBuscar);
+
 
 //================================================================
 // Registro de rutas y arranque del servidor
