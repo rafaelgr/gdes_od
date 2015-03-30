@@ -201,6 +201,11 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="AreaGeneral.html">
+                                    <i class="fa fa-square"></i> Áreas de trabajo
+                                </a>
+                            </li>
+                            <li>
                                 <a href="TrabajadorGeneral.html">
                                     <i class="fa fa-users"></i> Trabajadores
                                 </a>
@@ -377,18 +382,18 @@
                                                 </div>
                                             </fieldset>
                                         </form>
-                                        <div id="tbAdministrador" style="display:none;">
-                                            <table id="dt_administrador" class="table table-striped table-bordered table-hover" width="100%">
+                                        <div id="tbEjercicio" style="display:none;">
+                                            <table id="dt_ejercicio" class="table table-striped table-bordered table-hover" width="100%">
                                                 <thead>
                                                     <tr>
                                                         <th data-class="expand">
                                                             <i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Nombre
                                                         </th>
                                                         <th data-hide="phone">
-                                                            Login
+                                                            Fecha inicial
                                                         </th>
                                                         <th data-hide="phone">
-                                                            <i class="fa fa-fw fa-mail text-muted hidden-md hidden-sm hidden-xs"></i>Correo electrónico
+                                                            <i class="fa fa-fw fa-mail text-muted hidden-md hidden-sm hidden-xs"></i> Fecha final
                                                         </th>
                                                         <th>
 
@@ -515,6 +520,10 @@
         <!-- SmartChat UI : plugin -->
         <script src="js/smart-chat-ui/smart.chat.ui.min.js"></script>
         <script src="js/smart-chat-ui/smart.chat.manager.min.js"></script>
+
+        <!-- Date and time format -->
+        <script src="js/moment.js"></script>
+        <script src="js/moment_locale.js"></script>
 
         <!-- PAGE RELATED PLUGIN(S) 
         <script src="..."></script>-->

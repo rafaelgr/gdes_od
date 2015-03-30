@@ -96,8 +96,24 @@ function initTablaEjercicios() {
         data: dataEjercicios,
         columns: [
             { data: "nombre" },
-            { data: "fechaInicio" },
-            { data: "fechaFinal" }, 
+            { data: "fechaInicio",
+                render: function (data) {
+                    // controlamos que si la fecha es nula no se muestre
+                    if (moment(data).isValid())
+                        return moment(data).format('DD/MM/YYYY');
+                    else
+                        return "";
+                },
+                class: "text-center" },
+            { data: "fechaFinal",
+                render: function (data) {
+                    // controlamos que si la fecha es nula no se muestre
+                    if (moment(data).isValid())
+                        return moment(data).format('DD/MM/YYYY');
+                    else
+                        return "";
+                },
+                class: "text-center" }, 
             { data: "ejercicioId",
               render: function (data, type, row) {
                     var bt1 = "<button class='btn btn-circle btn-danger btn-lg' onclick='deleteEjercicio(" + data + ");' title='Eliminar registro'> <i class='fa fa-trash-o fa-fw'></i> </button>";

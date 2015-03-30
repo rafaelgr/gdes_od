@@ -22,6 +22,8 @@ var proyectos_api = require("./lib/proyectos_api");
 var administradores_api = require("./lib/administradores_api");
 var version_api = require("./lib/version_api.js");
 var ejercicios_api = require("./lib/ejercicios_api.js");
+var paises_api = require("./lib/paises_api.js");
+var unidades_api = require("./lib/unidades_api.js");
 
 
 
@@ -135,6 +137,33 @@ router.route("/ejercicios/:ejercicioId")
 router.route("/ejercicios-buscar")
 	.post(ejercicios_api.postEjerciciosBuscar);
 
+// --> Relacionadas con paises
+router.route("/paises")
+	.get(paises_api.getPaises)
+	.post(paises_api.postPais);
+
+
+router.route("/paises/:paisId")
+	.get(paises_api.getPais)
+	.put(paises_api.putPais)
+	.delete(paises_api.deletePais);
+
+router.route("/paises-buscar")
+	.post(paises_api.postPaisesBuscar);
+
+// --> Relacionadas con unidades de negocio
+router.route("/unidades")
+	.get(unidades_api.getUnidades)
+	.post(unidades_api.postUnidad);
+
+
+router.route("/unidades/:unidadId")
+	.get(unidades_api.getUnidad)
+	.put(unidades_api.putUnidad)
+	.delete(unidades_api.deleteUnidad);
+
+router.route("/unidades-buscar")
+	.post(unidades_api.postUnidadesBuscar);
 
 //================================================================
 // Registro de rutas y arranque del servidor

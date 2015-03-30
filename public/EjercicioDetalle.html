@@ -2,7 +2,7 @@
 <html lang="en-us">
     <head>
         <meta charset="utf-8">
-        <title>  GDESOD (Administradores) </title>
+        <title>  GDESOD (Ejercicios) </title>
         <meta name="description" content="">
         <meta name="author" content="">
 
@@ -201,6 +201,11 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="AreaGeneral.html">
+                                    <i class="fa fa-square"></i> Áreas de trabajo
+                                </a>
+                            </li>
+                            <li>
                                 <a href="TrabajadorGeneral.html">
                                     <i class="fa fa-users"></i> Trabajadores
                                 </a>
@@ -245,8 +250,8 @@
                 <ol class="breadcrumb">
                     <li>Inicio</li>
                     <li>Administracion</li>
-                    <li>Administradores</li>
-                    <li>Detalle administrador</li>
+                    <li>Ejercicios</li>
+                    <li>Detalle de ejercicio</li>
                 </ol>
                 <!-- end breadcrumb -->
 
@@ -275,8 +280,8 @@
                         <h1 class="page-title txt-color-blueDark">
 
                             <!-- PAGE HEADER -->
-                            <i class="fa-fw fa fa-users"></i>
-                            Detalle administrador <a href="#" title="Ayuda"><i class="fa fa-question"></i></a>
+                            <i class="fa-fw fa fa-cubes"></i>
+                            Detalle ejercicio <a href="#" title="Ayuda"><i class="fa fa-question"></i></a>
                         </h1>
                     </div>
                     <!-- end col -->
@@ -336,7 +341,7 @@
                                 -->
                                 <header>
                                     <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-                                    <h2>Mantenimiento administradores </h2>
+                                    <h2>Mantenimiento ejercicios </h2>
 
                                 </header>
 
@@ -353,9 +358,9 @@
                                     <!-- widget content -->
                                     <div class="widget-body">
                                         <!-- this is what the user will see -->
-                                        <form id="frmAdministrador" class="smart-form">
+                                        <form id="frmEjercicio" class="smart-form">
                                             <header>
-                                                Datos del administrador.
+                                                Datos del ejercicio.
                                             </header>
                                             <fieldset>
                                                 <div class="row">
@@ -365,35 +370,41 @@
                                                             <input id="txtNombre" name="txtNombre" type="text" data-bind="value: nombre" />
                                                         </label>
                                                     </section>
-                                                    <section class="col col-md-6">
-                                                        <label class="label">Login</label>
-                                                        <label class="input">
-                                                            <input id="txtLogin" name="txtLogin" type="text" data-bind="value: login" />
-                                                        </label>
-                                                    </section>
                                                 </div>
                                                 <div class="row">
                                                     <section class="col col-md-6">
-                                                        <label class="label">Contraseña</label>
+                                                        <label class="label">Fecha Inicio</label>
                                                         <label class="input">
-                                                            <input id="txtPassword1" name="txtPassword1" type="password" />
+                                                            <input id="txtFechaInicio" name="txtFechaInicio" data-bind="value: fechaInicio" class="datepicker" data-dateformat="dd/mm/yy"/>
                                                         </label>
                                                     </section>
                                                     <section class="col col-md-6">
-                                                        <label class="label">Repita contraseña</label>
-                                                        <label class="input">
-                                                            <input id="txtPassword2" name="txtPassword2" type="password" />
-                                                        </label>
+                                                        <div class="form-group">
+                                                            <label class="label">Fecha final</label>
+                                                            <label class="input">
+                                                                <input id="txtFechaFinal" type="text" name="txtFechaFinal" data-bind="value: fechaFinal" class="form-control datepicker" data-dateformat="dd/mm/yy"/>
+                                                            </label>
+                                                        </div>
                                                     </section>
                                                 </div>
                                                 <div class="row">
-                                                    <section class="col col-md-6">
-                                                        <label class="label">Correo electrónico</label>
+                                                    <section class="col col-md-4">
+                                                        <label class="label">(%) Puerta Acceso</label>
                                                         <label class="input">
-                                                            <input id="txtEmail" name="txtEmail" type="email" data-bind="value: email" />
+                                                            <input id="txtPorPuertaAcceso" name="txtPorPuertaAcceso" data-bind="value: porPuertaAcceso" />
                                                         </label>
                                                     </section>
-                                                    <section class="col col-md-6">
+                                                    <section class="col col-md-4">
+                                                        <label class="label">(%) Organización</label>
+                                                        <label class="input">
+                                                            <input id="txtPorOrganizacion" name="txtPorOrganizacion" data-bind="value: porOrganizacion" />
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-md-4">
+                                                        <label class="label">(%) Individual</label>
+                                                        <label class="input">
+                                                            <input id="txtPorIndividual" name="txtPorIndividual" data-bind="value: porIndividual" />
+                                                        </label>
                                                     </section>
                                                 </div>
 
@@ -531,9 +542,15 @@
         <!--- KNOCKOUT JS -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.2.0/knockout-min.js"></script>
 
+        <script type="text/javascript" src="https://github.com/jquery/jquery-ui/tree/master/ui/i18n/jquery.ui.datepicker-es.js"></script>
+
+        <!-- Date and time format -->
+        <script src="js/moment.js"></script>
+        <script src="js/moment_locale.js"></script>
+
         <!-- PAGE RELATED PLUGIN(S) 
         <script src="..."></script>-->
-        <script src="js/ariadna/administradorDetalle.js"></script>
+        <script src="js/ariadna/ejercicioDetalle.js"></script>
         <script src="js/ariadna/comun.js"></script>
 
         <!-- PAGE RELATED PLUGIN(S) -->

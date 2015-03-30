@@ -18,11 +18,17 @@
   <ItemGroup>
     <Content Include="config.json" />
     <Content Include="package.json" />
+    <Compile Include="lib\unidades_api.js" />
+    <Compile Include="lib\unidades_db_mysql.js" />
+    <Compile Include="lib\paises_db_mysql.js" />
+    <Compile Include="lib\paises_api.js" />
     <Compile Include="lib\ejercicios_db_mysql.js" />
     <Compile Include="lib\ejercicios_api.js" />
     <Compile Include="lib\administradores_api.js" />
     <Compile Include="lib\administradores_db_mysql.js" />
     <Compile Include="lib\version_api.js" />
+    <Compile Include="public\datepicker.es.js" />
+    <Compile Include="public\locales\bootstrap-datepicker.es.js" />
     <Compile Include="server.js" />
     <Content Include="lib\configMySQl.json" />
     <Compile Include="lib\proyectos_api.js" />
