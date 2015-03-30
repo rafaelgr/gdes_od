@@ -97,6 +97,9 @@ function initTablaTrabajadores() {
         columns: [{
             data: "nombre"
         }, {
+                data: "dni"
+            }
+        , {
             data: "trabajadorId",
             render: function (data, type, row) {
                 var bt1 = "<button class='btn btn-circle btn-danger btn-lg' onclick='deleteTrabajador(" + data + ");' title='Eliminar registro'> <i class='fa fa-trash-o fa-fw'></i> </button>";

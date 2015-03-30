@@ -46,25 +46,25 @@ function admData() {
     var self = this;
     self.trabajadorId = ko.observable();
     self.nombre = ko.observable();
+    self.dni = ko.observable();
 }
 
 function loadData(data) {
     vm.trabajadorId(data.trabajadorId);
     vm.nombre(data.nombre);
+    vm.dni(data.dni);
 }
 
 function datosOK() {
     $('#frmTrabajador').validate({
         rules: {
             txtNombre: { required: true },
-            txtLogin: { required: true },
-            txtEmail: { required: true, email:true }
+            txtDni: { required: true }
         },
         // Messages for form validation
         messages: {
             txtNombre: {required: 'Introduzca el nombre'},
-            txtLogin: {required: 'Introduzca el login'},
-            txtEmail: {required: 'Introduzca el correo', email: 'Debe usar un correo válido'}
+            txtDni: {required: 'Introduzca el dni'}
         },
         // Do not change code below
         errorPlacement: function (error, element) {
@@ -81,7 +81,8 @@ function aceptar() {
         var data = {
             trabajador: {
                 "trabajadorId": vm.trabajadorId(),
-                "nombre": vm.nombre()
+                "nombre": vm.nombre(),
+                "dni": vm.dni()
             }
         };
         if (trabajadorId == 0) {
