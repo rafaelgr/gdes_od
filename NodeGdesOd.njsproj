@@ -20,6 +20,8 @@
     <Content Include="package.json" />
     <Compile Include="lib\areas_api.js" />
     <Compile Include="lib\areas_db_mysql.js" />
+    <Compile Include="lib\trabajadores_api.js" />
+    <Compile Include="lib\trabajadores_db_mysql.js" />
     <Compile Include="lib\puestos_api.js" />
     <Compile Include="lib\puestos_db_mysql.js" />
     <Compile Include="lib\unidades_api.js" />

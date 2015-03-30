@@ -26,9 +26,7 @@ var paises_api = require("./lib/paises_api.js");
 var unidades_api = require("./lib/unidades_api.js");
 var puestos_api = require("./lib/puestos_api.js");
 var areas_api = require("./lib/areas_api.js");
-
-
-
+var trabajadores_api = require("./lib/trabajadores_api.js");
 
 // ficheros en los que se grabarán los log de aplicación
 var express_log_file = __dirname + "/logs/node.express.log";
@@ -195,6 +193,21 @@ router.route("/areas/:areaId")
 
 router.route("/areas-buscar")
 	.post(areas_api.postAreasBuscar);
+
+
+// --> Relacionadas con trabajadores
+router.route("/trabajadores")
+	.get(trabajadores_api.getTrabajador)
+	.post(trabajadores_api.postTrabajador);
+
+
+router.route("/trabajadores/:trabajadorId")
+	.get(trabajadores_api.getTrabajador)
+	.put(trabajadores_api.putTrabajador)
+	.delete(trabajadores_api.deleteTrabajador);
+
+router.route("/trabajadores-buscar")
+	.post(trabajadores_api.postTrabajadoresBuscar);
 
 //================================================================
 // Registro de rutas y arranque del servidor
