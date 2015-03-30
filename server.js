@@ -24,6 +24,7 @@ var version_api = require("./lib/version_api.js");
 var ejercicios_api = require("./lib/ejercicios_api.js");
 var paises_api = require("./lib/paises_api.js");
 var unidades_api = require("./lib/unidades_api.js");
+var puestos_api = require("./lib/puestos_api.js");
 
 
 
@@ -164,6 +165,21 @@ router.route("/unidades/:unidadId")
 
 router.route("/unidades-buscar")
 	.post(unidades_api.postUnidadesBuscar);
+
+// --> Relacionadas con puestos de trabajo
+router.route("/puestos")
+	.get(puestos_api.getPuestos)
+	.post(puestos_api.postPuesto);
+
+
+router.route("/puestos/:puestoId")
+	.get(puestos_api.getPuesto)
+	.put(puestos_api.putPuesto)
+	.delete(puestos_api.deletePuesto);
+
+router.route("/puestos-buscar")
+	.post(puestos_api.postPuestosBuscar);
+
 
 //================================================================
 // Registro de rutas y arranque del servidor

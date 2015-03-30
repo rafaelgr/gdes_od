@@ -2,7 +2,7 @@
 paisDetalle.js
 Funciones js par la página PaisDetalle.html
 ---------------------------------------------------------------------------*/
-var adminId = 0; 
+var paisId = 0; 
 function initForm() {
     // comprobarLogin();
     // de smart admin
@@ -18,15 +18,15 @@ function initForm() {
         return false;
     });
 
-    adminId = gup('PaisId');
-    if (adminId != 0) {
+    paisId = gup('PaisId');
+    if (paisId != 0) {
         var data = {
-            paisId: adminId
+            paisId: paisId
         }
         // hay que buscar ese elemento en concreto
         $.ajax({
             type: "GET",
-            url: "/api/paises/" + adminId,
+            url: "/api/paises/" + paisId,
             dataType: "json",
             contentType: "application/json",
             data: JSON.stringify(data),
@@ -46,36 +46,14 @@ function admData() {
     var self = this;
     self.paisId = ko.observable();
     self.nombre = ko.observable();
-    self.login = ko.observable();
-    self.password = ko.observable();
-    self.email = ko.observable();
 }
 
 function loadData(data) {
     vm.paisId(data.paisId);
     vm.nombre(data.nombre);
-    vm.login(data.login);
-    vm.password(data.password);
-    vm.email(data.email);
 }
 
 function datosOK() {
-    // antes de la validación de form hay que verificar las password
-    if ($('#txtPassword1').val() !== "") {
-        // si ha puesto algo, debe coincidir con el otro campo
-        if ($('#txtPassword1').val() !== $('#txtPassword2').val()) {
-            mostrarMensajeSmart('Las contraseñas no coinciden');
-            return false;
-        }
-        vm.password($("#txtPassword1").val());
-    } else {
-        vm.password("");
-    }
-    // controlamos que si es un alta debe dar una contraseña.
-    if (vm.paisId() === 0 && $('#txtPassword1').val() === ""){
-        mostrarMensajeSmart('Debe introducir una contraseña en el alta');
-        return false;
-    }
     $('#frmPais').validate({
         rules: {
             txtNombre: { required: true },
@@ -103,13 +81,10 @@ function aceptar() {
         var data = {
             pais: {
                 "paisId": vm.paisId(),
-                "login": vm.login(),
-                "email": vm.email(),
-                "nombre": vm.nombre(),
-                "password": vm.password()
+                "nombre": vm.nombre()
             }
         };
-        if (adminId == 0) {
+        if (paisId == 0) {
             $.ajax({
                 type: "POST",
                 url: "api/paises",
@@ -128,7 +103,7 @@ function aceptar() {
         } else {
             $.ajax({
                 type: "PUT",
-                url: "api/paises/" + adminId,
+                url: "api/paises/" + paisId,
                 dataType: "json",
                 contentType: "application/json",
                 data: JSON.stringify(data),
