@@ -18,6 +18,8 @@
   <ItemGroup>
     <Content Include="config.json" />
     <Content Include="package.json" />
+    <Compile Include="lib\areas_api.js" />
+    <Compile Include="lib\areas_db_mysql.js" />
     <Compile Include="lib\puestos_api.js" />
     <Compile Include="lib\puestos_db_mysql.js" />
     <Compile Include="lib\unidades_api.js" />

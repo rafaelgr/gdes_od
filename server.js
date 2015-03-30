@@ -25,6 +25,8 @@ var ejercicios_api = require("./lib/ejercicios_api.js");
 var paises_api = require("./lib/paises_api.js");
 var unidades_api = require("./lib/unidades_api.js");
 var puestos_api = require("./lib/puestos_api.js");
+var areas_api = require("./lib/areas_api.js");
+
 
 
 
@@ -180,6 +182,19 @@ router.route("/puestos/:puestoId")
 router.route("/puestos-buscar")
 	.post(puestos_api.postPuestosBuscar);
 
+// --> Relacionadas con puestos de áreas
+router.route("/areas")
+	.get(areas_api.getArea)
+	.post(areas_api.postArea);
+
+
+router.route("/areas/:areaId")
+	.get(areas_api.getArea)
+	.put(areas_api.putArea)
+	.delete(areas_api.deleteArea);
+
+router.route("/areas-buscar")
+	.post(areas_api.postAreasBuscar);
 
 //================================================================
 // Registro de rutas y arranque del servidor
