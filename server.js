@@ -27,6 +27,9 @@ var unidades_api = require("./lib/unidades_api.js");
 var puestos_api = require("./lib/puestos_api.js");
 var areas_api = require("./lib/areas_api.js");
 var trabajadores_api = require("./lib/trabajadores_api.js");
+var categorias_api = require("./lib/categorias_api.js");
+var tipos_api = require("./lib/tipos_api.js");
+var objetivos_api = require("./lib/objetivos_api.js");
 
 // ficheros en los que se grabarán los log de aplicación
 var express_log_file = __dirname + "/logs/node.express.log";
@@ -79,7 +82,8 @@ var router = express.Router();
 // paso común de todas las rutas
 router.use(function(req, res, next){
 	// aquí irá código que se desea ejecutar de manera común a todas las rutas
-	// -----------
+    // -----------
+    console.log(req.body);
 	next();
 });
 
@@ -180,9 +184,9 @@ router.route("/puestos/:puestoId")
 router.route("/puestos-buscar")
 	.post(puestos_api.postPuestosBuscar);
 
-// --> Relacionadas con puestos de áreas
+// --> Relacionadas con áreas
 router.route("/areas")
-	.get(areas_api.getArea)
+	.get(areas_api.getAreas)
 	.post(areas_api.postArea);
 
 
@@ -197,7 +201,7 @@ router.route("/areas-buscar")
 
 // --> Relacionadas con trabajadores
 router.route("/trabajadores")
-	.get(trabajadores_api.getTrabajador)
+	.get(trabajadores_api.getTrabajadores)
 	.post(trabajadores_api.postTrabajador);
 
 
@@ -208,6 +212,45 @@ router.route("/trabajadores/:trabajadorId")
 
 router.route("/trabajadores-buscar")
 	.post(trabajadores_api.postTrabajadoresBuscar);
+
+// --> Relacionadas con categorias
+// sólo lectura, a pesar que las db están 
+// preparadas
+router.route("/categorias")
+	.get(categorias_api.getCategorias);
+    
+router.route("/categorias/:categoriaId")
+	.get(categorias_api.getCategoria);
+
+router.route("/categorias-buscar")
+	.post(categorias_api.postCategoriasBuscar);
+
+// --> Relacionadas con tipos
+// sólo lectura, a pesar que las db están 
+// preparadas
+router.route("/tipos")
+	.get(tipos_api.getTipos);
+
+router.route("/tipos/:tipoId")
+	.get(tipos_api.getTipo);
+
+router.route("/tipos-buscar")
+	.post(tipos_api.postTiposBuscar);
+
+
+// --> Relacionadas con objetivos
+router.route("/objetivos")
+	.get(objetivos_api.getObjetivos)
+	.post(objetivos_api.postObjetivo);
+
+
+router.route("/objetivos/:objetivoId")
+	.get(objetivos_api.getObjetivo)
+	.put(objetivos_api.putObjetivo)
+	.delete(objetivos_api.deleteObjetivo);
+
+router.route("/objetivos-buscar")
+	.post(objetivos_api.postObjetivosBuscar);
 
 //================================================================
 // Registro de rutas y arranque del servidor

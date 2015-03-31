@@ -18,7 +18,13 @@
   <ItemGroup>
     <Content Include="config.json" />
     <Content Include="package.json" />
+    <Compile Include="lib\objetivos_api.js" />
+    <Compile Include="lib\objetivos_db_mysql.js" />
+    <Compile Include="lib\tipos_api.js" />
+    <Compile Include="lib\categorias_api.js" />
     <Compile Include="lib\areas_api.js" />
+    <Compile Include="lib\tipos_db_mysql.js" />
+    <Compile Include="lib\categorias_db_mysql.js" />
     <Compile Include="lib\areas_db_mysql.js" />
     <Compile Include="lib\trabajadores_api.js" />
     <Compile Include="lib\trabajadores_db_mysql.js" />
@@ -871,6 +877,7 @@
     <Folder Include="public\js\smart-chat-ui" />
     <Folder Include="public\js\smartwidgets" />
     <Folder Include="public\js\speech" />
+    <Folder Include="public\locales\" />
     <Folder Include="public\php" />
     <Folder Include="public\sound" />
     <Folder Include="public\xml" />
