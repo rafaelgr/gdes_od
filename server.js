@@ -30,6 +30,8 @@ var trabajadores_api = require("./lib/trabajadores_api.js");
 var categorias_api = require("./lib/categorias_api.js");
 var tipos_api = require("./lib/tipos_api.js");
 var objetivos_api = require("./lib/objetivos_api.js");
+var asg_trabajadores_api = require("./lib/asg_trabajadores_api.js");
+var asg_objetivos_api = require("./lib/asg_objetivos_api.js");
 
 // ficheros en los que se grabarán los log de aplicación
 var express_log_file = __dirname + "/logs/node.express.log";
@@ -251,6 +253,36 @@ router.route("/objetivos/:objetivoId")
 
 router.route("/objetivos-buscar")
 	.post(objetivos_api.postObjetivosBuscar);
+
+// --> Relacionadas con asignación de trabajadores
+router.route("/asg-trabajadores")
+	.get(asg_trabajadores_api.getAsgTrabajadores)
+	.post(asg_trabajadores_api.postAsgTrabajador);
+
+
+router.route("/asg-trabajadores/:asgTrabajadorId")
+	.get(asg_trabajadores_api.getAsgTrabajador)
+	.put(asg_trabajadores_api.putAsgTrabajador)
+	.delete(asg_trabajadores_api.deleteAsgTrabajador);
+
+router.route("/asg-trabajadores-buscar")
+	.post(asg_trabajadores_api.postAsgTrabajadoresBuscar);
+
+// --> Relacionadas con asignación de objetivos
+router.route("/asg-objetivos")
+	.get(asg_objetivos_api.getAsgObjetivos)
+	.post(asg_objetivos_api.postAsgObjetivo);
+
+
+router.route("/asg-objetivos/:asgObjetivoId")
+	.get(asg_objetivos_api.getAsgObjetivo)
+	.put(asg_objetivos_api.putAsgObjetivo)
+	.delete(asg_objetivos_api.deleteAsgObjetivo);
+
+router.route("/asg-objetivos-buscar")
+	.post(asg_objetivos_api.postAsgObjetivosBuscar);
+
+
 
 //================================================================
 // Registro de rutas y arranque del servidor

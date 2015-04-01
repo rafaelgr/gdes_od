@@ -18,7 +18,11 @@
   <ItemGroup>
     <Content Include="config.json" />
     <Content Include="package.json" />
+    <Compile Include="lib\asg_objetivos_api.js" />
+    <Compile Include="lib\asg_trabajadores_api.js" />
+    <Compile Include="lib\asg_objetivos_db_mysql.js" />
     <Compile Include="lib\objetivos_api.js" />
+    <Compile Include="lib\asg_trabajadores_db_mysql.js" />
     <Compile Include="lib\objetivos_db_mysql.js" />
     <Compile Include="lib\tipos_api.js" />
     <Compile Include="lib\categorias_api.js" />
