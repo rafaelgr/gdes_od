@@ -1,6 +1,6 @@
 ﻿/*-------------------------------------------------------------------------- 
-asgObjetivoGeneral.js
-Funciones js par la página AsgObjetivoGeneral.html
+asgTrabajadorGeneral.js
+Funciones js par la página AsgTrabajadorGeneral.html
 
 ---------------------------------------------------------------------------*/
 var responsiveHelper_dt_basic = undefined;
@@ -8,8 +8,8 @@ var responsiveHelper_datatable_fixed_column = undefined;
 var responsiveHelper_datatable_col_reorder = undefined;
 var responsiveHelper_datatable_tabletools = undefined;
 
-var dataAsgObjetivos;
-var asgObjetivoId;
+var dataAsgTrabajadores;
+var asgTrabajadorId;
 
 var breakpointDefinition = {
     tablet: 1024,
@@ -23,48 +23,47 @@ function initForm() {
     pageSetUp();
     getVersionFooter();
     //
-    $('#btnBuscar').click(buscarAsgObjetivos());
-    $('#btnAlta').click(crearAsgObjetivo());
+    $('#btnBuscar').click(buscarAsgTrabajadores());
     $('#frmBuscar').submit(function () {
         return false
     });
     //$('#txtBuscar').keypress(function (e) {
     //    if (e.keyCode == 13)
-    //        buscarAsgObjetivos();
+    //        buscarAsgTrabajadores();
     //});
     //
-    initTablaAsgObjetivos();
+    initTablaAsgTrabajadores();
     // comprobamos parámetros
-    asgObjetivoId = gup('AsgObjetivoId');
-    if (asgObjetivoId !== '') {
+    asgTrabajadorId = gup('AsgTrabajadorId');
+    if (asgTrabajadorId !== '') {
         // cargar la tabla con un único valor que es el que corresponde.
         var data = {
-            id: asgObjetivoId
+            id: asgTrabajadorId
         }
         // hay que buscar ese elemento en concreto
         $.ajax({
             type: "GET",
-            url: "api/asg-objetivos/" + asgObjetivoId,
+            url: "api/asg-trabajadores/" + asgTrabajadorId,
             dataType: "json",
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (data, status) {
                 // hay que mostrarlo en la zona de datos
                 var data2 = [data];
-                loadTablaAsgObjetivos(data2);
+                loadTablaAsgTrabajadores(data2);
             },
             error: errorAjax
         });
     }
 }
 
-function initTablaAsgObjetivos() {
-    tablaCarro = $('#dt_asgObjetivo').dataTable({
+function initTablaAsgTrabajadores() {
+    tablaCarro = $('#dt_asgTrabajador').dataTable({
         autoWidth: true,
         preDrawCallback: function () {
             // Initialize the responsive datatables helper once.
             if (!responsiveHelper_dt_basic) {
-                responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_asgObjetivo'), breakpointDefinition);
+                responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_asgTrabajador'), breakpointDefinition);
             }
         },
         rowCallback: function (nRow) {
@@ -93,16 +92,19 @@ function initTablaAsgObjetivos() {
                 sortDescending: ": Activar para ordenar la columna de manera descendente"
             }
         },
-        data: dataAsgObjetivos,
+        data: dataAsgTrabajadores,
         columns: [{
-            data: "asgTrabajador.nombre"
-            }, 
+            data: "nombre"
+            }, {
+                data: "trabajador.nombre"
+            }, {
+                data: "ejercicio.nombre"
+            },
          {
-            data: "asgObjetivoId",
+            data: "asgTrabajadorId",
             render: function (data, type, row) {
-                var bt1 = "<button class='btn btn-circle btn-danger btn-lg' onclick='deleteAsgObjetivo(" + data + ");' title='Eliminar registro'> <i class='fa fa-trash-o fa-fw'></i> </button>";
-                var bt2 = "<button class='btn btn-circle btn-success btn-lg' onclick='editAsgObjetivo(" + data + ");' title='Editar registro'> <i class='fa fa-edit fa-fw'></i> </button>";
-                var html = "<div class='pull-right'>" + bt1 + " " + bt2 + "</div>";
+                var bt2 = "<button class='btn btn-circle btn-success btn-lg' onclick='editAsgTrabajador(" + data + ");' title='Asignar objetivos'> <i class='fa fa-share-alt fa-fw'></i> </button>";
+                var html = "<div class='pull-right'>" + bt2 + "</div>";
                 return html;
             }
         }]
@@ -129,20 +131,20 @@ function datosOK() {
     return $('#frmBuscar').valid();
 }
 
-function loadTablaAsgObjetivos(data) {
-    var dt = $('#dt_asgObjetivo').dataTable();
+function loadTablaAsgTrabajadores(data) {
+    var dt = $('#dt_asgTrabajador').dataTable();
     if (data !== null && data.length === 0) {
         mostrarMensajeSmart('No se han encontrado registros');
-        $("#tbAsgObjetivo").hide();
+        $("#tbAsgTrabajador").hide();
     } else {
         dt.fnClearTable();
         dt.fnAddData(data);
         dt.fnDraw();
-        $("#tbAsgObjetivo").show();
+        $("#tbAsgTrabajador").show();
     }
 }
 
-function buscarAsgObjetivos() {
+function buscarAsgTrabajadores() {
     var mf = function () {
         if (!datosOK()) {
             return;
@@ -155,13 +157,13 @@ function buscarAsgObjetivos() {
         };
         $.ajax({
             type: "POST",
-            url: "api/asg-objetivos-buscar",
+            url: "api/asg-trabajadores-buscar",
             dataType: "json",
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (data, status) {
                 // hay que mostrarlo en la zona de datos
-                loadTablaAsgObjetivos(data);
+                loadTablaAsgTrabajadores(data);
             },
             error: errorAjax
         });
@@ -169,49 +171,11 @@ function buscarAsgObjetivos() {
     return mf;
 }
 
-function crearAsgObjetivo() {
-    var mf = function () {
-        var url = "AsgObjetivoDetalle.html?AsgObjetivoId=0";
-        window.open(url, '_self');
-    };
-    return mf;
-}
 
-function deleteAsgObjetivo(id) {
-    // mensaje de confirmación
-    var mens = "¿Realmente desea borrar este registro?";
-    $.SmartMessageBox({
-        title: "<i class='fa fa-info'></i> Mensaje",
-        content: mens,
-        buttons: '[Aceptar][Cancelar]'
-    }, function (ButtonPressed) {
-        if (ButtonPressed === "Aceptar") {
-            var data = {
-                asgObjetivoId: id
-            };
-            $.ajax({
-                type: "DELETE",
-                url: "api/asg-objetivos/" + id,
-                dataType: "json",
-                contentType: "application/json",
-                data: JSON.stringify(data),
-                success: function (data, status) {
-                    var fn = buscarAsgObjetivos();
-                    fn();
-                },
-                error: errorAjax
-            });
-        }
-        if (ButtonPressed === "Cancelar") {
-            // no hacemos nada (no quiere borrar)
-        }
-    });
-}
-
-function editAsgObjetivo(id) {
-    // hay que abrir la página de detalle de asgObjetivo
+function editAsgTrabajador(id) {
+    // hay que abrir la página de detalle de asgTrabajador
     // pasando en la url ese ID
-    var url = "AsgObjetivoDetalle.html?AsgObjetivoId=" + id;
+    var url = "AsgObjetivoDetalle.html?AsgTrabajadorId=" + id;
     window.open(url, '_self');
 }
 
