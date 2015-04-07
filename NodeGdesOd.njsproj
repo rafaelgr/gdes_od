@@ -44,6 +44,7 @@
     <Compile Include="lib\administradores_db_mysql.js" />
     <Compile Include="lib\version_api.js" />
     <Compile Include="public\datepicker.es.js" />
+    <Compile Include="public\js\knockout-3.1.0.js" />
     <Compile Include="public\locales\bootstrap-datepicker.es.js" />
     <Compile Include="server.js" />
     <Content Include="lib\configMySQl.json" />
