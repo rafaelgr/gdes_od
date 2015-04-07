@@ -1,0 +1,15 @@
+----------------------------------
+SCRIPT DE INSTALACION
+---------------------------------
+npm run-script install-windows-service
+
+
+------------------------------------
+IIS7 MONTAJE
+....................................
+Como montar el proxi 
+http://dvisagie.blogspot.com.es/2013/02/running-nodejs-alongside-iis-on-windows.html
+ARR (Aplication request routing)
+http://www.iis.net/downloads/microsoft/application-request-routing
+URL Rewrite
+http://www.iis.net/downloads/microsoft/url-rewrite
