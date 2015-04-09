@@ -30,7 +30,9 @@
     <Compile Include="lib\tipos_db_mysql.js" />
     <Compile Include="lib\categorias_db_mysql.js" />
     <Compile Include="lib\areas_db_mysql.js" />
+    <Compile Include="lib\evaluados_api.js" />
     <Compile Include="lib\trabajadores_api.js" />
+    <Compile Include="lib\evaluados_db_mysql.js" />
     <Compile Include="lib\trabajadores_db_mysql.js" />
     <Compile Include="lib\puestos_api.js" />
     <Compile Include="lib\puestos_db_mysql.js" />

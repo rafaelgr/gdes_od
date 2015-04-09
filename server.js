@@ -32,6 +32,7 @@ var tipos_api = require("./lib/tipos_api.js");
 var objetivos_api = require("./lib/objetivos_api.js");
 var asg_trabajadores_api = require("./lib/asg_trabajadores_api.js");
 var asg_objetivos_api = require("./lib/asg_objetivos_api.js");
+var evaluados_api = require("./lib/evaluados_api.js");
 
 // ficheros en los que se grabarán los log de aplicación
 var express_log_file = __dirname + "/logs/node.express.log";
@@ -281,6 +282,29 @@ router.route("/asg-objetivos/:asgObjetivoId")
 
 router.route("/asg-objetivos-buscar")
 	.post(asg_objetivos_api.postAsgObjetivosBuscar);
+
+// --> Relacionadas con asignación de trabajadores
+router.route("/asg-trabajadores")
+	.get(asg_trabajadores_api.getAsgTrabajadores)
+	.post(asg_trabajadores_api.postAsgTrabajador);
+
+
+router.route("/asg-trabajadores/:asgTrabajadorId")
+	.get(asg_trabajadores_api.getAsgTrabajador)
+	.put(asg_trabajadores_api.putAsgTrabajador)
+	.delete(asg_trabajadores_api.deleteAsgTrabajador);
+
+router.route("/asg-trabajadores-buscar")
+	.post(asg_trabajadores_api.postAsgTrabajadoresBuscar);
+
+// --> Relacionadas con evaluador - evaluado
+
+router.route("/evaluados/:id")
+	.post(evaluados_api.postTrabajadorEvaluado)
+	.delete(evaluados_api.deleteTrabajadorEvaluado);
+
+router.route("/evaluados-buscar")
+	.post(evaluados_api.postEvaluadosBuscar);
 
 
 
