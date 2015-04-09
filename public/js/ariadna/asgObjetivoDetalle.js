@@ -62,6 +62,8 @@ function initForm() {
     $("#frmIndividual").submit(function () {
         return false;
     });
+    
+    $("#cmbObjetivosPA").change(cambioComboPA());
 
     initTablaObjetivosPA();
     prepareValidatePA();
@@ -996,4 +998,12 @@ function deleteObjetivoI(id) {
             // no hacemos nada (no quiere borrar)
         }
     });
+}
+
+
+function cambioComboPA(){
+    var mf = function (){
+        alert("Cambio PA: " + JSON.stringify(vm.objetivoPA()));
+    }
+    return mf;
 }

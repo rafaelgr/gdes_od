@@ -706,6 +706,7 @@
     <Content Include="public\js\plugin\ckeditor\skins\moono\images\hidpi\lock.png" />
     <Content Include="public\js\plugin\ckeditor\skins\moono\images\hidpi\refresh.png" />
     <Compile Include="public\js\plugin\fuelux\wizard\wizard.min.js" />
+    <Content Include="public\utilidades.html" />
     <Content Include="public\xml\gmap\pins.xml" />
   </ItemGroup>
   <ItemGroup>
