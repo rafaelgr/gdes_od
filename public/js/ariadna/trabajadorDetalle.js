@@ -273,12 +273,12 @@ function initTablaTrabajadores() {
 function loadTablaTrabajadores(data) {
     var dt = $('#dt_trabajador').dataTable();
     if (data !== null && data.length === 0) {
-        //$("#flEvaluados").hide();
+        dt.fnClearTable();
+        dt.fnDraw();
     } else {
         dt.fnClearTable();
         dt.fnAddData(data);
         dt.fnDraw();
-        //$("#flEvaluados").show();
     }
 }
 
