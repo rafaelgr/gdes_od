@@ -64,6 +64,8 @@ function initForm() {
     });
     
     $("#cmbObjetivosPA").change(cambioComboPA());
+    $("#cmbObjetivosO").change(cambioComboO());
+    $("#cmbObjetivosI").change(cambioComboI());
 
     initTablaObjetivosPA();
     prepareValidatePA();
@@ -1001,9 +1003,183 @@ function deleteObjetivoI(id) {
 }
 
 
+
 function cambioComboPA(){
     var mf = function (){
-        alert("Cambio PA: " + JSON.stringify(vm.objetivoPA()));
+        //alert("Cambio PA: " + JSON.stringify(vm.objetivoPA()));
+        // se mira el caso en función del tipo
+        switch (vm.objetivoPA().tipo.tipoId) {
+            case 0:
+                SiNoPA();
+                break;
+            case 1:
+                PorcentualPA()
+                break;
+            case 2:
+                NumericoPA();
+                break;
+            case 3:
+                SiNoPA();
+                break;
+        }
     }
     return mf;
 }
+
+function hidePA(){
+    $("#PorObjetivoPA").css("visibility","hidden");
+    $("#MaxNumPA").css("visibility","hidden");
+    $("#MinNumPA").css("visibility","hidden");
+    $("#PesoVariablePA").css("visibility","hidden");
+    $("#AceptarPA").css("visibility","hidden");
+}
+
+function PorcentualPA(){
+    // borramos los anteriores
+    hidePA();
+    // mostramos los que nos interesa
+    $("#PorObjetivoPA").css("visibility","visible");
+    $("#AceptarPA").css("visibility","visible");
+    // el peso variable siempre es 0 y oculto
+    vm.asPesoVariablePA(0);
+}
+
+function NumericoPA() {
+    // borramos los anteriores
+    hidePA();
+    // mostramos los que nos interesa
+    $("#MaxNumPA").css("visibility","visible");
+    $("#MinNumPA").css("visibility","visible");
+    $("#AceptarPA").css("visibility","visible");
+    // el peso variable siempre es 0 y oculto
+    vm.asPesoVariablePA(0);
+}
+
+function SiNoPA() {
+    // borramos los anteriores
+    hidePA();
+    // mostramos los que nos interesa
+    $("#AceptarPA").css("visibility","visible");
+    // el peso variable siempre es 0 y oculto
+    vm.asPesoVariablePA(0);
+}
+
+
+
+function cambioComboO() {
+    var mf = function () {
+        //alert("Cambio O: " + JSON.stringify(vm.objetivoO()));
+        // se mira el caso en función del tipo
+        switch (vm.objetivoO().tipo.tipoId) {
+            case 0:
+                SiNoO();
+                break;
+            case 1:
+                PorcentualO()
+                break;
+            case 2:
+                NumericoO();
+                break;
+            case 3:
+                SiNoO();
+                break;
+        }
+    }
+    return mf;
+}
+
+function hideO() {
+    $("#PorObjetivoO").css("visibility", "hidden");
+    $("#MaxNumO").css("visibility", "hidden");
+    $("#MinNumO").css("visibility", "hidden");
+    $("#PesoVariableO").css("visibility", "hidden");
+    $("#AceptarO").css("visibility", "hidden");
+}
+
+function PorcentualO() {
+    // borramos los anteriores
+    hideO();
+    // mostramos los que nos interesa
+    $("#PorObjetivoO").css("visibility", "visible");
+    $("#PesoVariableO").css("visibility", "visible");
+    $("#AceptarO").css("visibility", "visible");
+}
+
+function NumericoO() {
+    // borramos los anteriores
+    hideO();
+    // mostramos los que nos interesa
+    $("#MaxNumO").css("visibility", "visible");
+    $("#MinNumO").css("visibility", "visible");
+    $("#PesoVariableO").css("visibility", "visible");
+    $("#AceptarO").css("visibility", "visible");
+
+}
+
+function SiNoO() {
+    // borramos los anteriores
+    hideO();
+    // mostramos los que nos interesa
+    $("#PesoVariableO").css("visibility", "visible");
+    $("#AceptarO").css("visibility", "visible");
+}
+
+
+
+function cambioComboI() {
+    var mf = function () {
+        //alert("Cambio I: " + JSON.stringify(vm.objetivoI()));
+        // se mira el caso en función del tipo
+        switch (vm.objetivoI().tipo.tipoId) {
+            case 0:
+                SiNoI();
+                break;
+            case 1:
+                PorcentualI()
+                break;
+            case 2:
+                NumericoI();
+                break;
+            case 3:
+                SiNoI();
+                break;
+        }
+    }
+    return mf;
+}
+
+function hideI() {
+    $("#PorObjetivoI").css("visibility", "hidden");
+    $("#MaxNumI").css("visibility", "hidden");
+    $("#MinNumI").css("visibility", "hidden");
+    $("#PesoVariableI").css("visibility", "hidden");
+    $("#AceptarI").css("visibility", "hidden");
+}
+
+function PorcentualI() {
+    // borramos los anteriores
+    hideI();
+    // mostramos los que nos interesa
+    $("#PorObjetivoI").css("visibility", "visible");
+    $("#PesoVariableI").css("visibility", "visible");
+    $("#AceptarI").css("visibility", "visible");
+}
+
+function NumericoI() {
+    // borramos los anteriores
+    hideI();
+    // mostramos los que nos interesa
+    $("#MaxNumI").css("visibility", "visible");
+    $("#MinNumI").css("visibility", "visible");
+    $("#PesoVariableI").css("visibility", "visible");
+    $("#AceptarI").css("visibility", "visible");
+}
+
+function SiNoI() {
+    // borramos los anteriores
+    hideI();
+    // mostramos los que nos interesa
+    $("#PesoVariableI").css("visibility", "visible");
+    $("#AceptarI").css("visibility", "visible");
+}
+
