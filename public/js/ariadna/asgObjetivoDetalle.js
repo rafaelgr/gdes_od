@@ -116,16 +116,20 @@ function asgObjetivoData() {
     self.asMinNumPA = ko.observable();
     self.asMaxNumPA = ko.observable();
     self.asPesoVariablePA = ko.observable();
+    self.comentariosPA = ko.observable(); 
 
     self.asPorObjetivoO = ko.observable();
     self.asMinNumO = ko.observable();
     self.asMaxNumO = ko.observable();
     self.asPesoVariableO = ko.observable();
+    self.comentariosO = ko.observable(); 
     
     self.asPorObjetivoI = ko.observable();
     self.asMinNumI = ko.observable();
     self.asMaxNumI = ko.observable();
-    self.asPesoVariableI = ko.observable();    
+    self.asPesoVariableI = ko.observable();
+    self.comentariosI = ko.observable(); 
+    
     
     // soporte de combos
     self.posiblesObjetivosPA = ko.observableArray([]);
@@ -281,7 +285,8 @@ function aceptarPA() {
                 "asPorObjetivo": vm.asPorObjetivoPA(),
                 "asMinNum": vm.asMinNumPA(),
                 "asMaxNum": vm.asMaxNumPA(),
-                "asPesoVariable": vm.asPesoVariablePA()
+                "asPesoVariable": vm.asPesoVariablePA(),
+                "comentarios": vm.comentariosPA()
             }
         };
         // parece idiota pero estamos controlando que los indefinidos vayan como nulos
@@ -382,6 +387,9 @@ function initTablaObjetivosPA() {
                         return "";
                     }
                 }
+            },
+            {
+                data: "comentarios"
             },
          {
                 data: "asgObjetivoId",
@@ -562,7 +570,8 @@ function aceptarO() {
                 "asPorObjetivo": vm.asPorObjetivoO(),
                 "asMinNum": vm.asMinNumO(),
                 "asMaxNum": vm.asMaxNumO(),
-                "asPesoVariable": vm.asPesoVariableO()
+                "asPesoVariable": vm.asPesoVariableO(),
+                "comentarios": vm.comentariosO()
             }
         };
         // parece idiota pero estamos controlando que los indefinidos vayan como nulos
@@ -663,6 +672,8 @@ function initTablaObjetivosO() {
                         return "";
                     }
                 }
+            },{
+                data: "comentarios"
             },
          {
                 data: "asgObjetivoId",
@@ -844,7 +855,8 @@ function aceptarI() {
                 "asPorObjetivo": vm.asPorObjetivoI(),
                 "asMinNum": vm.asMinNumI(),
                 "asMaxNum": vm.asMaxNumI(),
-                "asPesoVariable": vm.asPesoVariableI()
+                "asPesoVariable": vm.asPesoVariableI(),
+                "comentarios": vm.comentariosI()
             }
         };
         // parece idiota pero estamos controlando que los indefinidos vayan como nulos
@@ -945,6 +957,8 @@ function initTablaObjetivosI() {
                         return "";
                     }
                 }
+            }, {
+                data: "comentarios"
             },
          {
                 data: "asgObjetivoId",
@@ -1027,10 +1041,18 @@ function cambioComboPA(){
 }
 
 function hidePA(){
-    $("#PorObjetivoPA").css("visibility","hidden");
+    $("#PorObjetivoPA").show();
+    $("#MaxNumPA").show();
+    $("#MinNumPA").show();
+    $("#PesoVariablePA").show();
+    $("#ComentariosPA").show();
+    $("#AceptarPA").show();
+    
+    $("#PorObjetivoPA").css("visibility", "hidden");
     $("#MaxNumPA").css("visibility","hidden");
     $("#MinNumPA").css("visibility","hidden");
-    $("#PesoVariablePA").css("visibility","hidden");
+    $("#PesoVariablePA").css("visibility", "hidden");
+    $("#ComentariosPA").css("visibility", "hidden");
     $("#AceptarPA").css("visibility","hidden");
 }
 
@@ -1038,7 +1060,8 @@ function PorcentualPA(){
     // borramos los anteriores
     hidePA();
     // mostramos los que nos interesa
-    $("#PorObjetivoPA").css("visibility","visible");
+    $("#PorObjetivoPA").css("visibility", "visible");
+    $("#ComentariosPA").css("visibility", "visible");
     $("#AceptarPA").css("visibility","visible");
     // el peso variable siempre es 0 y oculto
     vm.asPesoVariablePA(0);
@@ -1049,7 +1072,8 @@ function NumericoPA() {
     hidePA();
     // mostramos los que nos interesa
     $("#MaxNumPA").css("visibility","visible");
-    $("#MinNumPA").css("visibility","visible");
+    $("#MinNumPA").css("visibility", "visible");
+    $("#ComentariosPA").css("visibility", "visible");
     $("#AceptarPA").css("visibility","visible");
     // el peso variable siempre es 0 y oculto
     vm.asPesoVariablePA(0);
@@ -1059,6 +1083,7 @@ function SiNoPA() {
     // borramos los anteriores
     hidePA();
     // mostramos los que nos interesa
+    $("#ComentariosPA").css("visibility", "visible");
     $("#AceptarPA").css("visibility","visible");
     // el peso variable siempre es 0 y oculto
     vm.asPesoVariablePA(0);
@@ -1089,10 +1114,18 @@ function cambioComboO() {
 }
 
 function hideO() {
+    $("#PorObjetivoO").show();
+    $("#MaxNumO").show();
+    $("#MinNumO").show();
+    $("#PesoVariableO").show();
+    $("#ComentariosO").show();
+    $("#AceptarO").show();
+
     $("#PorObjetivoO").css("visibility", "hidden");
     $("#MaxNumO").css("visibility", "hidden");
     $("#MinNumO").css("visibility", "hidden");
     $("#PesoVariableO").css("visibility", "hidden");
+    $("#ComentariosO").css("visibility", "hidden");
     $("#AceptarO").css("visibility", "hidden");
 }
 
@@ -1102,6 +1135,7 @@ function PorcentualO() {
     // mostramos los que nos interesa
     $("#PorObjetivoO").css("visibility", "visible");
     $("#PesoVariableO").css("visibility", "visible");
+    $("#ComentariosO").css("visibility", "visible");
     $("#AceptarO").css("visibility", "visible");
 }
 
@@ -1112,6 +1146,7 @@ function NumericoO() {
     $("#MaxNumO").css("visibility", "visible");
     $("#MinNumO").css("visibility", "visible");
     $("#PesoVariableO").css("visibility", "visible");
+    $("#ComentariosO").css("visibility", "visible");
     $("#AceptarO").css("visibility", "visible");
 
 }
@@ -1121,6 +1156,7 @@ function SiNoO() {
     hideO();
     // mostramos los que nos interesa
     $("#PesoVariableO").css("visibility", "visible");
+    $("#ComentariosO").css("visibility", "visible");
     $("#AceptarO").css("visibility", "visible");
 }
 
@@ -1149,10 +1185,18 @@ function cambioComboI() {
 }
 
 function hideI() {
+    $("#PorObjetivoI").show();
+    $("#MaxNumI").show();
+    $("#MinNumI").show();
+    $("#PesoVariableI").show();
+    $("#ComentariosI").show();
+    $("#AceptarI").show();
+
     $("#PorObjetivoI").css("visibility", "hidden");
     $("#MaxNumI").css("visibility", "hidden");
     $("#MinNumI").css("visibility", "hidden");
     $("#PesoVariableI").css("visibility", "hidden");
+    $("#ComentariosI").css("visibility", "hidden");
     $("#AceptarI").css("visibility", "hidden");
 }
 
@@ -1162,6 +1206,7 @@ function PorcentualI() {
     // mostramos los que nos interesa
     $("#PorObjetivoI").css("visibility", "visible");
     $("#PesoVariableI").css("visibility", "visible");
+    $("#ComentariosI").css("visibility", "visible");
     $("#AceptarI").css("visibility", "visible");
 }
 
@@ -1172,6 +1217,7 @@ function NumericoI() {
     $("#MaxNumI").css("visibility", "visible");
     $("#MinNumI").css("visibility", "visible");
     $("#PesoVariableI").css("visibility", "visible");
+    $("#ComentariosI").css("visibility", "visible");
     $("#AceptarI").css("visibility", "visible");
 }
 
@@ -1180,6 +1226,7 @@ function SiNoI() {
     hideI();
     // mostramos los que nos interesa
     $("#PesoVariableI").css("visibility", "visible");
+    $("#ComentariosI").css("visibility", "visible");
     $("#AceptarI").css("visibility", "visible");
 }
 
