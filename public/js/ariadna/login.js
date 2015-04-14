@@ -50,24 +50,26 @@ function loginForm() {
             return;
         }
         var data = {
-            "login": vm.login(),
-            "password": vm.password()
+            "trabajador": {
+                "login": vm.login(),
+                "password": vm.password()
+            }
         };
         $.ajax({
             type: "POST",
-            url: "AdministradorApi.aspx/GetAdministradorLogin",
+            url: "api/trabajadores-login",
             dataType: "json",
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (data, status) {
                 // Regresa el mensaje
-                if (!data.d) {
+                if (data.length == 0) {
                     mostrarMensaje('Login y/o password incorrectos');
                 } else {
-                    var a = data.d;
+                    var a = data[0];
                     // guadar el usuario en los cookies
-                    setCookie("admin", JSON.stringify(data.d), 1)
-                    window.open('Index.html', '_self');
+                    setCookie("trabajador", JSON.stringify(a), 1)
+                    window.open('CliIndex.html', '_self');
                 }
             },
             error: function (xhr, textStatus, errorThrwon) {
@@ -82,20 +84,24 @@ function loginForm() {
 
 function getVersion() {
     $.ajax({
-        type: "POST",
-        url: "VersionApi.aspx/GetVersion",
+        type: "GET",
+        url: "/api/version",
         dataType: "json",
         contentType: "application/json",
         success: function (data, status) {
             // Regresa el mensaje
-            if (!data.d) {
-                mostrarMensaje('Login y/o password incorrectos');
+            if (!data.version) {
+                mostrarMensaje('No se pudo obtener la versión ');
             }
-            var a = data.d;
+            var a = data.version;
             $("#version").text(a);
-            
+
         },
-        error: errorAjax
+        error: function (xhr, textStatus, errorThrwon) {
+            var m = xhr.responseText;
+            if (!m) m = "Error general posiblemente falla la conexión";
+            mostrarMensaje(m);
+        }
     });
 }
 

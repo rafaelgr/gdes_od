@@ -18,6 +18,17 @@ function comprobarLogin() {
     $('#userName').text(user.Nombre);
 }
 
+function comprobarLoginTrabajador() {
+    // buscar el cookie
+    try {
+        var trabajador = JSON.parse(getCookie("trabajador"));
+    }
+    catch (e) {
+        // volver al login
+        window.open('login.html', '_self');
+    }
+    return trabajador;
+}
 
 function mostrarMensaje(mens) {
     $("#mensaje").text(mens);

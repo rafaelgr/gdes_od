@@ -216,6 +216,9 @@ router.route("/trabajadores/:trabajadorId")
 router.route("/trabajadores-buscar")
 	.post(trabajadores_api.postTrabajadoresBuscar);
 
+router.route("/trabajadores-login")
+	.post(trabajadores_api.postTrabajadorLogin);
+
 // --> Relacionadas con categorias
 // sólo lectura, a pesar que las db están 
 // preparadas
@@ -268,6 +271,9 @@ router.route("/asg-trabajadores/:asgTrabajadorId")
 
 router.route("/asg-trabajadores-buscar")
 	.post(asg_trabajadores_api.postAsgTrabajadoresBuscar);
+
+router.route("/asg-trabajador-buscar")
+	.post(asg_trabajadores_api.postAsgTrabajadorBuscar);
 
 // --> Relacionadas con asignación de objetivos
 router.route("/asg-objetivos")
