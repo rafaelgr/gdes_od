@@ -315,7 +315,8 @@ function aceptarPA() {
 function initTablaObjetivosPA() {
     tablaCarro = $('#dt_asgObjetivoPA').dataTable({
         bPaginate: false,
-        bFilter:false,
+        bFilter: false,
+        bInfo: false,
         autoWidth: true,
         preDrawCallback: function () {
             // Initialize the responsive datatables helper once.
@@ -593,6 +594,7 @@ function initTablaObjetivosO() {
     tablaCarro = $('#dt_asgObjetivoO').dataTable({
         bPaginate: false,
         bFilter: false,
+        bInfo: false,
         autoWidth: true,
         preDrawCallback: function () {
             // Initialize the responsive datatables helper once.
@@ -850,6 +852,7 @@ function initTablaObjetivosI() {
     tablaCarro = $('#dt_asgObjetivoI').dataTable({
         bPaginate: false,
         bFilter: false,
+        bInfo: false,
         autoWidth: true,
         preDrawCallback: function () {
             // Initialize the responsive datatables helper once.
