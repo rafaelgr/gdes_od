@@ -219,6 +219,9 @@ router.route("/trabajadores-buscar")
 router.route("/trabajadores-login")
 	.post(trabajadores_api.postTrabajadorLogin);
 
+router.route("/evaluadores")
+	.get(trabajadores_api.getEvaluadores)
+
 // --> Relacionadas con categorias
 // sólo lectura, a pesar que las db están 
 // preparadas

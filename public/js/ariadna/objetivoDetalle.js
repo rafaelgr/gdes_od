@@ -43,6 +43,7 @@ function initForm() {
         vm.objetivoId(0);
         loadCategorias(-1);
         loadTipos(-1);
+        loadEvaluadores(null);
     }
 }
 
@@ -55,9 +56,11 @@ function objetivoData() {
     // soporte de combos
     self.posiblesCategorias = ko.observableArray([]);
     self.posiblesTipos = ko.observableArray([]);
+    self.posiblesEvaluadores = ko.observableArray([]);
     // valores escogidos
     self.scategoriaId = ko.observable();
-    self.stipoId = ko.observable()
+    self.stipoId = ko.observable();
+    self.sevaluadorId = ko.observable();
 }
 
 function loadData(data) {
@@ -67,6 +70,11 @@ function loadData(data) {
     vm.tipo(data.tipo);
     loadCategorias(data.categoria.categoriaId);
     loadTipos(data.tipo.tipoId);
+    if (data.evaluador == null) {
+        loadEvaluadores(null);
+    }else{
+        loadEvaluadores(data.evaluador.evaluadorId);
+    }
 }
 
 function loadCategorias(categoriaId){
@@ -92,6 +100,20 @@ function loadTipos(tipoId) {
         success: function (data, status) {
             vm.posiblesTipos(data);
             vm.stipoId(tipoId);
+        },
+        error: errorAjax
+    });
+}
+
+function loadEvaluadores(evaluadorId) {
+    $.ajax({
+        type: "GET",
+        url: "/api/evaluadores",
+        dataType: "json",
+        contentType: "application/json",
+        success: function (data, status) {
+            vm.posiblesEvaluadores(data);
+            vm.sevaluadorId(evaluadorId);
         },
         error: errorAjax
     });
@@ -136,6 +158,9 @@ function aceptar() {
                 },
                 "tipo": {
                     "tipoId": vm.stipoId()
+                },
+                "evaluador": {
+                    "evaluadorId": vm.sevaluadorId()
                 }
             }
         };

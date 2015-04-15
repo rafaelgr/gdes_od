@@ -94,22 +94,36 @@ function initTablaObjetivos() {
             }
         },
         data: dataObjetivos,
-        columns: [{
+        columns: [
+            {
             data: "nombre"
-            }, {
+            }, 
+            {
                 data: "categoria.nombre"
-            }, {
+            }, 
+            {
                 data: "tipo.nombre"
             },
-         {
-            data: "objetivoId",
-            render: function (data, type, row) {
-                var bt1 = "<button class='btn btn-circle btn-danger btn-lg' onclick='deleteObjetivo(" + data + ");' title='Eliminar registro'> <i class='fa fa-trash-o fa-fw'></i> </button>";
-                var bt2 = "<button class='btn btn-circle btn-success btn-lg' onclick='editObjetivo(" + data + ");' title='Editar registro'> <i class='fa fa-edit fa-fw'></i> </button>";
-                var html = "<div class='pull-right'>" + bt1 + " " + bt2 + "</div>";
-                return html;
-            }
-        }]
+            {
+                data: "evaluador",
+                render: function (data, type, row) {
+                    var html = "";
+                    if (data != null) {
+                        html = data.nombre;
+                    }
+                    return html;
+                }
+
+            },
+            {
+                data: "objetivoId",
+                render: function (data, type, row) {
+                    var bt1 = "<button class='btn btn-circle btn-danger btn-lg' onclick='deleteObjetivo(" + data + ");' title='Eliminar registro'> <i class='fa fa-trash-o fa-fw'></i> </button>";
+                    var bt2 = "<button class='btn btn-circle btn-success btn-lg' onclick='editObjetivo(" + data + ");' title='Editar registro'> <i class='fa fa-edit fa-fw'></i> </button>";
+                    var html = "<div class='pull-right'>" + bt1 + " " + bt2 + "</div>";
+                    return html;
+                }
+            }]
     });
 }
 
