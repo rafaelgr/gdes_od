@@ -33,7 +33,7 @@ function initForm() {
     // hay que buscar ese elemento en concreto
     $.ajax({
         type: "POST",
-        url: "api/asg-trabajador-buscar",
+        url: "api/asg-trabajador-evaluador-buscar",
         dataType: "json",
         contentType: "application/json",
         data: JSON.stringify(data),
@@ -60,7 +60,7 @@ function viewAsgTrabajador(asg) {
     var mf = function (asg) {
         // hay que abrir la página de detalle de asgTrabajador
         // pasando en la url ese ID
-        var url = "CliAsgObjetivoDetalle.html?AsgTrabajadorId=" + asg.asgTrabajadorId;
+        var url = "CliEvAsgObjetivoDetalle.html?AsgTrabajadorId=" + asg.asgTrabajadorId;
         window.open(url, '_self');
     };
     return mf;

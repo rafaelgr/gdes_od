@@ -275,6 +275,9 @@ router.route("/asg-trabajadores-buscar")
 router.route("/asg-trabajador-buscar")
 	.post(asg_trabajadores_api.postAsgTrabajadorBuscar);
 
+router.route("/asg-trabajador-evaluador-buscar")
+	.post(asg_trabajadores_api.postAsgTrabajadorEvaluadorBuscar);
+
 // --> Relacionadas con asignación de objetivos
 router.route("/asg-objetivos")
 	.get(asg_objetivos_api.getAsgObjetivos)
