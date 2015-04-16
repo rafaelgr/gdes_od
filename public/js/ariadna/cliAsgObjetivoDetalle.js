@@ -24,6 +24,7 @@ var breakpointDefinition = {
 function initForm() {
     var trabajador = comprobarLoginTrabajador();
     $("#userName").text(trabajador.nombre);
+    controlBotones(trabajador);
     // de smart admin
     pageSetUp();
     // 

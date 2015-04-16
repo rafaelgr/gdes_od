@@ -8,6 +8,7 @@ var responsiveHelper_datatable_tabletools = undefined;
 
 var dataAsgTrabajadores;
 var asgTrabajadorId;
+var trabajador;
 
 var breakpointDefinition = {
     tablet: 1024,
@@ -26,6 +27,7 @@ function initForm() {
     //
     var trabajador = comprobarLoginTrabajador();
     $("#userName").text(trabajador.nombre);
+    controlBotones(trabajador);
     // cargar la tabla con un único valor que es el que corresponde.
     var data = {
         trabajadorId: trabajador.trabajadorId
@@ -65,4 +67,5 @@ function viewAsgTrabajador(asg) {
     };
     return mf;
 }
+
 

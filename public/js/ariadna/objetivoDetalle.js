@@ -112,6 +112,12 @@ function loadEvaluadores(evaluadorId) {
         dataType: "json",
         contentType: "application/json",
         success: function (data, status) {
+            // añadimos un valor nulo para que se pueda elegir
+            trabajador = {
+                "trabajadorId": null,
+                "nombre": ""
+            };
+            data.push(trabajador);
             vm.posiblesEvaluadores(data);
             vm.sevaluadorId(evaluadorId);
         },

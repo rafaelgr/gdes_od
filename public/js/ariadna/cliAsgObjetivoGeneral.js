@@ -26,6 +26,7 @@ function initForm() {
     //
     var trabajador = comprobarLoginTrabajador();
     $("#userName").text(trabajador.nombre);
+    controlBotones(trabajador);
     // cargar la tabla con un único valor que es el que corresponde.
     var data = {
         trabajadorId: trabajador.trabajadorId

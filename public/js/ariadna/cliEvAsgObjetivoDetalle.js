@@ -11,6 +11,7 @@ var asgObjetivoId = 0;
 var asgTrabajadorId = 0;
 
 var dataObjetivos;
+var trabajador;
 
 var breakpointDefinition = {
     tablet: 1024,
@@ -22,8 +23,9 @@ var breakpointDefinition = {
  *------------------------------------------------ */
 
 function initForm() {
-    var trabajador = comprobarLoginTrabajador();
+    trabajador = comprobarLoginTrabajador();
     $("#userName").text(trabajador.nombre);
+    controlBotones(trabajador);
     // de smart admin
     pageSetUp();
     // 
@@ -708,7 +710,7 @@ function deleteObjetivoO(id) {
 function loadObjetivosI() {
     // enviar la consulta por la red (AJAX)
     var data = {
-        "categoriaId": "2"
+        "evaluadorId": trabajador.trabajadorId
     };
     $.ajax({
         type: "POST",
