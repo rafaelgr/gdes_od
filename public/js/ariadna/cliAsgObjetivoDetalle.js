@@ -383,14 +383,14 @@ function detalleObjetivo(data){
     var html = "";
     switch (data.tipo.tipoId) {
         case 0:
-            html = "Objetivo Si/No, se cumple o nó de manera total";
+            html = "Se cumple o nó de manera total";
             break;
         case 1:
-            html = "Objetivo porcentual con un mínimo de cumplimiento de " + data.asPorObjetivo + "%"; 
+            html = "Se cumple superando valor objetivo de " + data.asPorObjetivo + "%";
             break;
         case 2:
-            html = "Objetivo numérico con un mínimo de cumplimiento de " + data.asMinNum; 
-            html = html + " y un máximo de " + data.asMaxNum;
+            html = "Se cumple alcanzando un mínimo de " + data.asMinNum;
+            html = html + " y su máximo es de " + data.asMaxNum;
             break;
         case 3:
             html = "Objetivo ligado al desempeño";
