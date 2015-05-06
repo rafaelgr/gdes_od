@@ -29,6 +29,7 @@ function initForm() {
     //
     $('#btnBuscar').click(buscarObjetivos());
     $('#btnAlta').click(crearObjetivo());
+    $('#btnRegresar').click(regresar());
     $('#frmBuscar').submit(function () {
         return false
     });
@@ -212,6 +213,14 @@ function cargarObjetivos() {
 function crearObjetivo() {
     var mf = function () {
         var url = "CliObjetivoDetalle.html?ObjetivoId=0";
+        window.open(url, '_self');
+    };
+    return mf;
+}
+
+function regresar() {
+    var mf = function () {
+        var url = "CliEvAsgObjetivoDetalle.html?AsgTrabajadorId=" + getCookie("asgTrabajadorId");;
         window.open(url, '_self');
     };
     return mf;

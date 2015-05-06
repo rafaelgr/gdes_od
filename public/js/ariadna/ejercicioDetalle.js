@@ -10,14 +10,22 @@ function initForm() {
     //
     // $.datepicker.setDefaults($.datepicker.regional['es']);
     //
-    $.validator.addMethod("greaterThan", 
+    $.validator.addMethod("greaterThanDate", 
         function (value, element, params) {
-            if (!/Invalid|NaN/.test(new Date(value))) {
-                return new Date(value) > new Date($(params).val());
-            }
-            return isNaN(value) && isNaN($(params).val()) 
+        var fv = moment(value, "DD/MM/YYYY").format("YYYY-MM-DD");
+        var fp = moment($(params).val(), "DD/MM/YYYY").format("YYYY-MM-DD");
+        if (!/Invalid|NaN/.test(new Date(fv))) {
+            return new Date(fv) > new Date(fp);
+        }
+        return isNaN(value) && isNaN($(params).val()) 
             || (Number(value) > Number($(params).val()));
     }, 'La fecha final debe ser mayor que la inicial.');
+    
+    $.validator.addMethod("greaterThanNumber", 
+        function (value, element, params) {
+        return isNaN(value) && isNaN($(params).val()) 
+            || (Number(value) > Number($(params).val()));
+    }, 'El valor mínimo supera al máximo.');
     
 
     $.datepicker.regional['es'] = {
@@ -85,6 +93,8 @@ function admData() {
     self.porPuertaAcceso = ko.observable();
     self.porOrganizacion = ko.observable();
     self.porIndividual = ko.observable();
+    self.porMinIndividual = ko.observable();
+    self.porMaxIndividual = ko.observable();
 }
 
 function loadData(data) {
@@ -95,6 +105,8 @@ function loadData(data) {
     vm.porPuertaAcceso(data.porPuertaAcceso);
     vm.porOrganizacion(data.porOrganizacion);
     vm.porIndividual(data.porIndividual);
+    vm.porMinIndividual(data.porMinIndividual);
+    vm.porMaxIndividual(data.porMaxIndividual);
 }
 
 function datosOK() {
@@ -102,20 +114,15 @@ function datosOK() {
         rules: {
             txtNombre: { required: true },
             txtFechaInicio: { required: true, date: true },
-            txtFechaFinal: { required: true, date: true, greaterThan: "#txtFechaInicio"},
+            txtFechaFinal: { required: true, date: true, greaterThanDate: "#txtFechaInicio"},
             txtPorPuertaAcceso: { required: true, number: true },
             txtPorOrganizacion: { required: true, number: true },
-            txtPorIndividual: { required: true, number: true }
+            txtPorIndividual: { required: true, number: true },
+            txtPorMinIndividual: { required: true, number: true, min:0, max:99 },
+            txtPorMaxIndividual: { required: true, number: true, min: 0, max: 99, greaterThanNumber: "#txtPorMinIndividual" }
         },
         // Messages for form validation
-        messages: {
-            txtNombre: {required: 'Introduzca el nombre'},
-            txtFechaInicio: {required: 'Introduzca una fecha de inicio', date: 'Debe ser una fecha válida'},
-            txtFechaFinal: { required: 'Introduzca una fecha final', date: 'Debe ser una fecha válida' },
-            txtPorPuertaAcceso: { required: 'Introduzca % puerta de acceso, puede ser cero', number:'Debe ser un número válido' },
-            txtPorOrganizacion: { required: 'Introduzca % organización, puede ser cero', number: 'Debe ser un número válido' },
-            txtPorIndividual: { required: 'Introduzca % individual, puede ser cero', number: 'Debe ser un número válido' }
-        },
+        // ahora se obtinene desde un fichero de mensajes
         // Do not change code below
         errorPlacement: function (error, element) {
             error.insertAfter(element.parent());
@@ -145,7 +152,9 @@ function aceptar() {
                 "nombre": vm.nombre(),
                 "porPuertaAcceso": vm.porPuertaAcceso(),
                 "porOrganizacion": vm.porOrganizacion(),
-                "porIndividual": vm.porIndividual()
+                "porIndividual": vm.porIndividual(),
+                "porMinIndividual": vm.porMinIndividual(),
+                "porMaxIndividual": vm.porMaxIndividual()
             }
         };
         if (ejercicioId == 0) {

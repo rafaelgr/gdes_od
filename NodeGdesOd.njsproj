@@ -48,6 +48,7 @@
     <Compile Include="public\datepicker.es.js" />
     <Compile Include="public\js\knockout-3.1.0.js" />
     <Compile Include="public\locales\bootstrap-datepicker.es.js" />
+    <Compile Include="public\locales\validator_messages_es.js" />
     <Compile Include="server.js" />
     <Content Include="lib\configMySQl.json" />
     <Compile Include="lib\proyectos_api.js" />

@@ -17,6 +17,10 @@ var breakpointDefinition = {
     phone: 480
 };
 
+var porMinIndividual = 0;
+var porMaxIndividual = 99;
+
+
 /*------------------------------------------------
  * Funciones comunes
  *------------------------------------------------ */
@@ -74,7 +78,7 @@ function initForm() {
     prepareValidateO();
     
     initTablaObjetivosI();
-    prepareValidateI();
+    
 
     
     // cargar los datos generales de la asignación del trabajador
@@ -93,6 +97,11 @@ function initForm() {
             success: function (data, status) {
                 // hay que mostrarlo en la zona de datos
                 mostrarAsignacionTrabajador(data);
+                // valores mínimos y máximos para individuales
+                porMinIndividual = data.ejercicio.porMinIndividual;
+                porMaxIndividual = data.ejercicio.porMaxIndividual;
+                // los individuales se montan ahora
+                prepareValidateI();
             },
             error: errorAjax
         });
@@ -215,13 +224,8 @@ function prepareValidatePA(){
             txtPesoVariablePA: { required: true, min: 0, max: 99 }
         },
         // Messages for form validation
-        messages: {
-            cmbObjetivosPA: { required: 'Seleccione un objetivo' },
-            txtPorObjetivoPA: { required: 'Introduzca % mínimo', min: 'Valor incorrecto', max: 'Valor incorrecto' },
-            txtMinNumPA: { required: 'Introduzca mínimo' },
-            txtMaxNumPA: { required: 'Introduzca máximo' },
-            txtPesoVariablePA: { required: 'Introduzca peso', min: 'Valor incorrecto', max: 'Valor incorrecto' }
-        },
+        // Lo hacemos con un fichero externo
+
         // Do not change code below
         errorPlacement: function (error, element) {
             error.insertAfter(element.parent());
@@ -347,47 +351,7 @@ function initTablaObjetivosPA() {
         data: dataObjetivos,
         columns: [{
                 data: "objetivo.nombre"
-            }, {
-                data: "asPorObjetivo",
-                render: function (data, type, row) {
-                    if (data != null) {
-                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "%</div>";
-                        return html;
-                    } else {
-                        return "";
-                    }
-                }
-            }, {
-                data: "asMinNum",
-                render: function (data, type, row) {
-                    if (data != null) {
-                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "</div>";
-                        return html;
-                    } else {
-                        return "";
-                    }
-                }
-            }, {
-                data: "asMaxNum",
-                render: function (data, type, row) {
-                    if (data != null) {
-                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "</div>";
-                        return html;
-                    } else {
-                        return "";
-                    }
-                }
-            }, {
-                data: "asPesoVariable",
-                render: function (data, type, row) {
-                    if (data != null) {
-                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "%</div>";
-                        return html;
-                    } else {
-                        return "";
-                    }
-                }
-            },
+            }, 
             {
                 data: "comentarios"
             },
@@ -500,13 +464,8 @@ function prepareValidateO() {
             txtPesoVariableO: { required: true, min: 0, max: 99 }
         },
         // Messages for form validation
-        messages: {
-            cmbObjetivosO: { required: 'Seleccione un objetivo' },
-            txtPorObjetivoO: { required: 'Introduzca % mínimo', min: 'Valor incorrecto', max: 'Valor incorrecto' },
-            txtMinNumO: { required: 'Introduzca mínimo' },
-            txtMaxNumO: { required: 'Introduzca máximo' },
-            txtPesoVariableO: { required: 'Introduzca peso', min: 'Valor incorrecto', max: 'Valor incorrecto' }
-        },
+        // Lo hacemos con un  fichero externo
+
         // Do not change code below
         errorPlacement: function (error, element) {
             error.insertAfter(element.parent());
@@ -782,16 +741,11 @@ function prepareValidateI() {
             txtPorObjetivoI: { required: true, min: 0, max: 99 },
             txtMinNumI: { required: true },
             txtMaxNumI: { required: true },
-            txtPesoVariableI: { required: true, min: 0, max: 99 }
+            txtPesoVariableI: { required: true, min: porMinIndividual, max: porMaxIndividual }
         },
         // Messages for form validation
-        messages: {
-            cmbObjetivosI: { required: 'Seleccione un objetivo' },
-            txtPorObjetivoI: { required: 'Introduzca % mínimo', min: 'Valor incorrecto', max: 'Valor incorrecto' },
-            txtMinNumI: { required: 'Introduzca mínimo' },
-            txtMaxNumI: { required: 'Introduzca máximo' },
-            txtPesoVariableI: { required: 'Introduzca peso', min: 'Valor incorrecto', max: 'Valor incorrecto' }
-        },
+        // Lo hacemos con un fichero externo
+
         // Do not change code below
         errorPlacement: function (error, element) {
             error.insertAfter(element.parent());

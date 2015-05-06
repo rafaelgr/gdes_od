@@ -165,17 +165,17 @@ Use search to find needed section.
             <ul>
                 <li id="inicio">
                     <a href="CliIndex.html">
-                        <i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">INICIO</span>
+                        <i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">MIS OBJETIVOS</span>
                     </a>
                 </li>
-                <li id="objetivos">
+                <li id="objetivos" style="visibility:hidden">
                     <a href="CliObjetivoGeneral.html">
                         <i class="fa fa-lg fa-fw fa-bullseye"></i> <span class="menu-item-parent">OBJETIVOS</span>
                     </a>
                 </li>
                 <li id="objetivosAsg">
                     <a href="CliAsgObjetivoGeneral.html">
-                        <i class="fa fa-lg fa-fw fa-share-alt"></i> <span class="menu-item-parent">OBJETIVOS ASIGNACIÓN</span>
+                        <i class="fa fa-lg fa-fw fa-share-alt"></i> <span class="menu-item-parent">OBJETIVOS DE EQUIPO</span>
                     </a>
                 </li>
                 <li id="evaluacion">
@@ -304,7 +304,7 @@ Use search to find needed section.
                                         Comentarios
                                     </th>
                                     <th data-hide="phone" style="text-align:right">
-                                        % Variable
+                                        Peso
                                     </th>
                                 </tr>
                             </thead>
@@ -335,7 +335,7 @@ Use search to find needed section.
                                         Comentarios
                                     </th>
                                     <th data-hide="phone" style="text-align:right">
-                                        % Variable
+                                        Peso
                                     </th>
                                 </tr>
                             </thead>
@@ -371,7 +371,7 @@ Use search to find needed section.
                                 <!-- this is what the user will see -->
                                 <form id="frmIndividual" class="smart-form">
                                     <header>
-                                        Objetivos individuales
+                                        Objetivos individuales (Si desea crear o mantener objetivos propio haga clic <a href="CliObjetivoGeneral.html">aquí</a>)
                                     </header>
                                     <fieldset>
                                         <div class="row">
@@ -384,7 +384,7 @@ Use search to find needed section.
                                         </div>
                                         <div class="row">
                                             <section class="col col-md-2" id="PorObjetivoI" style="display:none;">
-                                                <label class="label" style="text-align:right">% Objetivo</label>
+                                                <label class="label" style="text-align:right">Valor objetivo (%)</label>
                                                 <label class="input">
                                                     <input id="txtPorObjetivoI" name="txtPorObjetivoI" data-bind="value: asPorObjetivoI" style="text-align:right" />
                                                 </label>
@@ -402,7 +402,7 @@ Use search to find needed section.
                                                 </label>
                                             </section>
                                             <section class="col col-md-2" id="PesoVariableI" style="display:none;">
-                                                <label class="label" style="text-align:right">% Variable</label>
+                                                <label class="label" style="text-align:right">Peso (%)</label>
                                                 <label class="input">
                                                     <input id="txtPesoVariableI" name="txtPesoVariableI" data-bind="value: asPesoVariableI" style="text-align:right" />
                                                 </label>
@@ -440,7 +440,7 @@ Use search to find needed section.
                                                                     Comentarios
                                                                 </th>
                                                                 <th data-hide="phone" style="text-align:right">
-                                                                    % Variable
+                                                                    Peso
                                                                 </th>
                                                                 <th>
 
@@ -528,6 +528,7 @@ Use search to find needed section.
 
     <!-- JQUERY VALIDATE -->
     <script src="js/plugin/jquery-validate/jquery.validate.min.js"></script>
+    <script src="locales/validator_messages_es.js"></script>
 
     <!-- JQUERY MASKED INPUT -->
     <script src="js/plugin/masked-input/jquery.maskedinput.min.js"></script>
