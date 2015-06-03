@@ -7,6 +7,45 @@ function initForm() {
     // comprobarLogin();
     // de smart admin
     pageSetUp();
+    
+    $.validator.addMethod("greaterThanDate", 
+        function (value, element, params) {
+        var fv = moment(value, "DD/MM/YYYY").format("YYYY-MM-DD");
+        var fp = moment($(params).val(), "DD/MM/YYYY").format("YYYY-MM-DD");
+        if (!/Invalid|NaN/.test(new Date(fv))) {
+            return new Date(fv) > new Date(fp);
+        }
+        return isNaN(value) && isNaN($(params).val()) 
+            || (Number(value) > Number($(params).val()));
+    }, 'La fecha final debe ser mayor que la inicial.');
+    
+    $.validator.addMethod("greaterThanNumber", 
+        function (value, element, params) {
+        return isNaN(value) && isNaN($(params).val()) 
+            || (Number(value) > Number($(params).val()));
+    }, 'El valor mínimo supera al máximo.');
+    
+    
+    $.datepicker.regional['es'] = {
+        closeText: 'Cerrar',
+        prevText: '&#x3C;Ant',
+        nextText: 'Sig&#x3E;',
+        currentText: 'Hoy',
+        monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+        monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+        dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+        dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+        dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+        weekHeader: 'Sm',
+        dateFormat: 'dd/mm/yy',
+        firstDay: 1,
+        isRTL: false,
+        showMonthAfterYear: false,
+        yearSuffix: ''
+    };
+    
+    
+    $.datepicker.setDefaults($.datepicker.regional['es']);
     // 
     getVersionFooter();
     vm = new asgTrabajadorData();
@@ -18,7 +57,7 @@ function initForm() {
         return false;
     });
     
-    
+    $("#cmbEjercicios").change(cambioEjercicio());
 
     asgTrabajadorId = gup('AsgTrabajadorId');
     if (asgTrabajadorId != 0) {
@@ -47,6 +86,8 @@ function initForm() {
         loadUnidades(-1);
         loadAreas(-1);
         loadPuestos(-1);
+        loadEvaluadoresF(-1);
+        loadEvaluadoresI(-1);
     }
 }
 
@@ -62,6 +103,11 @@ function asgTrabajadorData() {
     self.puesto = ko.observable();
     self.fijo = ko.observable();
     self.variable = ko.observable();
+    self.variableF = ko.observable();
+    self.dFecha = ko.observable();
+    self.hFecha = ko.observable();
+    self.evaluadorF = ko.observable();
+    self.evaluadorI = ko.observable()
     // soporte de combos
     self.posiblesTrabajadores = ko.observableArray([]);
     self.posiblesEjercicios = ko.observableArray([]);
@@ -69,6 +115,8 @@ function asgTrabajadorData() {
     self.posiblesUnidades = ko.observableArray([]);
     self.posiblesAreas = ko.observableArray([]);
     self.posiblesPuestos = ko.observableArray([]);
+    self.posiblesEvaluadoresF = ko.observableArray([]);
+    self.posiblesEvaluadoresI = ko.observableArray([]);
     // valores escogidos
     self.strabajadorId = ko.observable();
     self.sejercicioId = ko.observable();
@@ -76,6 +124,8 @@ function asgTrabajadorData() {
     self.sunidadId = ko.observable();
     self.sareaId = ko.observable();
     self.spuestoId = ko.observable();
+    self.sievaluadorId = ko.observable();
+    self.sfevaluadorId = ko.observable();
 }
 
 function loadData(data) {
@@ -89,12 +139,17 @@ function loadData(data) {
     vm.puesto(data.puesto);
     vm.fijo(data.fijo);
     vm.variable(data.variable);
+    vm.variableF(data.variableF);
+    vm.dFecha(moment(data.dFecha).format("DD/MM/YYYY"));
+    vm.hFecha(moment(data.hFecha).format("DD/MM/YYYY"));
     loadTrabajadores(data.trabajador.trabajadorId);
     loadEjercicios(data.ejercicio.ejercicioId);
     loadPaises(data.pais.paisId);
     loadUnidades(data.unidad.unidadId);
     loadAreas(data.area.areaId);
     loadPuestos(data.puesto.puestoId);
+    loadEvaluadoresF(data.evaluadorF.trabajadorId);
+    loadEvaluadoresI(data.evaluadorI.trabajadorId);
 }
 
 function loadTrabajadores(trabajadorId){
@@ -110,6 +165,35 @@ function loadTrabajadores(trabajadorId){
         error: errorAjax
     });
 }
+
+function loadEvaluadoresF(trabajadorId) {
+    $.ajax({
+        type: "GET",
+        url: "/api/evaluadores",
+        dataType: "json",
+        contentType: "application/json",
+        success: function (data, status) {
+            vm.posiblesEvaluadoresF(data);
+            vm.sfevaluadorId(trabajadorId);
+        },
+        error: errorAjax
+    });
+}
+
+function loadEvaluadoresI(trabajadorId) {
+    $.ajax({
+        type: "GET",
+        url: "/api/evaluadores",
+        dataType: "json",
+        contentType: "application/json",
+        success: function (data, status) {
+            vm.posiblesEvaluadoresI(data);
+            vm.sievaluadorId(trabajadorId);
+        },
+        error: errorAjax
+    });
+}
+
 
 function loadEjercicios(ejercicioId) {
     $.ajax({
@@ -181,10 +265,6 @@ function loadPuestos(puestoId) {
     });
 }
 
-
-
-
-
 function datosOK() {
     $('#frmAsgTrabajador').validate({
         rules: {
@@ -194,8 +274,13 @@ function datosOK() {
             cmbUnidades: { required: true },
             cmbAreas: { required: true },
             cmbPuestos: { required: true },
+            cmbEvaluadorF: { required: true },
+            cmbEvaluadorI: { required: true },
             txtFijo: { required: true, number:true, min:0, max:99999999},
-            txtVariable: { required: true, number: true, min: 0, max: 99},
+            txtVariable: { required: true, number: true, min: 0, max: 99 },
+            txtVariableF: { required: true, number: true, min: 0, max: 99 },
+            txtFechaInicio: { required: true, date: true },
+            txtFechaFinal: { required: true, date: true, greaterThanDate: "#txtFechaInicio" }
         },
         // Messages for form validation
         messages: {
@@ -205,14 +290,20 @@ function datosOK() {
             cmbUnidades: { required: 'Seleccione una unidad' },
             cmbAreas: { required: 'Seleccione un area' },
             cmbPuestos: { required: 'Seleccione un puesto' },
+            cmbEvaluadorF: { required: 'Seleccione un evaluador funcional' },
+            cmbEvaluadorI: { required: 'Seleccione un evaluador individual' },
             txtFijo: { required: "Introduzca un fijo", min:"Valor incorrecto", max:"Valor incorrecto" },
-            txtVariable: {required: "Introduzca un variable", min: "Valor incorrecto", max: "Valor incorrecto"}
+            txtVariable: { required: "Introduzca un variable", min: "Valor incorrecto", max: "Valor incorrecto" },
+            txtVariableF: { required: "Introduzca un variable", min: "Valor incorrecto", max: "Valor incorrecto" }
         },
         // Do not change code below
         errorPlacement: function (error, element) {
             error.insertAfter(element.parent());
         }
     });
+    $.validator.methods.date = function (value, element) {
+        return this.optional(element) || moment(value, "DD/MM/YYYY").isValid();
+    }
     if ($("#txtAsgTrabajador").val() == "") {
         // si no han rellenado el nombre le generamos uno
         vm.nombre($('#cmbTrabajadores option:selected').text() + " [" + $('#cmbEjercicios option:selected').text() + "]");
@@ -225,6 +316,12 @@ function aceptar() {
     var mf = function () {
         if (!datosOK())
             return;
+        // control de fechas 
+        var fecha1, fecha2;
+        if (moment(vm.dFecha(), "DD/MM/YYYY").isValid())
+            fecha1 = moment(vm.dFecha(), "DD/MM/YYYY").format("YYYY-MM-DD");
+        if (moment(vm.hFecha(), "DD/MM/YYYY").isValid())
+            fecha2 = moment(vm.hFecha(), "DD/MM/YYYY").format("YYYY-MM-DD");
         var data = {
             asgTrabajador: {
                 "asgTrabajadorId": vm.asgTrabajadorId(),
@@ -233,7 +330,7 @@ function aceptar() {
                     "trabajadorId": vm.strabajadorId()
                 },
                 "ejercicio": {
-                    "ejercicioId": vm.sejercicioId()
+                    "ejercicioId": vm.ejercicio().ejercicioId
                 },
                 "pais": {
                     "paisId": vm.spaisId()
@@ -247,8 +344,17 @@ function aceptar() {
                 "puesto": {
                     "puestoId": vm.spuestoId()
                 },
+                "evaluadorF": {
+                    "trabajadorId": vm.sfevaluadorId()
+                },
+                "evaluadorI": {
+                    "trabajadorId": vm.sievaluadorId()
+                },
                 "fijo": vm.fijo(),
-                "variable": vm.variable()
+                "variable": vm.variable(),
+                "variableF": vm.variableF(),
+                "dFecha": fecha1,
+                "hFecha": fecha2
             }
         };
         if (asgTrabajadorId == 0) {
@@ -289,5 +395,28 @@ function salir() {
         var url = "AsgTrabajadorGeneral.html";
         window.open(url, '_self');
     }
+    return mf;
+}
+
+function cambioEjercicio() {
+    var mf = function () {
+        // cargar la tabla con un único valor que es el que corresponde.
+        var data = {
+            id: vm.sejercicioId()
+        }
+        // hay que buscar ese elemento en concreto
+        $.ajax({
+            type: "GET",
+            url: "api/ejercicios/" + vm.sejercicioId(),
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (data, status) {
+                vm.dFecha(moment(data.fechaInicio).format("DD/MM/YYYY"));
+                vm.hFecha(moment(data.fechaFinal).format("DD/MM/YYYY"));
+            },
+            error: errorAjax
+        });
+    };
     return mf;
 }

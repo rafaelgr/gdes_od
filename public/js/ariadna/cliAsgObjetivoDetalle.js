@@ -72,6 +72,9 @@ function initForm() {
     initTablaObjetivosPA();
     prepareValidatePA();
     
+    initTablaObjetivosF();
+    
+
     initTablaObjetivosO();
     prepareValidateO();
     
@@ -101,6 +104,7 @@ function initForm() {
         // cargar desplegables
         //loadObjetivosPA();
         buscaCargaObjetivosPA();
+        buscaCargaObjetivosF();
         //loadObjetivosO();
         buscaCargaObjetivosO();
         //loadObjetivosI();
@@ -443,6 +447,114 @@ function deleteObjetivoPA(id) {
         }
     });
 }
+
+
+/*------------------------------------------------
+ * Funciones F (Funcionales)
+ *------------------------------------------------ */
+
+
+function buscaCargaObjetivosF() {
+    // cargar la tabla de objetivos si hay datos
+    data = {
+        "asgTrabajadorId": asgTrabajadorId,
+        "categoriaId": "3"
+    };
+    $.ajax({
+        type: "POST",
+        url: "api/asg-objetivos-buscar",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (data, status) {
+            // hay que mostrarlo en la zona de datos
+            loadTablaObjetivosF(data);
+        },
+        error: errorAjax
+    });
+}
+
+
+function initTablaObjetivosF() {
+    tablaCarro = $('#dt_asgObjetivoF').dataTable({
+        bPaginate: false,
+        bFilter: false,
+        bInfo: false,
+        autoWidth: true,
+        preDrawCallback: function () {
+            // Initialize the responsive datatables helper once.
+            if (!responsiveHelper_dt_basic) {
+                responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_asgObjetivoF'), breakpointDefinition);
+            }
+        },
+        rowCallback: function (nRow) {
+            responsiveHelper_dt_basic.createExpandIcon(nRow);
+        },
+        drawCallback: function (oSettings) {
+            responsiveHelper_dt_basic.respond();
+        },
+        language: {
+            processing: "Procesando...",
+            info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+            infoFiltered: "(filtrado de un total de _MAX_ registros)",
+            infoPostFix: "",
+            loadingRecords: "Cargando...",
+            zeroRecords: "No se encontraron resultados",
+            emptyTable: "Ningún dato disponible en esta tabla",
+            paginate: {
+                first: "Primero",
+                previous: "Anterior",
+                next: "Siguiente",
+                last: "Último"
+            },
+            aria: {
+                sortAscending: ": Activar para ordenar la columna de manera ascendente",
+                sortDescending: ": Activar para ordenar la columna de manera descendente"
+            }
+        },
+        data: dataObjetivos,
+        columns: [{
+                data: "objetivo.nombre"
+            },  
+            {
+                data: "asgObjetivoId",
+                render: function (data, type, row) {
+                    return detalleObjetivo(row);
+                }
+            }, 
+            {
+                data: "comentarios"
+            },
+            {
+                data: "asPesoVariable",
+                render: function (data, type, row) {
+                    if (data != null) {
+                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "%</div>";
+                        return html;
+                    } else {
+                        return "";
+                    }
+                }
+            }]
+    });
+}
+
+function loadTablaObjetivosF(data) {
+    var dt = $('#dt_asgObjetivoF').dataTable();
+    if (data !== null && data.length === 0) {
+        //mostrarMensajeSmart('No se han encontrado registros');
+        $("#tbAsgObjetivoF").hide();
+    } else {
+        dt.fnClearTable();
+        dt.fnAddData(data);
+        dt.fnDraw();
+        $("#tbAsgObjetivoF").show();
+    }
+}
+
+
+
 
 /*------------------------------------------------
  * Funciones O (Organizacion)

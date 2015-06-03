@@ -308,159 +308,363 @@ Use search to find needed section.
                 </section>
             </div>
 
-            <hr />
-            <div class="row">
-                <div class="col-md-12">
-                    <h2>Objetivos organización</h2>
-                </div>
-            </div>
-            <div class="row">
-                <section class="col col-md-12">
-                    <div id="tbAsgObjetivoO" class="table-responsive">
-                        <table id="dt_asgObjetivoO" class="table table-bordered" width="100%">
-                            <thead>
-                                <tr>
-                                    <th data-class="expand">
-                                        <i class="fa fa-fw fa-bullseye text-muted hidden-md hidden-sm hidden-xs"></i> Objetivo
-                                    </th>
-                                    <th data-hide="phone">
-                                        Descripción
-                                    </th>
-                                    <th data-hide="phone">
-                                        Comentarios
-                                    </th>
-                                    <th data-hide="phone" style="text-align:right">
-                                        Peso
-                                    </th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </section>
-            </div>
+            <!-- row  FUNCIONAL -->
+            <div id="FuncionalEdit">
+                <hr>
+                <div class="row">
 
-            <hr />
-            <!-- row  INDIVIDUAL-->
-            <div class="row">
+                    <!-- NEW WIDGET START -->
+                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-                <!-- NEW WIDGET START -->
-                <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <!-- Widget ID (each widget will need unique ID)-->
+                        <div class="jarviswidget" id="w5" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
+                            <header>
+                                <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                                <h2>FUNCIONAL</h2>
 
-                    <!-- Widget ID (each widget will need unique ID)-->
-                    <div class="jarviswidget" id="w3" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
-                        <header>
-                            <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
-                            <h2>INDIVIDUAL</h2>
+                            </header>
+                            <!-- widget div-->
+                            <div>
+                                <!-- widget edit box -->
+                                <div class="jarviswidget-editbox">
+                                    <!-- This area used as dropdown edit box -->
+                                    <input class="form-control" type="text">
+                                </div>
+                                <!-- end widget edit box -->
+                                <!-- widget content -->
+                                <div class="widget-body">
+                                    <!-- this is what the user will see -->
+                                    <form id="frmFuncional" class="smart-form">
+                                        <header>
+                                            Objetivos funcionales
+                                        </header>
+                                        <fieldset>
+                                            <div class="row">
+                                                <section class="col col-md-12">
+                                                    <label class="label">Objetivos funcionales</label>
+                                                    <label class="select">
+                                                        <select id="cmbObjetivosF" name="cmbObjetivosF" data-bind="options: posiblesObjetivosF, optionsText: 'nombre', value: objetivoF, valueAllowUnset: true"></select><i></i>
+                                                    </label>
+                                                </section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col col-md-2" id="PorObjetivoF" style="display:none;">
+                                                    <label class="label" style="text-align:right">Valor objetivo (%)</label>
+                                                    <label class="input">
+                                                        <input id="txtPorObjetivoF" name="txtPorObjetivoF" data-bind="value: asPorObjetivoF" style="text-align:right" />
+                                                    </label>
+                                                </section>
+                                                <section class="col col-md-2" id="MinNumF" style="display:none;">
+                                                    <label class="label" style="text-align:right">Mínimo numérico</label>
+                                                    <label class="input">
+                                                        <input id="txtMinNumF" name="txtMinNumF" data-bind="value: asMinNumF" style="text-align:right" />
+                                                    </label>
+                                                </section>
+                                                <section class="col col-md-2" id="MaxNumF" style="display:none;">
+                                                    <label class="label" style="text-align:right">Máximo numérico</label>
+                                                    <label class="input">
+                                                        <input id="txtMaxNumF" name="txtMaxNumF" data-bind="value: asMaxNumF" style="text-align:right" />
+                                                    </label>
+                                                </section>
+                                                <section class="col col-md-2" id="PesoVariableF" style="display:none;">
+                                                    <label class="label" style="text-align:right">Peso (%)</label>
+                                                    <label class="input">
+                                                        <input id="txtPesoVariableF" name="txtPesoVariableF" data-bind="value: asPesoVariableF" style="text-align:right" />
+                                                    </label>
+                                                </section>
+                                                <section class="col col-md-4" id="AceptarF" style="display:none;">
+                                                    <div class="pull-right">
+                                                        <button id="btnAceptarF" title="Guardar" class="btn btn-success btn-circle">
+                                                            <i class="fa fa-lg fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col col-md-8" id="ComentariosF" style="display:none;">
+                                                    <label class="label">Comentarios</label>
+                                                    <label class="textarea textarea-resizable">
+                                                        <textarea rows="3" class="custom-scroll" data-bind="value:comentariosF"></textarea>
+                                                    </label>
+                                                </section>
+                                                <section class="col col-md-4"></section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col col-md-12">
+                                                    <div id="tbAsgObjetivoF">
+                                                        <table id="dt_asgObjetivoF" class="table table-striped table-bordered table-hover" width="100%">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th data-class="expand">
+                                                                        <i class="fa fa-fw fa-bullseye text-muted hidden-md hidden-sm hidden-xs"></i> Objetivo
+                                                                    </th>
+                                                                    <th data-hide="phone">
+                                                                        Descripción
+                                                                    </th>
+                                                                    <th data-hide="phone">
+                                                                        Comentarios
+                                                                    </th>
+                                                                    <th data-hide="phone" style="text-align:right">
+                                                                        Peso
+                                                                    </th>
+                                                                    <th>
 
-                        </header>
-                        <!-- widget div-->
-                        <div>
-                            <!-- widget edit box -->
-                            <div class="jarviswidget-editbox">
-                                <!-- This area used as dropdown edit box -->
-                                <input class="form-control" type="text">
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                                <!-- end widget content -->
+
                             </div>
-                            <!-- end widget edit box -->
-                            <!-- widget content -->
-                            <div class="widget-body">
-                                <!-- this is what the user will see -->
-                                <form id="frmIndividual" class="smart-form">
-                                    <header>
-                                        Objetivos individuales (Si desea crear o mantener objetivos propio haga clic <a href="CliObjetivoGeneral.html">aquí</a>)
-                                    </header>
-                                    <fieldset>
-                                        <div class="row">
-                                            <section class="col col-md-12">
-                                                <label class="label">Objetivos individuales</label>
-                                                <label class="select">
-                                                    <select id="cmbObjetivosI" name="cmbObjetivosI" data-bind="options: posiblesObjetivosI, optionsText: 'nombre', value: objetivoI, valueAllowUnset: true"></select><i></i>
-                                                </label>
-                                            </section>
-                                        </div>
-                                        <div class="row">
-                                            <section class="col col-md-2" id="PorObjetivoI" style="display:none;">
-                                                <label class="label" style="text-align:right">Valor objetivo (%)</label>
-                                                <label class="input">
-                                                    <input id="txtPorObjetivoI" name="txtPorObjetivoI" data-bind="value: asPorObjetivoI" style="text-align:right" />
-                                                </label>
-                                            </section>
-                                            <section class="col col-md-2" id="MinNumI" style="display:none;">
-                                                <label class="label" style="text-align:right">Mínimo numérico</label>
-                                                <label class="input">
-                                                    <input id="txtMinNumI" name="txtMinNumI" data-bind="value: asMinNumI" style="text-align:right" />
-                                                </label>
-                                            </section>
-                                            <section class="col col-md-2" id="MaxNumI" style="display:none;">
-                                                <label class="label" style="text-align:right">Máximo numérico</label>
-                                                <label class="input">
-                                                    <input id="txtMaxNumI" name="txtMaxNumI" data-bind="value: asMaxNumI" style="text-align:right" />
-                                                </label>
-                                            </section>
-                                            <section class="col col-md-2" id="PesoVariableI" style="display:none;">
-                                                <label class="label" style="text-align:right">Peso (%)</label>
-                                                <label class="input">
-                                                    <input id="txtPesoVariableI" name="txtPesoVariableI" data-bind="value: asPesoVariableI" style="text-align:right" />
-                                                </label>
-                                            </section>
-                                            <section class="col col-md-4">
-                                                <div class="pull-right" id="AceptarI" style="display:none;">
-                                                    <button id="btnAceptarI" title="Guardar" class="btn btn-success btn-circle">
-                                                        <i class="fa fa-lg fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </section>
-                                        </div>
-                                        <div class="row">
-                                            <section class="col col-md-8" id="ComentariosI" style="display:none;">
-                                                <label class="label">Comentarios</label>
-                                                <label class="textarea textarea-resizable">
-                                                    <textarea rows="3" class="custom-scroll" data-bind="value:comentariosI"></textarea>
-                                                </label>
-                                            </section>
-                                            <section class="col col-md-4"></section>
-                                        </div>
-                                        <div class="row">
-                                            <section class="col col-md-12">
-                                                <div id="tbAsgObjetivoI">
-                                                    <table id="dt_asgObjetivoI" class="table table-striped table-bordered table-hover" width="100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th data-class="expand">
-                                                                    <i class="fa fa-fw fa-bullseye text-muted hidden-md hidden-sm hidden-xs"></i> Objetivo
-                                                                </th>
-                                                                <th data-hide="phone">
-                                                                    Descripción
-                                                                </th>
-                                                                <th data-hide="phone">
-                                                                    Comentarios
-                                                                </th>
-                                                                <th data-hide="phone" style="text-align:right">
-                                                                    Peso
-                                                                </th>
-                                                                <th>
-
-                                                                </th>
-                                                            </tr>
-                                                        </thead>
-                                                    </table>
-                                                </div>
-                                            </section>
-                                        </div>
-                                    </fieldset>
-                                </form>
-                            </div>
-                            <!-- end widget content -->
+                            <!-- end widget div -->
 
                         </div>
-                        <!-- end widget div -->
+                        <!-- end widget -->
 
-                    </div>
-                    <!-- end widget -->
+                    </article>
+                    <!-- WIDGET END -->
 
-                </article>
-                <!-- WIDGET END -->
-
+                </div>
             </div>
+            <!-- end row -->
+
+            <!-- Objetivos funcionales -->
+            <div id="FuncionalShow">
+                <hr />
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Objetivos funcionales</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <section class="col col-md-12">
+                        <div id="tbAsgObjetivoF2" class="table-responsive">
+                            <table id="dt_asgObjetivoF2" class="table table-bordered" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th data-class="expand">
+                                            <i class="fa fa-fw fa-bullseye text-muted hidden-md hidden-sm hidden-xs"></i> Objetivo
+                                        </th>
+                                        <th data-hide="phone">
+                                            Descripción
+                                        </th>
+                                        <th data-hide="phone">
+                                            Comentarios
+                                        </th>
+                                        <th data-hide="phone" style="text-align:right">
+                                            Peso
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <!-- Fin objetivos individuales-->
+            
+            <!-- ORANIZACION ()_-->
+            <div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Objetivos organización</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <section class="col col-md-12">
+                        <div id="tbAsgObjetivoO" class="table-responsive">
+                            <table id="dt_asgObjetivoO" class="table table-bordered" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th data-class="expand">
+                                            <i class="fa fa-fw fa-bullseye text-muted hidden-md hidden-sm hidden-xs"></i> Objetivo
+                                        </th>
+                                        <th data-hide="phone">
+                                            Descripción
+                                        </th>
+                                        <th data-hide="phone">
+                                            Comentarios
+                                        </th>
+                                        <th data-hide="phone" style="text-align:right">
+                                            Peso
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+
+           
+            <!-- row  INDIVIDUAL-->
+            <div id="IndividualEdit">
+                <hr />
+                <div class="row">
+
+                    <!-- NEW WIDGET START -->
+                    <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                        <!-- Widget ID (each widget will need unique ID)-->
+                        <div class="jarviswidget" id="w3" data-widget-editbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false">
+                            <header>
+                                <span class="widget-icon"> <i class="fa fa-edit"></i> </span>
+                                <h2>INDIVIDUAL</h2>
+                            </header>
+                            <!-- widget div-->
+                            <div>
+                                <!-- widget edit box -->
+                                <div class="jarviswidget-editbox">
+                                    <!-- This area used as dropdown edit box -->
+                                    <input class="form-control" type="text">
+                                </div>
+                                <!-- end widget edit box -->
+                                <!-- widget content -->
+                                <div class="widget-body">
+                                    <!-- this is what the user will see -->
+                                    <form id="frmIndividual" class="smart-form">
+                                        <header>
+                                            Objetivos individuales (Si desea crear o mantener objetivos propio haga clic <a href="CliObjetivoGeneral.html">aquí</a>)
+                                        </header>
+                                        <fieldset>
+                                            <div class="row">
+                                                <section class="col col-md-12">
+                                                    <label class="label">Objetivos individuales</label>
+                                                    <label class="select">
+                                                        <select id="cmbObjetivosI" name="cmbObjetivosI" data-bind="options: posiblesObjetivosI, optionsText: 'nombre', value: objetivoI, valueAllowUnset: true"></select><i></i>
+                                                    </label>
+                                                </section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col col-md-2" id="PorObjetivoI" style="display:none;">
+                                                    <label class="label" style="text-align:right">Valor objetivo (%)</label>
+                                                    <label class="input">
+                                                        <input id="txtPorObjetivoI" name="txtPorObjetivoI" data-bind="value: asPorObjetivoI" style="text-align:right" />
+                                                    </label>
+                                                </section>
+                                                <section class="col col-md-2" id="MinNumI" style="display:none;">
+                                                    <label class="label" style="text-align:right">Mínimo numérico</label>
+                                                    <label class="input">
+                                                        <input id="txtMinNumI" name="txtMinNumI" data-bind="value: asMinNumI" style="text-align:right" />
+                                                    </label>
+                                                </section>
+                                                <section class="col col-md-2" id="MaxNumI" style="display:none;">
+                                                    <label class="label" style="text-align:right">Máximo numérico</label>
+                                                    <label class="input">
+                                                        <input id="txtMaxNumI" name="txtMaxNumI" data-bind="value: asMaxNumI" style="text-align:right" />
+                                                    </label>
+                                                </section>
+                                                <section class="col col-md-2" id="PesoVariableI" style="display:none;">
+                                                    <label class="label" style="text-align:right">Peso (%)</label>
+                                                    <label class="input">
+                                                        <input id="txtPesoVariableI" name="txtPesoVariableI" data-bind="value: asPesoVariableI" style="text-align:right" />
+                                                    </label>
+                                                </section>
+                                                <section class="col col-md-4">
+                                                    <div class="pull-right" id="AceptarI" style="display:none;">
+                                                        <button id="btnAceptarI" title="Guardar" class="btn btn-success btn-circle">
+                                                            <i class="fa fa-lg fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col col-md-8" id="ComentariosI" style="display:none;">
+                                                    <label class="label">Comentarios</label>
+                                                    <label class="textarea textarea-resizable">
+                                                        <textarea rows="3" class="custom-scroll" data-bind="value:comentariosI"></textarea>
+                                                    </label>
+                                                </section>
+                                                <section class="col col-md-4"></section>
+                                            </div>
+                                            <div class="row">
+                                                <section class="col col-md-12">
+                                                    <div id="tbAsgObjetivoI">
+                                                        <table id="dt_asgObjetivoI" class="table table-striped table-bordered table-hover" width="100%">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th data-class="expand">
+                                                                        <i class="fa fa-fw fa-bullseye text-muted hidden-md hidden-sm hidden-xs"></i> Objetivo
+                                                                    </th>
+                                                                    <th data-hide="phone">
+                                                                        Descripción
+                                                                    </th>
+                                                                    <th data-hide="phone">
+                                                                        Comentarios
+                                                                    </th>
+                                                                    <th data-hide="phone" style="text-align:right">
+                                                                        Peso
+                                                                    </th>
+                                                                    <th>
+
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                                <!-- end widget content -->
+
+                            </div>
+                            <!-- end widget div -->
+
+                        </div>
+                        <!-- end widget -->
+
+                    </article>
+                    <!-- WIDGET END -->
+
+                </div>
+            </div>
+            
+            <!-- Objetivos individuales -->
+            <div id="IndividualShow">
+                <hr />
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Objetivos individuales</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <section class="col col-md-12">
+                        <div id="tbAsgObjetivoI2" class="table-responsive">
+                            <table id="dt_asgObjetivoI2" class="table table-bordered" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th data-class="expand">
+                                            <i class="fa fa-fw fa-bullseye text-muted hidden-md hidden-sm hidden-xs"></i> Objetivo
+                                        </th>
+                                        <th data-hide="phone">
+                                            Descripción
+                                        </th>
+                                        <th data-hide="phone">
+                                            Comentarios
+                                        </th>
+                                        <th data-hide="phone" style="text-align:right">
+                                            Peso
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <!-- Fin objetivos individuales-->
+
+
         </div>
         <!-- END MAIN CONTENT -->
 

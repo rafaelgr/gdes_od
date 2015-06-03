@@ -16,6 +16,9 @@ var porMaxIndividual = 99;
 var dataObjetivos;
 var trabajador;
 
+var esEvaluadorF = false;
+var esEvaluadorI = false;
+
 var breakpointDefinition = {
     tablet: 1024,
     phone: 480
@@ -50,6 +53,9 @@ function initForm() {
     $("#btnAceptarPA").click(aceptarPA());
     $("#btnSalirPA").click(salir());
     
+    $("#btnAceptarF").click(aceptarF());
+    $("#btnSalirF").click(salir());
+
     $("#btnAceptarO").click(aceptarO());
     $("#btnSalirO").click(salir());
     
@@ -62,6 +68,9 @@ function initForm() {
     $("#frmPuertaAcceso").submit(function () {
         return false;
     });
+    $("#frmFuncional").submit(function () {
+        return false;
+    });
     $("#frmOrganizacion").submit(function () {
         return false;
     });
@@ -70,16 +79,22 @@ function initForm() {
     });
     
     $("#cmbObjetivosPA").change(cambioComboPA());
+    $("#cmbObjetivosF").change(cambioComboF());
     $("#cmbObjetivosO").change(cambioComboO());
     $("#cmbObjetivosI").change(cambioComboI());
 
     initTablaObjetivosPA();
     prepareValidatePA();
     
+    initTablaObjetivosF();
+    initTablaObjetivosF2();
+    prepareValidateF();
+
     initTablaObjetivosO();
     prepareValidateO();
     
     initTablaObjetivosI();
+    initTablaObjetivosI2();
     
 
     
@@ -104,17 +119,41 @@ function initForm() {
                 // obtener lo límites y fijarlos
                 porMinIndividual = data.ejercicio.porMinIndividual;
                 porMaxIndividual = data.ejercicio.porMaxIndividual;
+                $('#FuncionalShow').hide();
+                $('#IndividualShow').hide();
+                $('#FuncionalEdit').hide();
+                $('#IndividualEdit').hide();
+                // control que tipo de evaluador es el actual 
+                if (data.evaluadorF.trabajadorId == trabajador.trabajadorId) {
+                    $('#FuncionalEdit').show();
+                    $('#FuncionalShow').hide();
+                    esEvaluadorF = true;
+                } else {
+                    $('#FuncionalShow').show();
+                }
+                if (data.evaluadorI.trabajadorId == trabajador.trabajadorId) {
+                    $('#IndividualEdit').show();
+                    $('#IndividualShow').hide();
+                    esEvaluadorI = true;
+                } else {
+                    $('#IndividualShow').show();
+                }
                 prepareValidateI();
+                prepareValidateF();
             },
             error: errorAjax
         });
         // cargar desplegables
         //loadObjetivosPA();
         buscaCargaObjetivosPA();
+        loadObjetivosF();
+        buscaCargaObjetivosF();
+        buscaCargaObjetivosF2();
         //loadObjetivosO();
         buscaCargaObjetivosO();
         loadObjetivosI();
         buscaCargaObjetivosI();
+        buscaCargaObjetivosI2();
     } else {
         // no debe entrar aquí
     }
@@ -129,6 +168,12 @@ function asgObjetivoData() {
     self.asMaxNumPA = ko.observable();
     self.asPesoVariablePA = ko.observable();
     self.comentariosPA = ko.observable(); 
+    
+    self.asPorObjetivoF = ko.observable();
+    self.asMinNumF = ko.observable();
+    self.asMaxNumF = ko.observable();
+    self.asPesoVariableF = ko.observable();
+    self.comentariosF = ko.observable(); 
 
     self.asPorObjetivoO = ko.observable();
     self.asMinNumO = ko.observable();
@@ -146,6 +191,9 @@ function asgObjetivoData() {
     // soporte de combos
     self.posiblesObjetivosPA = ko.observableArray([]);
     self.objetivoPA = ko.observable();
+    
+    self.posiblesObjetivosF = ko.observableArray([]);
+    self.objetivoF = ko.observable();
 
     self.posiblesObjetivosO = ko.observableArray([]);
     self.objetivoO = ko.observable();
@@ -449,6 +497,377 @@ function deleteObjetivoPA(id) {
     });
 }
 
+
+/*------------------------------------------------
+ * Funciones F (Funcionales 2)
+ *------------------------------------------------ */
+
+
+function buscaCargaObjetivosF2() {
+    // cargar la tabla de objetivos si hay datos
+    data = {
+        "asgTrabajadorId": asgTrabajadorId,
+        "categoriaId": "3"
+    };
+    $.ajax({
+        type: "POST",
+        url: "api/asg-objetivos-buscar",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (data, status) {
+            // hay que mostrarlo en la zona de datos
+            loadTablaObjetivosF2(data);
+        },
+        error: errorAjax
+    });
+}
+
+
+function initTablaObjetivosF2() {
+    tablaCarro = $('#dt_asgObjetivoF2').dataTable({
+        bPaginate: false,
+        bFilter: false,
+        bInfo: false,
+        autoWidth: true,
+        preDrawCallback: function () {
+            // Initialize the responsive datatables helper once.
+            if (!responsiveHelper_dt_basic) {
+                responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_asgObjetivoF2'), breakpointDefinition);
+            }
+        },
+        rowCallback: function (nRow) {
+            responsiveHelper_dt_basic.createExpandIcon(nRow);
+        },
+        drawCallback: function (oSettings) {
+            responsiveHelper_dt_basic.respond();
+        },
+        language: {
+            processing: "Procesando...",
+            info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+            infoFiltered: "(filtrado de un total de _MAX_ registros)",
+            infoPostFix: "",
+            loadingRecords: "Cargando...",
+            zeroRecords: "No se encontraron resultados",
+            emptyTable: "Ningún dato disponible en esta tabla",
+            paginate: {
+                first: "Primero",
+                previous: "Anterior",
+                next: "Siguiente",
+                last: "Último"
+            },
+            aria: {
+                sortAscending: ": Activar para ordenar la columna de manera ascendente",
+                sortDescending: ": Activar para ordenar la columna de manera descendente"
+            }
+        },
+        data: dataObjetivos,
+        columns: [{
+                data: "objetivo.nombre"
+            },  
+            {
+                data: "asgObjetivoId",
+                render: function (data, type, row) {
+                    return detalleObjetivo(row);
+                }
+            }, 
+            {
+                data: "comentarios"
+            },
+            {
+                data: "asPesoVariable",
+                render: function (data, type, row) {
+                    if (data != null) {
+                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "%</div>";
+                        return html;
+                    } else {
+                        return "";
+                    }
+                }
+            }]
+    });
+}
+
+function loadTablaObjetivosF2(data) {
+    var dt = $('#dt_asgObjetivoF2').dataTable();
+    if (data !== null && data.length === 0) {
+        //mostrarMensajeSmart('No se han encontrado registros');
+        $("#tbAsgObjetivoF2").hide();
+    } else {
+        dt.fnClearTable();
+        dt.fnAddData(data);
+        dt.fnDraw();
+        $("#tbAsgObjetivoF2").show();
+    }
+}
+
+
+
+/*------------------------------------------------
+ * Funciones F (Funcionales)
+ *------------------------------------------------ */
+
+function loadObjetivosF() {
+    // enviar la consulta por la red (AJAX)
+    var data = {
+        "categoriaId": "3"
+    };
+    $.ajax({
+        type: "POST",
+        url: "api/objetivos-buscar",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (data, status) {
+            // hay que mostrarlo en la zona de datos
+            vm.posiblesObjetivosF(data);
+        },
+        error: errorAjax
+    });
+}
+
+function buscaCargaObjetivosF() {
+    // cargar la tabla de objetivos si hay datos
+    data = {
+        "asgTrabajadorId": asgTrabajadorId,
+        "categoriaId": "3"
+    };
+    $.ajax({
+        type: "POST",
+        url: "api/asg-objetivos-buscar",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (data, status) {
+            // hay que mostrarlo en la zona de datos
+            loadTablaObjetivosF(data);
+        },
+        error: errorAjax
+    });
+}
+
+function prepareValidateF() {
+    var opciones = {
+        rules: {
+            cmbObjetivosF: { required: true },
+            txtPorObjetivoF: { required: true, min: 0, max: 99 },
+            txtMinNumF: { required: true },
+            txtMaxNumF: { required: true },
+            txtPesoVariableF: { required: true, min: 0, max: 99 }
+        },
+        // Messages for form validation
+        // Lo hacemos con un  fichero externo
+        
+        // Do not change code below
+        errorPlacement: function (error, element) {
+            error.insertAfter(element.parent());
+        }
+    };
+    $("#frmFuncional").validate(opciones);
+}
+
+function datosOKF() {
+    var opciones = $("#frmFuncional").validate().settings;
+    // modificamos requerimiento según el tipo
+    var objetivo = vm.objetivoF();
+    if (objetivo != null) {
+        opciones.rules.cmbObjetivosF.required = false;
+        switch (objetivo.tipo.tipoId) {
+            case 0:
+                // Si / no
+                opciones.rules.txtMinNumF.required = false;
+                opciones.rules.txtMaxNumF.required = false;
+                opciones.rules.txtPorObjetivoF.required = false;
+                break;
+            case 1:
+                // Porcentual
+                opciones.rules.txtMinNumF.required = false;
+                opciones.rules.txtMaxNumF.required = false;
+                opciones.rules.txtPorObjetivoF.required = true;
+                break;
+            case 2:
+                // Numérico
+                opciones.rules.txtMinNumF.required = true;
+                opciones.rules.txtMaxNumF.required = true;
+                opciones.rules.txtPorObjetivoF.required = false;
+                break;
+            case 3:
+                // Ligado a desempeño.
+                opciones.rules.txtMinNumF.required = false;
+                opciones.rules.txtMaxNumF.required = false;
+                opciones.rules.txtPorObjetivoF.required = false;
+                break;
+        }
+    } else {
+        opciones.rules.cmbObjetivosF.required = true;
+    }
+    return $('#frmFuncional').valid();
+}
+
+function aceptarF() {
+    var mf = function () {
+        if (!datosOKF())
+            return;
+        var data = {
+            asgObjetivo: {
+                "asgObjetivoId": 0,
+                "asgTrabajador": {
+                    "asgTrabajadorId": asgTrabajadorId
+                },
+                "objetivo": {
+                    "objetivoId": vm.objetivoF().objetivoId
+                },
+                "asSn": null,
+                "asPorObjetivo": vm.asPorObjetivoF(),
+                "asMinNum": vm.asMinNumF(),
+                "asMaxNum": vm.asMaxNumF(),
+                "asPesoVariable": vm.asPesoVariableF(),
+                "comentarios": vm.comentariosF()
+            }
+        };
+        // parece idiota pero estamos controlando que los indefinidos vayan como nulos
+        if (data.asgObjetivo.asPorObjetivo == null || data.asgObjetivo.asPorObjetivo == "") data.asgObjetivo.asPorObjetivo = 0;
+        if (data.asgObjetivo.asMinNum == null || data.asgObjetivo.asMinNum == "") data.asgObjetivo.asMinNum = 0;
+        if (data.asgObjetivo.asMaxNum == null || data.asgObjetivo.asMaxNum == "") data.asgObjetivo.asMaxNum = 0;
+        
+        $.ajax({
+            type: "POST",
+            url: "api/asg-objetivos",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (data, status) {
+                buscaCargaObjetivosF();
+            },
+            error: errorAjax
+        });
+    };
+    return mf;
+}
+
+function initTablaObjetivosF() {
+    tablaCarro = $('#dt_asgObjetivoF').dataTable({
+        bPaginate: false,
+        bFilter: false,
+        bInfo: false,
+        autoWidth: true,
+        preDrawCallback: function () {
+            // Initialize the responsive datatables helper once.
+            if (!responsiveHelper_dt_basic) {
+                responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_asgObjetivoF'), breakpointDefinition);
+            }
+        },
+        rowCallback: function (nRow) {
+            responsiveHelper_dt_basic.createExpandIcon(nRow);
+        },
+        drawCallback: function (oSettings) {
+            responsiveHelper_dt_basic.respond();
+        },
+        language: {
+            processing: "Procesando...",
+            info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+            infoFiltered: "(filtrado de un total de _MAX_ registros)",
+            infoPostFix: "",
+            loadingRecords: "Cargando...",
+            zeroRecords: "No se encontraron resultados",
+            emptyTable: "Ningún dato disponible en esta tabla",
+            paginate: {
+                first: "Primero",
+                previous: "Anterior",
+                next: "Siguiente",
+                last: "Último"
+            },
+            aria: {
+                sortAscending: ": Activar para ordenar la columna de manera ascendente",
+                sortDescending: ": Activar para ordenar la columna de manera descendente"
+            }
+        },
+        data: dataObjetivos,
+        columns: [{
+                data: "objetivo.nombre"
+            },  
+            {
+                data: "asgObjetivoId",
+                render: function (data, type, row) {
+                    return detalleObjetivo(row);
+                }
+            }, 
+            {
+                data: "comentarios"
+            },
+            {
+                data: "asPesoVariable",
+                render: function (data, type, row) {
+                    if (data != null) {
+                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "%</div>";
+                        return html;
+                    } else {
+                        return "";
+                    }
+                }
+            },
+         {
+                data: "asgObjetivoId",
+                render: function (data, type, row) {
+                    var bt1 = "<button class='btn btn-circle btn-danger' onclick='deleteObjetivoF(" + data + ");' title='Eliminar registro'> <i class='fa fa-trash-o fa-fw'></i> </button>";
+                    var html = "<div class='pull-right'>" + bt1 + "</div>";
+                    return html;
+                }
+            }]
+    });
+}
+
+function loadTablaObjetivosF(data) {
+    var dt = $('#dt_asgObjetivoF').dataTable();
+    if (data !== null && data.length === 0) {
+        //mostrarMensajeSmart('No se han encontrado registros');
+        $("#tbAsgObjetivoF").hide();
+    } else {
+        dt.fnClearTable();
+        dt.fnAddData(data);
+        dt.fnDraw();
+        $("#tbAsgObjetivoF").show();
+    }
+}
+
+function deleteObjetivoF(id) {
+    // eliminar la valiodación
+    $("#frmPuertaAcceso").valid();
+    // mensaje de confirmación
+    var mens = "¿Realmente desea borrar este registro?";
+    $.SmartMessageBox({
+        title: "<i class='fa fa-info'></i> Mensaje",
+        content: mens,
+        buttons: '[Aceptar][Cancelar]'
+    }, function (ButtonPressed) {
+        if (ButtonPressed === "Aceptar") {
+            var data = {
+                objetivoId: id
+            };
+            $.ajax({
+                type: "DELETE",
+                url: "api/asg-objetivos/" + id,
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (data, status) {
+                    buscaCargaObjetivosF();
+                },
+                error: errorAjax
+            });
+        }
+        if (ButtonPressed === "Cancelar") {
+            // no hacemos nada (no quiere borrar)
+        }
+    });
+}
+
+
+
+
+
 /*------------------------------------------------
  * Funciones O (Organizacion)
  *------------------------------------------------ */
@@ -701,6 +1120,114 @@ function deleteObjetivoO(id) {
         }
     });
 }
+
+
+
+/*------------------------------------------------
+ * Individuales I (Individuales 2)
+ *------------------------------------------------ */
+
+
+function buscaCargaObjetivosI2() {
+    // cargar la tabla de objetivos si hay datos
+    data = {
+        "asgTrabajadorId": asgTrabajadorId,
+        "categoriaId": "2"
+    };
+    $.ajax({
+        type: "POST",
+        url: "api/asg-objetivos-buscar",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (data, status) {
+            // hay que mostrarlo en la zona de datos
+            loadTablaObjetivosI2(data);
+        },
+        error: errorAjax
+    });
+}
+
+
+function initTablaObjetivosI2() {
+    tablaCarro = $('#dt_asgObjetivoI2').dataTable({
+        bPaginate: false,
+        bFilter: false,
+        bInfo: false,
+        autoWidth: true,
+        preDrawCallback: function () {
+            // Initialize the responsive datatables helper once.
+            if (!responsiveHelper_dt_basic) {
+                responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_asgObjetivoI2'), breakpointDefinition);
+            }
+        },
+        rowCallback: function (nRow) {
+            responsiveHelper_dt_basic.createExpandIcon(nRow);
+        },
+        drawCallback: function (oSettings) {
+            responsiveHelper_dt_basic.respond();
+        },
+        language: {
+            processing: "Procesando...",
+            info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+            infoFiltered: "(filtrado de un total de _MAX_ registros)",
+            infoPostFix: "",
+            loadingRecords: "Cargando...",
+            zeroRecords: "No se encontraron resultados",
+            emptyTable: "Ningún dato disponible en esta tabla",
+            paginate: {
+                first: "Primero",
+                previous: "Anterior",
+                next: "Siguiente",
+                last: "Último"
+            },
+            aria: {
+                sortAscending: ": Activar para ordenar la columna de manera ascendente",
+                sortDescending: ": Activar para ordenar la columna de manera descendente"
+            }
+        },
+        data: dataObjetivos,
+        columns: [{
+                data: "objetivo.nombre"
+            },  
+            {
+                data: "asgObjetivoId",
+                render: function (data, type, row) {
+                    return detalleObjetivo(row);
+                }
+            }, 
+            {
+                data: "comentarios"
+            },
+            {
+                data: "asPesoVariable",
+                render: function (data, type, row) {
+                    if (data != null) {
+                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "%</div>";
+                        return html;
+                    } else {
+                        return "";
+                    }
+                }
+            }]
+    });
+}
+
+function loadTablaObjetivosI2(data) {
+    var dt = $('#dt_asgObjetivoI2').dataTable();
+    if (data !== null && data.length === 0) {
+        //mostrarMensajeSmart('No se han encontrado registros');
+        $("#tbAsgObjetivoI2").hide();
+    } else {
+        dt.fnClearTable();
+        dt.fnAddData(data);
+        dt.fnDraw();
+        $("#tbAsgObjetivoI2").show();
+    }
+}
+
+
 
 
 /*------------------------------------------------
@@ -1035,6 +1562,78 @@ function SiNoPA() {
     // el peso variable siempre es 0 y oculto
     vm.asPesoVariablePA(0);
 }
+
+
+
+function cambioComboF() {
+    var mf = function () {
+        //alert("Cambio O: " + JSON.stringify(vm.objetivoO()));
+        // se mira el caso en función del tipo
+        switch (vm.objetivoF().tipo.tipoId) {
+            case 0:
+                SiNoF();
+                break;
+            case 1:
+                PorcentualF()
+                break;
+            case 2:
+                NumericoF();
+                break;
+            case 3:
+                SiNoF();
+                break;
+        }
+    }
+    return mf;
+}
+
+function hideF() {
+    $("#PorObjetivoF").show();
+    $("#MaxNumF").show();
+    $("#MinNumF").show();
+    $("#PesoVariableF").show();
+    $("#ComentariosF").show();
+    $("#AceptarF").show();
+    
+    $("#PorObjetivoF").css("visibility", "hidden");
+    $("#MaxNumF").css("visibility", "hidden");
+    $("#MinNumF").css("visibility", "hidden");
+    $("#PesoVariableF").css("visibility", "hidden");
+    $("#ComentariosF").css("visibility", "hidden");
+    $("#AceptarF").css("visibility", "hidden");
+}
+
+function PorcentualF() {
+    // borramos los anteriores
+    hideF();
+    // mostramos los que nos interesa
+    $("#PorObjetivoF").css("visibility", "visible");
+    $("#PesoVariableF").css("visibility", "visible");
+    $("#ComentariosF").css("visibility", "visible");
+    $("#AceptarF").css("visibility", "visible");
+}
+
+function NumericoF() {
+    // borramos los anteriores
+    hideF();
+    // mostramos los que nos interesa
+    $("#MaxNumF").css("visibility", "visible");
+    $("#MinNumF").css("visibility", "visible");
+    $("#PesoVariableF").css("visibility", "visible");
+    $("#ComentariosF").css("visibility", "visible");
+    $("#AceptarF").css("visibility", "visible");
+
+}
+
+function SiNoF() {
+    // borramos los anteriores
+    hideF();
+    // mostramos los que nos interesa
+    $("#PesoVariableF").css("visibility", "visible");
+    $("#ComentariosF").css("visibility", "visible");
+    $("#AceptarF").css("visibility", "visible");
+}
+
 
 
 

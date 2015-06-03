@@ -415,18 +415,49 @@
                                                 </div>
                                                 <div class="row">
                                                     <section class="col col-md-6">
-
+                                                        <label class="label">Evaluador funcional</label>
+                                                        <label class="select">
+                                                            <select id="cmbEvaluadorF" name="cmbEvaluadorF" data-bind="options: posiblesEvaluadoresF, optionsText: 'nombre', optionsValue: 'trabajadorId', value: sfevaluadorId, valueAllowUnset: true"></select><i></i>
+                                                        </label>
                                                     </section>
-                                                    <section class="col col-md-3" >
+                                                    <section class="col col-md-6">
+                                                        <label class="label">Evaluador individual</label>
+                                                        <label class="select">
+                                                            <select id="cmbEvaluadorI" name="cmbEvaluadorI" data-bind="options: posiblesEvaluadoresI, optionsText: 'nombre', optionsValue: 'trabajadorId', value: sievaluadorId, valueAllowUnset: true"></select><i></i>
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                                <div class="row">
+                                                    <section class="col col-md-3">
+                                                        <label class="label">Fecha Inicio</label>
+                                                        <label class="input">
+                                                            <input id="txtFechaInicio" name="txtFechaInicio" data-bind="value: dFecha" class="datepicker" data-dateformat="dd/mm/yy" />
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-md-3">
+                                                        <div class="form-group">
+                                                            <label class="label">Fecha final</label>
+                                                            <label class="input">
+                                                                <input id="txtFechaFinal" type="text" name="txtFechaFinal" data-bind="value: hFecha" class="form-control datepicker" data-dateformat="dd/mm/yy" />
+                                                            </label>
+                                                        </div>
+                                                    </section>
+                                                    <section class="col col-md-2" >
                                                         <label class="label" style="text-align:right">Fijo</label>
                                                         <label class="input">
                                                             <input id="txtFijo" name="txtFijo" data-bind="value: fijo" style="text-align:right" />
                                                         </label>
                                                     </section>
-                                                    <section class="col col-md-3" style="text-align:right">
+                                                    <section class="col col-md-2" style="text-align:right">
                                                         <label class="label" style="text-align:right">Variable</label>
                                                         <label class="input">
                                                             <input id="txtVariable" name="txtVariable" data-bind="value: variable" style="text-align:right" />
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-md-2" style="text-align:right">
+                                                        <label class="label" style="text-align:right">Variable funcional</label>
+                                                        <label class="input">
+                                                            <input id="txtVariableF" name="txtVariableF" data-bind="value: variableF" style="text-align:right" />
                                                         </label>
                                                     </section>
                                                 </div>
@@ -563,6 +594,10 @@
 
         <!--- KNOCKOUT JS -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.2.0/knockout-min.js"></script>
+
+        <!-- Date and time format -->
+        <script src="js/moment.js"></script>
+        <script src="js/moment_locale.js"></script>
 
         <!-- PAGE RELATED PLUGIN(S) <script src="..."></script>-->
         <script src="js/ariadna/comun.js"></script>
