@@ -247,6 +247,19 @@ Use search to find needed section.
             -->
             <div class="row">
                 <div class="col-md-3">
+                    <strong>Empresa: </strong><span id="txtEmpresa"></span>
+                </div>
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-3">
+                    <strong>Desde fecha: </strong><span id="txtDFecha"></span>
+                </div>
+                <div class="col-md-3">
+                    <strong>Hasta fecha: </strong><span id="txtHFecha"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
                     <strong>Pais: </strong><span id="txtPais"></span>
                 </div>
                 <div class="col-md-3">
@@ -263,15 +276,15 @@ Use search to find needed section.
                 <div class="col-md-3">
                 </div>
                 <div class="col-md-3">
+                    <strong>Retribución bruta anual: </strong><span id="txtFijo"></span>
                 </div>
                 <div class="col-md-3">
-                    <strong>Fijo: </strong><span id="txtFijo"></span>
+                    <strong>% Variable: </strong><span id="txtVariable"></span>
                 </div>
                 <div class="col-md-3">
-                    <strong>Variable: </strong><span id="txtVariable"></span>
+                    <strong>% Variable funcional: </strong><span id="txtVariableFuncional"></span>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-md-12">
                     <h3><i class="fa-fw fa fa-share-alt"></i>Objetivos: <span id="txtEjercicio"></span></h3>
@@ -764,6 +777,9 @@ Use search to find needed section.
 
     <!--- KNOCKOUT JS -->
     <script src="js/knockout-3.1.0.js"></script>
+    <!-- Date and time format -->
+    <script src="js/moment.js"></script>
+    <script src="js/moment_locale.js"></script>
     <!-- NUMERAL -->
     <script src="js/numeral.min.js"></script>
 

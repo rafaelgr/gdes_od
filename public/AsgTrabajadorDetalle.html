@@ -374,13 +374,13 @@
                                             </header>
                                             <fieldset>
                                                 <div class="row">
-                                                    <section class="col col-md-6">
+                                                    <section class="col col-md-6" style="display:none;">
                                                         <label class="label">Nombre asignación</label>
                                                         <label class="input">
                                                             <input id="txtAsgTrabajador" name="txtAsgTrabajador" type="text" data-bind="value: nombre" />
                                                         </label>
                                                     </section>
-                                                    <section class="col col-md-6">
+                                                    <section class="col col-md-12">
                                                         <label class="label">Empresa</label>
                                                         <label class="select">
                                                             <select id="cmbEmpresas" name="cmbEmpresas" data-bind="options: posiblesEmpresas, optionsText: 'nombre', optionsValue: 'empresaId', value: sempresaId, valueAllowUnset: true"></select><i></i>
@@ -431,13 +431,13 @@
                                                 </div>
                                                 <div class="row">
                                                     <section class="col col-md-6">
-                                                        <label class="label">Evaluador funcional</label>
+                                                        <label class="label">Responsable funcional</label>
                                                         <label class="select">
                                                             <select id="cmbEvaluadorF" name="cmbEvaluadorF" data-bind="options: posiblesEvaluadoresF, optionsText: 'nombre', optionsValue: 'trabajadorId', value: sfevaluadorId, valueAllowUnset: true"></select><i></i>
                                                         </label>
                                                     </section>
                                                     <section class="col col-md-6">
-                                                        <label class="label">Evaluador individual</label>
+                                                        <label class="label">Responsable jerárquico</label>
                                                         <label class="select">
                                                             <select id="cmbEvaluadorI" name="cmbEvaluadorI" data-bind="options: posiblesEvaluadoresI, optionsText: 'nombre', optionsValue: 'trabajadorId', value: sievaluadorId, valueAllowUnset: true"></select><i></i>
                                                         </label>
@@ -459,19 +459,19 @@
                                                         </div>
                                                     </section>
                                                     <section class="col col-md-2" >
-                                                        <label class="label" style="text-align:right">Fijo</label>
+                                                        <label class="label" style="text-align:right">Retribución bruta anual</label>
                                                         <label class="input">
                                                             <input id="txtFijo" name="txtFijo" data-bind="value: fijo" style="text-align:right" />
                                                         </label>
                                                     </section>
                                                     <section class="col col-md-2" style="text-align:right">
-                                                        <label class="label" style="text-align:right">Variable</label>
+                                                        <label class="label" style="text-align:right">% Variable</label>
                                                         <label class="input">
                                                             <input id="txtVariable" name="txtVariable" data-bind="value: variable" style="text-align:right" />
                                                         </label>
                                                     </section>
                                                     <section class="col col-md-2" style="text-align:right">
-                                                        <label class="label" style="text-align:right">Variable funcional</label>
+                                                        <label class="label" style="text-align:right">% Variable funcional</label>
                                                         <label class="input">
                                                             <input id="txtVariableF" name="txtVariableF" data-bind="value: variableF" style="text-align:right" />
                                                         </label>

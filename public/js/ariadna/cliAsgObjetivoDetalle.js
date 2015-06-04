@@ -157,6 +157,9 @@ function salir() {
 }
 
 function mostrarAsignacionTrabajador(data) {
+    $("#txtEmpresa").text(data.empresa.nombre);
+    $("#txtDFecha").text(moment(data.dFecha).format("DD/MM/YYYY"));
+    $("#txtHFecha").text(moment(data.hFecha).format("DD/MM/YYYY"));
     $("#txtTrabajador").text(data.trabajador.nombre);
     $("#txtPais").text(data.pais.nombre);
     $("#txtUnidad").text(data.unidad.nombre);
@@ -164,6 +167,7 @@ function mostrarAsignacionTrabajador(data) {
     $("#txtPuesto").text(data.puesto.nombre);
     // valores 
     $("#txtFijo").text(numeral(data.fijo).format('#,###,##0.00') + "€");
+    $("#txtVariableFuncional").text(numeral(data.variableF).format('#,###,##0.00') + "%");
     $("#txtVariable").text(numeral(data.variable).format('#,###,##0.00') + "%");
     // 
     $("#txtEjercicio").text(data.ejercicio.nombre);
