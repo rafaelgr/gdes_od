@@ -85,6 +85,7 @@ function initForm() {
         loadPaises(-1);
         loadUnidades(-1);
         loadAreas(-1);
+        loadEmpresas(-1);
         loadPuestos(-1);
         loadEvaluadoresF(-1);
         loadEvaluadoresI(-1);
@@ -108,6 +109,7 @@ function asgTrabajadorData() {
     self.hFecha = ko.observable();
     self.evaluadorF = ko.observable();
     self.evaluadorI = ko.observable()
+    self.empresa = ko.observable()
     // soporte de combos
     self.posiblesTrabajadores = ko.observableArray([]);
     self.posiblesEjercicios = ko.observableArray([]);
@@ -117,6 +119,7 @@ function asgTrabajadorData() {
     self.posiblesPuestos = ko.observableArray([]);
     self.posiblesEvaluadoresF = ko.observableArray([]);
     self.posiblesEvaluadoresI = ko.observableArray([]);
+    self.posiblesEmpresas = ko.observableArray([]);
     // valores escogidos
     self.strabajadorId = ko.observable();
     self.sejercicioId = ko.observable();
@@ -126,6 +129,7 @@ function asgTrabajadorData() {
     self.spuestoId = ko.observable();
     self.sievaluadorId = ko.observable();
     self.sfevaluadorId = ko.observable();
+    self.sempresaId = ko.observable();
 }
 
 function loadData(data) {
@@ -142,6 +146,7 @@ function loadData(data) {
     vm.variableF(data.variableF);
     vm.dFecha(moment(data.dFecha).format("DD/MM/YYYY"));
     vm.hFecha(moment(data.hFecha).format("DD/MM/YYYY"));
+    vm.empresa(data.empresa);
     loadTrabajadores(data.trabajador.trabajadorId);
     loadEjercicios(data.ejercicio.ejercicioId);
     loadPaises(data.pais.paisId);
@@ -150,6 +155,7 @@ function loadData(data) {
     loadPuestos(data.puesto.puestoId);
     loadEvaluadoresF(data.evaluadorF.trabajadorId);
     loadEvaluadoresI(data.evaluadorI.trabajadorId);
+    loadEmpresas(data.empresa.empresaId);
 }
 
 function loadTrabajadores(trabajadorId){
@@ -251,6 +257,20 @@ function loadAreas(areaId) {
     });
 }
 
+function loadEmpresas(empresaId) {
+    $.ajax({
+        type: "GET",
+        url: "/api/empresas",
+        dataType: "json",
+        contentType: "application/json",
+        success: function (data, status) {
+            vm.posiblesEmpresas(data);
+            vm.sempresaId(empresaId);
+        },
+        error: errorAjax
+    });
+}
+
 function loadPuestos(puestoId) {
     $.ajax({
         type: "GET",
@@ -273,6 +293,7 @@ function datosOK() {
             cmbPaises: { required: true },
             cmbUnidades: { required: true },
             cmbAreas: { required: true },
+            cmbEmpresas: { required: true },
             cmbPuestos: { required: true },
             cmbEvaluadorF: { required: true },
             cmbEvaluadorI: { required: true },
@@ -289,6 +310,7 @@ function datosOK() {
             cmbPaises: { required: 'Seleccione un pais' },
             cmbUnidades: { required: 'Seleccione una unidad' },
             cmbAreas: { required: 'Seleccione un area' },
+            cmbEmpresas: { required: 'Seleccione una empresa' },
             cmbPuestos: { required: 'Seleccione un puesto' },
             cmbEvaluadorF: { required: 'Seleccione un evaluador funcional' },
             cmbEvaluadorI: { required: 'Seleccione un evaluador individual' },
@@ -349,6 +371,9 @@ function aceptar() {
                 },
                 "evaluadorI": {
                     "trabajadorId": vm.sievaluadorId()
+                },
+                "empresa": {
+                    "empresaId": vm.sempresaId()
                 },
                 "fijo": vm.fijo(),
                 "variable": vm.variable(),

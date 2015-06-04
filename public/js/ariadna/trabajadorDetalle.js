@@ -27,9 +27,7 @@ function initForm() {
     // asignación de eventos al clic
     $("#btnAceptar").click(aceptar());
     $("#btnSalir").click(salir());
-    $("#btnAceptarEvaluado").click(aceptarEvaluado());    
     
-    loadPosiblesTrabajadores();
 
     $("#frmTrabajador").submit(function () {
         return false;
@@ -58,6 +56,7 @@ function initForm() {
         // se trata de un alta ponemos el id a cero para indicarlo.
         vm.trabajadorId(0);
         // y ocultamos el campo adicional en alta
+        loadColectivos(-1);
     }
 }
 
@@ -70,7 +69,10 @@ function admData() {
     self.password = ko.observable();
     self.evaluador = ko.observable();
     self.posiblesTrabajadores = ko.observableArray([]);
+    self.posiblesColectivos = ko.observableArray([]);
     self.trabajadorEvaluado = ko.observable();
+    self.colectivo = ko.observable();
+    self.scolectivoId = ko.observable();
 }
 
 function loadData(data) {
@@ -80,6 +82,8 @@ function loadData(data) {
     vm.login(data.login);
     vm.password(data.password);
     vm.evaluador(data.evaluador);
+    vm.colectivo(data.colectivo);
+    loadColectivos(data.colectivo.colectivoId);
     if (data.evaluador == 1) {
         $("#flEvaluados").show();
     }
@@ -89,12 +93,14 @@ function datosOK() {
     $('#frmTrabajador').validate({
         rules: {
             txtNombre: { required: true },
-            txtDni: { required: true }
+            txtDni: { required: true },
+            cmbColectivos: {required: true}
         },
         // Messages for form validation
         messages: {
             txtNombre: {required: 'Introduzca el nombre'},
-            txtDni: {required: 'Introduzca el dni'}
+            txtDni: { required: 'Introduzca el dni' },
+            cmbColectivos: {required: 'Introduzca un colectivo'}
         },
         // Do not change code below
         errorPlacement: function (error, element) {
@@ -115,7 +121,10 @@ function aceptar() {
                 "dni": vm.dni(),
                 "login": vm.login(),
                 "password": vm.password(),
-                "evaluador": vm.evaluador()
+                "evaluador": vm.evaluador(),
+                "colectivo": {
+                    "colectivoId": vm.scolectivoId()
+                }
             }
         };
         if (trabajadorId == 0) {
@@ -163,59 +172,55 @@ function salir() {
     return mf;
 }
 
-function loadPosiblesTrabajadores(){
+function loadColectivos(colectivoId){
     $.ajax({
         type: "GET",
-        url: "api/trabajadores",
+        url: "api/colectivos",
         dataType: "json",
         contentType: "application/json",
         success: function (data, status) {
-            vm.posiblesTrabajadores(data);
+            vm.posiblesColectivos(data);
+            vm.scolectivoId(colectivoId);
         },
         error: errorAjax
     });
 }
 
-function aceptarEvaluado(){
-    var mf = function() {
-        if (vm.trabajadorEvaluado() == null) return;
-        data = {
-            trabajador: vm.trabajadorEvaluado()
-        };
-        $.ajax({
-            type: "POST",
-            url: "api/evaluados/" + vm.trabajadorId(),
-            dataType: "json",
-            contentType: "application/json",
-            data: JSON.stringify(data),
-            success: function (data, status) {
-                cargarEvaluados(vm.trabajadorId());
-            },
-            error: errorAjax
-            });
-    }
-    return mf;
-}
 
 function cargarEvaluados(id){
     // cargar la tabla con un único valor que es el que corresponde.
-    var buscar = {
-        evaluadorId: id
+    // cargar la tabla con un único valor que es el que corresponde.
+    var data = {
+        trabajadorId: id
     }
     // hay que buscar ese elemento en concreto
     $.ajax({
         type: "POST",
-        url: "api/evaluados-buscar",
+        url: "api/asg-trabajador-evaluador-buscar",
         dataType: "json",
         contentType: "application/json",
-        data: JSON.stringify(buscar),
+        data: JSON.stringify(data),
         success: function (data, status) {
             // hay que mostrarlo en la zona de datos
-            //var data2 = [data];
             loadTablaTrabajadores(data);
         },
         error: errorAjax
     });
+
+    // hay que buscar ese elemento en concreto
+    //$.ajax({
+    //    type: "POST",
+    //    url: "api/evaluados-buscar",
+    //    dataType: "json",
+    //    contentType: "application/json",
+    //    data: JSON.stringify(buscar),
+    //    success: function (data, status) {
+    //        // hay que mostrarlo en la zona de datos
+    //        //var data2 = [data];
+    //        loadTablaTrabajadores(data);
+    //    },
+    //    error: errorAjax
+    //});
 }
 
 function initTablaTrabajadores() {
@@ -255,17 +260,13 @@ function initTablaTrabajadores() {
         },
         data: dataTrabajadores,
         columns: [{
-                data: "nombre"
+                data: "trabajador.nombre"
             }, {
-                data: "dni"
-            }
-        , {
-                data: "evaluadorTrabajadorId",
-                render: function (data, type, row) {
-                    var bt1 = "<button class='btn btn-circle btn-danger btn-lg' onclick='deleteEvaluadorTrabajador(" + data + ");' title='Eliminar registro'> <i class='fa fa-trash-o fa-fw'></i> </button>";
-                    var html = "<div class='pull-right'>" + bt1 + "</div>";
-                    return html;
-                }
+                data: "ejercicio.nombre"
+            }, {
+                data: "pais.nombre"
+            }, {
+                data: "unidad.nombre"
             }]
     });
 }
@@ -280,34 +281,4 @@ function loadTablaTrabajadores(data) {
         dt.fnAddData(data);
         dt.fnDraw();
     }
-}
-
-function deleteEvaluadorTrabajador(id){
-    // mensaje de confirmación
-    var mens = "¿Realmente desea borrar este registro?";
-    $.SmartMessageBox({
-        title: "<i class='fa fa-info'></i> Mensaje",
-        content: mens,
-        buttons: '[Aceptar][Cancelar]'
-    }, function (ButtonPressed) {
-        if (ButtonPressed === "Aceptar") {
-            var data = {
-                objetivoId: id
-            };
-            $.ajax({
-                type: "DELETE",
-                url: "api/evaluados/" + id,
-                dataType: "json",
-                contentType: "application/json",
-                data: JSON.stringify(data),
-                success: function (data, status) {
-                    cargarEvaluados(vm.trabajadorId());
-                },
-                error: errorAjax
-            });
-        }
-        if (ButtonPressed === "Cancelar") {
-            // no hacemos nada (no quiere borrar)
-        }
-    });
 }

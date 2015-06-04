@@ -66,10 +66,10 @@ function loginForm() {
                 if (data.length == 0) {
                     mostrarMensaje('Login y/o password incorrectos');
                 } else {
-                    var a = data[0];
+                    var a = data;
                     // guadar el usuario en los cookies
                     setCookie("trabajador", JSON.stringify(a), 1)
-                    window.open('CliIndex.html', '_self');
+                    window.open('CliIntro.html', '_self');
                 }
             },
             error: function (xhr, textStatus, errorThrwon) {

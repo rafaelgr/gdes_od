@@ -220,3 +220,14 @@ pip-log.txt
 *.dat
 .ntvs_analysis.dat
 .ntvs_analysis.dat
+
+#ignore thumbnails created by windows
+#Ignore files build by Visual Studio
+*.exe
+*.cache
+[Bb]in
+[Dd]ebug*/
+*.lib
+obj/
+[Rr]elease*/
+[Tt]est[Rr]esult*

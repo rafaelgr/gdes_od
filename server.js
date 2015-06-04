@@ -33,6 +33,8 @@ var objetivos_api = require("./lib/objetivos_api.js");
 var asg_trabajadores_api = require("./lib/asg_trabajadores_api.js");
 var asg_objetivos_api = require("./lib/asg_objetivos_api.js");
 var evaluados_api = require("./lib/evaluados_api.js");
+var empresas_api = require("./lib/empresas_api.js");
+var colectivos_api = require("./lib/colectivos_api.js");
 
 // ficheros en los que se grabarán los log de aplicación
 var express_log_file = __dirname + "/logs/node.express.log";
@@ -318,6 +320,33 @@ router.route("/evaluados/:id")
 router.route("/evaluados-buscar")
 	.post(evaluados_api.postEvaluadosBuscar);
 
+// --> Relacionadas con empresas
+router.route("/empresas")
+	.get(empresas_api.getEmpresas)
+	.post(empresas_api.postEmpresa);
+
+
+router.route("/empresas/:empresaId")
+	.get(empresas_api.getEmpresa)
+	.put(empresas_api.putEmpresa)
+	.delete(empresas_api.deleteEmpresa);
+
+router.route("/empresas-buscar")
+	.post(empresas_api.postEmpresasBuscar);
+
+// --> Relacionadas con colectivos
+router.route("/colectivos")
+	.get(colectivos_api.getColectivos)
+	.post(colectivos_api.postColectivo);
+
+
+router.route("/colectivos/:colectivoId")
+	.get(colectivos_api.getColectivo)
+	.put(colectivos_api.putColectivo)
+	.delete(colectivos_api.deleteColectivo);
+
+router.route("/colectivos-buscar")
+	.post(colectivos_api.postColectivosBuscar);
 
 
 //================================================================

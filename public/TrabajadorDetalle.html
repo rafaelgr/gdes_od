@@ -191,6 +191,16 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="EmpresaGeneral.html">
+                                    <i class="fa fa-th-large"></i> Empresas
+                                </a>
+                            </li>
+                            <li>
+                                <a href="ColectivoGeneral.html">
+                                    <i class="fa fa-th"></i> Colectivos
+                                </a>
+                            </li>
+                            <li>
                                 <a href="UnidadNegocioGeneral.html">
                                     <i class="fa fa-sitemap"></i> Unidades negocio
                                 </a>
@@ -364,10 +374,16 @@
                                             </header>
                                             <fieldset>
                                                 <div class="row">
-                                                    <section class="col col-md-10">
+                                                    <section class="col col-md-5">
                                                         <label class="label">Nombre</label>
                                                         <label class="input">
                                                             <input id="txtNombre" name="txtNombre" type="text" data-bind="value: nombre" />
+                                                        </label>
+                                                    </section>
+                                                    <section class="col col-md-5">
+                                                        <label class="label">Colectivo</label>
+                                                        <label class="select">
+                                                            <select id="cmbColectivos" name="cmbColectivos" data-bind="options: posiblesColectivos, optionsText: 'nombre', optionsValue: 'colectivoId', value: scolectivoId, valueAllowUnset: true"></select><i></i>
                                                         </label>
                                                     </section>
                                                     <section class="col col-md-2">
@@ -399,42 +415,6 @@
                                                     </section>
                                                 </div>
                                             </fieldset>
-                                            <fieldset id="flEvaluados" style="display:none;">
-                                                <div class="row">
-                                                    <section class="col col-md-10">
-                                                        <label class="label">Trabajadores relacionados</label>
-                                                        <label class="select">
-                                                            <select id="cmbTrabajadores" name="cmbTrabajadores" data-bind="options: posiblesTrabajadores, optionsText: 'nombre', value: trabajadorEvaluado, valueAllowUnset: true"></select><i></i>
-                                                        </label>
-                                                    </section>
-                                                    <section class="col col-md-2">
-                                                        <div class="pull-right">
-                                                            <button id="btnAceptarEvaluado" title="Guardar" class="btn btn-success btn-circle btn-lg">
-                                                                <i class="fa fa-lg fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </section>
-                                                </div>
-                                                <div class="row">
-                                                    <div id="tbTrabajador">
-                                                        <table id="dt_trabajador" class="table table-striped table-bordered table-hover" width="100%">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th data-class="expand">
-                                                                        <i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Nombre
-                                                                    </th>
-                                                                    <th data-hide="DNI">
-                                                                        <i class="text-muted hidden-md hidden-sm hidden-xs"></i> DNI
-                                                                    </th>
-                                                                    <th>
-
-                                                                    </th>
-                                                                </tr>
-                                                            </thead>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
                                             <fieldset>
                                                 <div class="pull-right">
                                                     <button id="btnSalir" title="Salir sin guardar" class="btn btn-warning btn-circle btn-lg">
@@ -445,6 +425,34 @@
                                                     </button>
                                                 </div>
                                             </fieldset>
+                                            <fieldset id="flEvaluados" style="display:none;">
+                                                <div class="row">
+                                                    <h2>Asignaciones que evalua</h2>
+                                                </div>
+                                                <div class="row">
+                                                    <div id="tbTrabajador">
+                                                        <table id="dt_trabajador" class="table table-striped table-bordered table-hover" width="100%">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th data-class="expand">
+                                                                        <i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Trabajador
+                                                                    </th>
+                                                                    <th data-hide="phone">
+                                                                        <i class="text-muted hidden-md hidden-sm hidden-xs"></i> Ejercicio
+                                                                    </th>
+                                                                    <th data-hide="phone">
+                                                                        <i class="text-muted hidden-md hidden-sm hidden-xs"></i> Pais
+                                                                    </th>
+                                                                    <th data-hide="phone">
+                                                                        <i class="text-muted hidden-md hidden-sm hidden-xs"></i> Unidad
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+
                                         </form>
                                     </div>
                                     <!-- end widget content -->
