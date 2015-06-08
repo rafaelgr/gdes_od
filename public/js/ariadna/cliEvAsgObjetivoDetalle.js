@@ -443,7 +443,7 @@ function loadTablaObjetivosPA(data) {
     var dt = $('#dt_asgObjetivoPA').dataTable();
     if (data !== null && data.length === 0) {
         //mostrarMensajeSmart('No se han encontrado registros');
-        $("#tbAsgObjetivoPA").hide();
+        //$("#tbAsgObjetivoPA").hide();
     } else {
         dt.fnClearTable();
         dt.fnAddData(data);
@@ -580,7 +580,7 @@ function loadTablaObjetivosF2(data) {
     var dt = $('#dt_asgObjetivoF2').dataTable();
     if (data !== null && data.length === 0) {
         //mostrarMensajeSmart('No se han encontrado registros');
-        $("#tbAsgObjetivoF2").hide();
+        //$("#tbAsgObjetivoF2").hide();
     } else {
         dt.fnClearTable();
         dt.fnAddData(data);
@@ -810,7 +810,7 @@ function loadTablaObjetivosF(data) {
     var dt = $('#dt_asgObjetivoF').dataTable();
     if (data !== null && data.length === 0) {
         //mostrarMensajeSmart('No se han encontrado registros');
-        $("#tbAsgObjetivoF").hide();
+        //$("#tbAsgObjetivoF").hide();
     } else {
         dt.fnClearTable();
         dt.fnAddData(data);
@@ -1067,7 +1067,7 @@ function loadTablaObjetivosO(data) {
     var dt = $('#dt_asgObjetivoO').dataTable();
     if (data !== null && data.length === 0) {
         //mostrarMensajeSmart('No se han encontrado registros');
-        $("#tbAsgObjetivoO").hide();
+        //$("#tbAsgObjetivoO").hide();
     } else {
         dt.fnClearTable();
         dt.fnAddData(data);
@@ -1205,7 +1205,7 @@ function loadTablaObjetivosI2(data) {
     var dt = $('#dt_asgObjetivoI2').dataTable();
     if (data !== null && data.length === 0) {
         //mostrarMensajeSmart('No se han encontrado registros');
-        $("#tbAsgObjetivoI2").hide();
+        //$("#tbAsgObjetivoI2").hide();
     } else {
         dt.fnClearTable();
         dt.fnAddData(data);
@@ -1436,7 +1436,7 @@ function loadTablaObjetivosI(data) {
     var dt = $('#dt_asgObjetivoI').dataTable();
     if (data !== null && data.length === 0) {
         //mostrarMensajeSmart('No se han encontrado registros');
-        $("#tbAsgObjetivoI").hide();
+        //$("#tbAsgObjetivoI").hide();
     } else {
         dt.fnClearTable();
         dt.fnAddData(data);
