@@ -413,24 +413,7 @@ function initTablaObjetivosPA() {
                 data: "objetivo.nombre"
             },  
             {
-                data: "asgObjetivoId",
-                render: function (data, type, row) {
-                                return detalleObjetivo(row);
-                }
-            }, 
-            {
                 data: "comentarios"
-            },
-            {
-                data: "asPesoVariable",
-                render: function (data, type, row) {
-                    if (data != null) {
-                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "%</div>";
-                        return html;
-                    } else {
-                        return "";
-                    }
-                }
             }
         ]
     });
@@ -815,7 +798,7 @@ function initTablaObjetivosF() {
          {
                 data: "asgObjetivoId",
                 render: function (data, type, row) {
-                    var bt1 = "<button class='btn btn-circle btn-danger' onclick='deleteObjetivoF(" + data + ");' title='Eliminar registro'> <i class='fa fa-trash-o fa-fw'></i> </button>";
+                    var bt1 = "<button type='button' class='btn btn-circle btn-danger' onclick='deleteObjetivoF(" + data + ");' title='Eliminar registro'> <i class='fa fa-trash-o fa-fw'></i> </button>";
                     var html = "<div class='pull-right'>" + bt1 + "</div>";
                     return html;
                 }
@@ -838,7 +821,7 @@ function loadTablaObjetivosF(data) {
 
 function deleteObjetivoF(id) {
     // eliminar la valiodación
-    $("#frmPuertaAcceso").valid();
+    // $("#frmPuertaAcceso").valid();
     // mensaje de confirmación
     var mens = "¿Realmente desea borrar este registro?";
     $.SmartMessageBox({
@@ -1441,7 +1424,7 @@ function initTablaObjetivosI() {
             {
                 data: "asgObjetivoId",
                 render: function (data, type, row) {
-                    var bt1 = "<button class='btn btn-circle btn-danger' onclick='deleteObjetivoI(" + data + ");' title='Eliminar registro'> <i class='fa fa-trash-o fa-fw'></i> </button>";
+                    var bt1 = "<button type='button' class='btn btn-circle btn-danger' onclick='deleteObjetivoI(" + data + ");' title='Eliminar registro'> <i class='fa fa-trash-o fa-fw'></i> </button>";
                     var html = "<div class='pull-right'>" + bt1 + "</div>";
                     return html;
                 }
@@ -1464,7 +1447,7 @@ function loadTablaObjetivosI(data) {
 
 function deleteObjetivoI(id) {
     // eliminar la valiodación
-    $("#frmIndividual").valid();
+    //$("#frmIndividual").valid();
     // mensaje de confirmación
     var mens = "¿Realmente desea borrar este registro?";
     $.SmartMessageBox({

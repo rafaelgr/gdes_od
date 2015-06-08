@@ -364,24 +364,7 @@ function initTablaObjetivosPA() {
                 data: "objetivo.nombre"
             },  
             {
-                data: "asgObjetivoId",
-                render: function (data, type, row) {
-                                return detalleObjetivo(row);
-                }
-            }, 
-            {
                 data: "comentarios"
-            },
-            {
-                data: "asPesoVariable",
-                render: function (data, type, row) {
-                    if (data != null) {
-                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "%</div>";
-                        return html;
-                    } else {
-                        return "";
-                    }
-                }
             }
         ]
     });
