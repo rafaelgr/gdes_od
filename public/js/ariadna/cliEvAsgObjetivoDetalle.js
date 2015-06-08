@@ -114,13 +114,9 @@ function initForm() {
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (data, status) {
-                // hay que mostrarlo en la zona de datos
-                mostrarAsignacionTrabajador(data);
                 // obtener lo límites y fijarlos
                 porMinIndividual = data.ejercicio.porMinIndividual;
                 porMaxIndividual = data.ejercicio.porMaxIndividual;
-                $('#FuncionalShow').hide();
-                $('#IndividualShow').hide();
                 $('#FuncionalEdit').hide();
                 $('#IndividualEdit').hide();
                 // control que tipo de evaluador es el actual 
@@ -131,6 +127,8 @@ function initForm() {
                 } else {
                     $('#FuncionalShow').show();
                 }
+                $('#FuncionalShow').hide();
+                $('#IndividualShow').hide();
                 if (data.evaluadorI.trabajadorId == trabajador.trabajadorId) {
                     $('#IndividualEdit').show();
                     $('#IndividualShow').hide();
@@ -140,6 +138,8 @@ function initForm() {
                 }
                 prepareValidateI();
                 prepareValidateF();
+                // hay que mostrarlo en la zona de datos
+                mostrarAsignacionTrabajador(data);
             },
             error: errorAjax
         });
