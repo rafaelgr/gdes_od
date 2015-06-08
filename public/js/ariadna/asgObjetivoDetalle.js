@@ -137,24 +137,28 @@ function asgObjetivoData() {
     self.asMinNumPA = ko.observable();
     self.asMaxNumPA = ko.observable();
     self.asPesoVariablePA = ko.observable();
+    self.asPrimaPA = ko.observable();
     self.comentariosPA = ko.observable();
     
     self.asPorObjetivoF = ko.observable();
     self.asMinNumF = ko.observable();
     self.asMaxNumF = ko.observable();
     self.asPesoVariableF = ko.observable();
+    self.asPrimaF = ko.observable();
     self.comentariosF = ko.observable(); 
 
     self.asPorObjetivoO = ko.observable();
     self.asMinNumO = ko.observable();
     self.asMaxNumO = ko.observable();
     self.asPesoVariableO = ko.observable();
+    self.asPrimaO = ko.observable();
     self.comentariosO = ko.observable(); 
     
     self.asPorObjetivoI = ko.observable();
     self.asMinNumI = ko.observable();
     self.asMaxNumI = ko.observable();
     self.asPesoVariableI = ko.observable();
+    self.asPrimaI = ko.observable();
     self.comentariosI = ko.observable(); 
     
     
@@ -311,6 +315,7 @@ function aceptarPA() {
                 "asMinNum": vm.asMinNumPA(),
                 "asMaxNum": vm.asMaxNumPA(),
                 "asPesoVariable": vm.asPesoVariablePA(),
+                "asPrima": null,
                 "comentarios": vm.comentariosPA()
             }
         };
@@ -552,6 +557,7 @@ function aceptarF() {
                 "asMinNum": vm.asMinNumF(),
                 "asMaxNum": vm.asMaxNumF(),
                 "asPesoVariable": vm.asPesoVariableF(),
+                "asPrima": null,
                 "comentarios": vm.comentariosF()
             }
         };
@@ -832,6 +838,7 @@ function aceptarO() {
                 "asMinNum": vm.asMinNumO(),
                 "asMaxNum": vm.asMaxNumO(),
                 "asPesoVariable": vm.asPesoVariableO(),
+                "asPrima": null,
                 "comentarios": vm.comentariosO()
             }
         };
@@ -1112,6 +1119,7 @@ function aceptarI() {
                 "asMinNum": vm.asMinNumI(),
                 "asMaxNum": vm.asMaxNumI(),
                 "asPesoVariable": vm.asPesoVariableI(),
+                "asPrima": null,
                 "comentarios": vm.comentariosI()
             }
         };
@@ -1301,6 +1309,7 @@ function hidePA(){
     $("#MaxNumPA").show();
     $("#MinNumPA").show();
     $("#PesoVariablePA").show();
+    $("#PrimaPA").show();
     $("#ComentariosPA").show();
     $("#AceptarPA").show();
     
@@ -1308,6 +1317,7 @@ function hidePA(){
     $("#MaxNumPA").css("visibility","hidden");
     $("#MinNumPA").css("visibility","hidden");
     $("#PesoVariablePA").css("visibility", "hidden");
+    $("#PrimaPA").css("visibility", "hidden");
     $("#ComentariosPA").css("visibility", "hidden");
     $("#AceptarPA").css("visibility","hidden");
 }
@@ -1374,6 +1384,7 @@ function hideO() {
     $("#MaxNumO").show();
     $("#MinNumO").show();
     $("#PesoVariableO").show();
+    $("#PrimaO").show();
     $("#ComentariosO").show();
     $("#AceptarO").show();
 
@@ -1381,6 +1392,7 @@ function hideO() {
     $("#MaxNumO").css("visibility", "hidden");
     $("#MinNumO").css("visibility", "hidden");
     $("#PesoVariableO").css("visibility", "hidden");
+    $("#PrimaO").css("visibility", "hidden");
     $("#ComentariosO").css("visibility", "hidden");
     $("#AceptarO").css("visibility", "hidden");
 }
@@ -1391,6 +1403,7 @@ function PorcentualO() {
     // mostramos los que nos interesa
     $("#PorObjetivoO").css("visibility", "visible");
     $("#PesoVariableO").css("visibility", "visible");
+    $("#PrimaO").css("visibility", "visible");
     $("#ComentariosO").css("visibility", "visible");
     $("#AceptarO").css("visibility", "visible");
 }
@@ -1402,6 +1415,7 @@ function NumericoO() {
     $("#MaxNumO").css("visibility", "visible");
     $("#MinNumO").css("visibility", "visible");
     $("#PesoVariableO").css("visibility", "visible");
+    $("#PrimaO").css("visibility", "visible");
     $("#ComentariosO").css("visibility", "visible");
     $("#AceptarO").css("visibility", "visible");
 
@@ -1412,6 +1426,7 @@ function SiNoO() {
     hideO();
     // mostramos los que nos interesa
     $("#PesoVariableO").css("visibility", "visible");
+    $("#PrimaO").css("visibility", "visible");
     $("#ComentariosO").css("visibility", "visible");
     $("#AceptarO").css("visibility", "visible");
 }
@@ -1444,6 +1459,7 @@ function hideF() {
     $("#MaxNumF").show();
     $("#MinNumF").show();
     $("#PesoVariableF").show();
+    $("#PrimaF").show();
     $("#ComentariosF").show();
     $("#AceptarF").show();
     
@@ -1451,6 +1467,7 @@ function hideF() {
     $("#MaxNumF").css("visibility", "hidden");
     $("#MinNumF").css("visibility", "hidden");
     $("#PesoVariableF").css("visibility", "hidden");
+    $("#PrimaF").css("visibility", "hidden");
     $("#ComentariosF").css("visibility", "hidden");
     $("#AceptarF").css("visibility", "hidden");
 }
@@ -1461,6 +1478,7 @@ function PorcentualF() {
     // mostramos los que nos interesa
     $("#PorObjetivoF").css("visibility", "visible");
     $("#PesoVariableF").css("visibility", "visible");
+    $("#PrimaF").css("visibility", "visible");
     $("#ComentariosF").css("visibility", "visible");
     $("#AceptarF").css("visibility", "visible");
 }
@@ -1472,6 +1490,7 @@ function NumericoF() {
     $("#MaxNumF").css("visibility", "visible");
     $("#MinNumF").css("visibility", "visible");
     $("#PesoVariableF").css("visibility", "visible");
+    $("#PrimaF").css("visibility", "visible");
     $("#ComentariosF").css("visibility", "visible");
     $("#AceptarF").css("visibility", "visible");
 
@@ -1482,6 +1501,7 @@ function SiNoF() {
     hideF();
     // mostramos los que nos interesa
     $("#PesoVariableF").css("visibility", "visible");
+    $("#PrimaF").css("visibility", "visible");
     $("#ComentariosF").css("visibility", "visible");
     $("#AceptarF").css("visibility", "visible");
 }
@@ -1514,6 +1534,7 @@ function hideI() {
     $("#MaxNumI").show();
     $("#MinNumI").show();
     $("#PesoVariableI").show();
+    $("#PrimaI").show();
     $("#ComentariosI").show();
     $("#AceptarI").show();
 
@@ -1531,6 +1552,7 @@ function PorcentualI() {
     // mostramos los que nos interesa
     $("#PorObjetivoI").css("visibility", "visible");
     $("#PesoVariableI").css("visibility", "visible");
+    $("#PrimaI").css("visibility", "visible");
     $("#ComentariosI").css("visibility", "visible");
     $("#AceptarI").css("visibility", "visible");
 }
@@ -1542,6 +1564,7 @@ function NumericoI() {
     $("#MaxNumI").css("visibility", "visible");
     $("#MinNumI").css("visibility", "visible");
     $("#PesoVariableI").css("visibility", "visible");
+    $("#PrimaI").css("visibility", "visible");
     $("#ComentariosI").css("visibility", "visible");
     $("#AceptarI").css("visibility", "visible");
 }
@@ -1551,6 +1574,7 @@ function SiNoI() {
     hideI();
     // mostramos los que nos interesa
     $("#PesoVariableI").css("visibility", "visible");
+    $("#PrimaI").css("visibility", "visible");
     $("#ComentariosI").css("visibility", "visible");
     $("#AceptarI").css("visibility", "visible");
 }

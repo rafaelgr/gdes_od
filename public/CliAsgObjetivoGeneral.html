@@ -272,6 +272,9 @@
                                             <i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Asignacion
                                         </th>
                                         <th>
+                                            Responsabilidad
+                                        </th>
+                                        <th>
                                             Acciones
                                         </th>
                                     </tr>
@@ -279,6 +282,7 @@
                                 <tbody data-bind="foreach:asignaciones">
                                     <tr>
                                         <td data-bind="text: nombre"></td>
+                                        <td data-bind="text: responsabilidad"></td>
                                         <td>
                                             <button data-bind="click: viewAsgTrabajador($data.asgTrabajadorId)" class='btn btn-circle btn-success' title='Ver detalle'> <i class='fa fa-edit fa-fw'></i> </button>
                                         </td>
