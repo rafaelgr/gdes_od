@@ -39,6 +39,16 @@ function initForm() {
     });
     numeral.language('es');
 
+    // control de introducción de comas
+    $(".KEYP").keypress(function (e) { 
+        if (e.keyCode == '44' || e.charCode == '44') { 
+            //Cancel the keypress
+            e.preventDefault(); 
+            // Add the comma to the value of the input field
+            insertTextAtCursor('.');
+        }
+    });
+
     getVersionFooter();
     vm = new asgObjetivoData();
     ko.applyBindings(vm);
@@ -396,7 +406,7 @@ function loadTablaObjetivosPA(data) {
     var dt = $('#dt_asgObjetivoPA').dataTable();
     if (data !== null && data.length === 0) {
         //mostrarMensajeSmart('No se han encontrado registros');
-        $("#tbAsgObjetivoPA").hide();
+        //$("#tbAsgObjetivoPA").hide();
     } else {
         dt.fnClearTable();
         dt.fnAddData(data);
@@ -427,6 +437,312 @@ function deleteObjetivoPA(id) {
                 data: JSON.stringify(data),
                 success: function (data, status) {
                     buscaCargaObjetivosPA();
+                },
+                error: errorAjax
+            });
+        }
+        if (ButtonPressed === "Cancelar") {
+            // no hacemos nada (no quiere borrar)
+        }
+    });
+}
+
+/*------------------------------------------------
+ * Funciones O (Organizacion)
+ *------------------------------------------------ */
+
+function loadObjetivosO() {
+    // enviar la consulta por la red (AJAX)
+    var data = {
+        "categoriaId": "1"
+    };
+    $.ajax({
+        type: "POST",
+        url: "api/objetivos-buscar",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (data, status) {
+            // hay que mostrarlo en la zona de datos
+            vm.posiblesObjetivosO(data);
+        },
+        error: errorAjax
+    });
+}
+
+function buscaCargaObjetivosO() {
+    // cargar la tabla de objetivos si hay datos
+    data = {
+        "asgTrabajadorId": asgTrabajadorId,
+        "categoriaId": "1"
+    };
+    $.ajax({
+        type: "POST",
+        url: "api/asg-objetivos-buscar",
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (data, status) {
+            // hay que mostrarlo en la zona de datos
+            loadTablaObjetivosO(data);
+        },
+        error: errorAjax
+    });
+}
+
+function prepareValidateO() {
+    var opciones = {
+        rules: {
+            cmbObjetivosO: { required: true },
+            txtPorObjetivoO: { required: true, min: 0, max: 99 },
+            txtMinNumO: { required: true },
+            txtMaxNumO: { required: true },
+            txtPesoVariableO: { required: true, min: 0, max: 99 }
+        },
+        // Messages for form validation
+        // Lo hacemos con un  fichero externo
+
+        // Do not change code below
+        errorPlacement: function (error, element) {
+            error.insertAfter(element.parent());
+        }
+    };
+    $("#frmOrganizacion").validate(opciones);
+}
+
+function datosOKO() {
+    var opciones = $("#frmOrganizacion").validate().settings;
+    // modificamos requerimiento según el tipo
+    var objetivo = vm.objetivoO();
+    if (objetivo != null) {
+        opciones.rules.cmbObjetivosO.required = false;
+        switch (objetivo.tipo.tipoId) {
+            case 0:
+                // Si / no
+                opciones.rules.txtMinNumO.required = false;
+                opciones.rules.txtMaxNumO.required = false;
+                opciones.rules.txtPorObjetivoO.required = false;
+                break;
+            case 1:
+                // Porcentual
+                opciones.rules.txtMinNumO.required = false;
+                opciones.rules.txtMaxNumO.required = false;
+                opciones.rules.txtPorObjetivoO.required = true;
+                break;
+            case 2:
+                // Numérico
+                opciones.rules.txtMinNumO.required = true;
+                opciones.rules.txtMaxNumO.required = true;
+                opciones.rules.txtPorObjetivoO.required = false;
+                break;
+            case 3:
+                // Ligado a desempeño.
+                opciones.rules.txtMinNumO.required = false;
+                opciones.rules.txtMaxNumO.required = false;
+                opciones.rules.txtPorObjetivoO.required = false;
+                break;
+        }
+    } else {
+        opciones.rules.cmbObjetivosO.required = true;
+    }
+    // -- 
+    if (vm.asPrimaO() == null || vm.asPrimaO() == "") {
+        vm.asPrimaO(0);
+    }
+    if (vm.asPrimaO() > 0 && vm.asPesoVariableO() > 0) {
+        // mensaje de confirmación
+        var mens = "No puede usar simultáneamente prima y variable.";
+        $.SmartMessageBox({
+            title: "<i class='fa fa-info'></i> Mensaje",
+            content: mens,
+            buttons: '[Aceptar]'
+        }, function (ButtonPressed) {
+            return false;
+        });
+    } else {
+        return $('#frmOrganizacion').valid();
+    }
+}
+
+function aceptarO() {
+    var mf = function () {
+        if (!datosOKO())
+            return;
+        var data = {
+            asgObjetivo: {
+                "asgObjetivoId": 0,
+                "asgTrabajador": {
+                    "asgTrabajadorId": asgTrabajadorId
+                },
+                "objetivo": {
+                    "objetivoId": vm.objetivoO().objetivoId
+                },
+                "asSn": null,
+                "asPorObjetivo": vm.asPorObjetivoO(),
+                "asMinNum": vm.asMinNumO(),
+                "asMaxNum": vm.asMaxNumO(),
+                "asPesoVariable": vm.asPesoVariableO(),
+                "asPrima": vm.asPrimaO(),
+                "comentarios": vm.comentariosO()
+            }
+        };
+        // parece idiota pero estamos controlando que los indefinidos vayan como nulos
+        if (data.asgObjetivo.asPorObjetivo == null || data.asgObjetivo.asPorObjetivo == "") data.asgObjetivo.asPorObjetivo = 0;
+        if (data.asgObjetivo.asMinNum == null || data.asgObjetivo.asMinNum == "") data.asgObjetivo.asMinNum = 0;
+        if (data.asgObjetivo.asMaxNum == null || data.asgObjetivo.asMaxNum == "") data.asgObjetivo.asMaxNum = 0;
+        
+        $.ajax({
+            type: "POST",
+            url: "api/asg-objetivos",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (data, status) {
+                buscaCargaObjetivosO();
+            },
+            error: errorAjax
+        });
+    };
+    return mf;
+}
+
+function initTablaObjetivosO() {
+    tablaCarro = $('#dt_asgObjetivoO').dataTable({
+        autoWidth: true,
+        preDrawCallback: function () {
+            // Initialize the responsive datatables helper once.
+            if (!responsiveHelper_dt_basic) {
+                responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_asgObjetivoO'), breakpointDefinition);
+            }
+        },
+        rowCallback: function (nRow) {
+            responsiveHelper_dt_basic.createExpandIcon(nRow);
+        },
+        drawCallback: function (oSettings) {
+            responsiveHelper_dt_basic.respond();
+        },
+        language: {
+            processing: "Procesando...",
+            info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+            infoFiltered: "(filtrado de un total de _MAX_ registros)",
+            infoPostFix: "",
+            loadingRecords: "Cargando...",
+            zeroRecords: "No se encontraron resultados",
+            emptyTable: "Ningún dato disponible en esta tabla",
+            paginate: {
+                first: "Primero",
+                previous: "Anterior",
+                next: "Siguiente",
+                last: "Último"
+            },
+            aria: {
+                sortAscending: ": Activar para ordenar la columna de manera ascendente",
+                sortDescending: ": Activar para ordenar la columna de manera descendente"
+            }
+        },
+        data: dataObjetivos,
+        columns: [{
+                data: "objetivo.nombre"
+            }, {
+                data: "asPorObjetivo",
+                render: function (data, type, row) {
+                    if (data != null) {
+                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "%</div>";
+                        return html;
+                    } else {
+                        return "";
+                    }
+                }
+            }, {
+                data: "asMinNum",
+                render: function (data, type, row) {
+                    if (data != null) {
+                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "</div>";
+                        return html;
+                    } else {
+                        return "";
+                    }
+                }
+            }, {
+                data: "asMaxNum",
+                render: function (data, type, row) {
+                    if (data != null) {
+                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "</div>";
+                        return html;
+                    } else {
+                        return "";
+                    }
+                }
+            }, {
+                data: "asPesoVariable",
+                render: function (data, type, row) {
+                    if (data != null) {
+                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "%</div>";
+                        return html;
+                    } else {
+                        return "";
+                    }
+                }
+            }, {
+                data: "asPrima",
+                render: function (data, type, row) {
+                    if (data != null) {
+                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "€</div>";
+                        return html;
+                    } else {
+                        return "";
+                    }
+                }
+            },{
+                data: "comentarios"
+            },
+         {
+                data: "asgObjetivoId",
+                render: function (data, type, row) {
+                    var bt1 = "<button class='btn btn-circle btn-danger btn-lg' onclick='deleteObjetivoO(" + data + ");' title='Eliminar registro'> <i class='fa fa-trash-o fa-fw'></i> </button>";
+                    var html = "<div class='pull-right'>" + bt1 + "</div>";
+                    return html;
+                }
+            }]
+    });
+}
+
+function loadTablaObjetivosO(data) {
+    var dt = $('#dt_asgObjetivoO').dataTable();
+    if (data !== null && data.length === 0) {
+        //mostrarMensajeSmart('No se han encontrado registros');
+        //$("#tbAsgObjetivoO").hide();
+    } else {
+        dt.fnClearTable();
+        dt.fnAddData(data);
+        dt.fnDraw();
+        $("#tbAsgObjetivoO").show();
+    }
+}
+
+function deleteObjetivoO(id) {
+    // eliminar la valiodación
+    $("#frmPuertaAcceso").valid();
+    // mensaje de confirmación
+    var mens = "¿Realmente desea borrar este registro?";
+    $.SmartMessageBox({
+        title: "<i class='fa fa-info'></i> Mensaje",
+        content: mens,
+        buttons: '[Aceptar][Cancelar]'
+    }, function (ButtonPressed) {
+        if (ButtonPressed === "Aceptar") {
+            var data = {
+                objetivoId: id
+            };
+            $.ajax({
+                type: "DELETE",
+                url: "api/asg-objetivos/" + id,
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (data, status) {
+                    buscaCargaObjetivosO();
                 },
                 error: errorAjax
             });
@@ -536,7 +852,23 @@ function datosOKF() {
     } else {
         opciones.rules.cmbObjetivosF.required = true;
     }
-    return $('#frmFuncional').valid();
+    // -- 
+    if (vm.asPrimaF() == null || vm.asPrimaF() == "") {
+        vm.asPrimaF(0);
+    }
+    if (vm.asPrimaF() > 0 && vm.asPesoVariableF() > 0) {
+        // mensaje de confirmación
+        var mens = "No puede usar simultáneamente prima y variable.";
+        $.SmartMessageBox({
+            title: "<i class='fa fa-info'></i> Mensaje",
+            content: mens,
+            buttons: '[Aceptar]'
+        }, function (ButtonPressed) {
+            return false;
+        });
+    } else {
+        return $('#frmFuncional').valid();
+    }
 }
 
 function aceptarF() {
@@ -557,7 +889,7 @@ function aceptarF() {
                 "asMinNum": vm.asMinNumF(),
                 "asMaxNum": vm.asMaxNumF(),
                 "asPesoVariable": vm.asPesoVariableF(),
-                "asPrima": null,
+                "asPrima": vm.asPrimaF(),
                 "comentarios": vm.comentariosF()
             }
         };
@@ -660,6 +992,16 @@ function initTablaObjetivosF() {
                     }
                 }
             }, {
+                data: "asPrima",
+                render: function (data, type, row) {
+                    if (data != null) {
+                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "€</div>";
+                        return html;
+                    } else {
+                        return "";
+                    }
+                }
+            }, {
                 data: "comentarios"
             },
          {
@@ -677,7 +1019,7 @@ function loadTablaObjetivosF(data) {
     var dt = $('#dt_asgObjetivoF').dataTable();
     if (data !== null && data.length === 0) {
         //mostrarMensajeSmart('No se han encontrado registros');
-        $("#tbAsgObjetivoF").hide();
+        //$("#tbAsgObjetivoF").hide();
     } else {
         dt.fnClearTable();
         dt.fnAddData(data);
@@ -708,287 +1050,6 @@ function deleteObjetivoF(id) {
                 data: JSON.stringify(data),
                 success: function (data, status) {
                     buscaCargaObjetivosF();
-                },
-                error: errorAjax
-            });
-        }
-        if (ButtonPressed === "Cancelar") {
-            // no hacemos nada (no quiere borrar)
-        }
-    });
-}
-
-
-/*------------------------------------------------
- * Funciones O (Organizacion)
- *------------------------------------------------ */
-
-function loadObjetivosO() {
-    // enviar la consulta por la red (AJAX)
-    var data = {
-        "categoriaId": "1"
-    };
-    $.ajax({
-        type: "POST",
-        url: "api/objetivos-buscar",
-        dataType: "json",
-        contentType: "application/json",
-        data: JSON.stringify(data),
-        success: function (data, status) {
-            // hay que mostrarlo en la zona de datos
-            vm.posiblesObjetivosO(data);
-        },
-        error: errorAjax
-    });
-}
-
-function buscaCargaObjetivosO() {
-    // cargar la tabla de objetivos si hay datos
-    data = {
-        "asgTrabajadorId": asgTrabajadorId,
-        "categoriaId": "1"
-    };
-    $.ajax({
-        type: "POST",
-        url: "api/asg-objetivos-buscar",
-        dataType: "json",
-        contentType: "application/json",
-        data: JSON.stringify(data),
-        success: function (data, status) {
-            // hay que mostrarlo en la zona de datos
-            loadTablaObjetivosO(data);
-        },
-        error: errorAjax
-    });
-}
-
-function prepareValidateO() {
-    var opciones = {
-        rules: {
-            cmbObjetivosO: { required: true },
-            txtPorObjetivoO: { required: true, min: 0, max: 99 },
-            txtMinNumO: { required: true },
-            txtMaxNumO: { required: true },
-            txtPesoVariableO: { required: true, min: 0, max: 99 }
-        },
-        // Messages for form validation
-        // Lo hacemos con un  fichero externo
-
-        // Do not change code below
-        errorPlacement: function (error, element) {
-            error.insertAfter(element.parent());
-        }
-    };
-    $("#frmOrganizacion").validate(opciones);
-}
-
-function datosOKO() {
-    var opciones = $("#frmOrganizacion").validate().settings;
-    // modificamos requerimiento según el tipo
-    var objetivo = vm.objetivoO();
-    if (objetivo != null) {
-        opciones.rules.cmbObjetivosO.required = false;
-        switch (objetivo.tipo.tipoId) {
-            case 0:
-                // Si / no
-                opciones.rules.txtMinNumO.required = false;
-                opciones.rules.txtMaxNumO.required = false;
-                opciones.rules.txtPorObjetivoO.required = false;
-                break;
-            case 1:
-                // Porcentual
-                opciones.rules.txtMinNumO.required = false;
-                opciones.rules.txtMaxNumO.required = false;
-                opciones.rules.txtPorObjetivoO.required = true;
-                break;
-            case 2:
-                // Numérico
-                opciones.rules.txtMinNumO.required = true;
-                opciones.rules.txtMaxNumO.required = true;
-                opciones.rules.txtPorObjetivoO.required = false;
-                break;
-            case 3:
-                // Ligado a desempeño.
-                opciones.rules.txtMinNumO.required = false;
-                opciones.rules.txtMaxNumO.required = false;
-                opciones.rules.txtPorObjetivoO.required = false;
-                break;
-        }
-    } else {
-        opciones.rules.cmbObjetivosO.required = true;
-    }
-    return $('#frmOrganizacion').valid();
-}
-
-function aceptarO() {
-    var mf = function () {
-        if (!datosOKO())
-            return;
-        var data = {
-            asgObjetivo: {
-                "asgObjetivoId": 0,
-                "asgTrabajador": {
-                    "asgTrabajadorId": asgTrabajadorId
-                },
-                "objetivo": {
-                    "objetivoId": vm.objetivoO().objetivoId
-                },
-                "asSn": null,
-                "asPorObjetivo": vm.asPorObjetivoO(),
-                "asMinNum": vm.asMinNumO(),
-                "asMaxNum": vm.asMaxNumO(),
-                "asPesoVariable": vm.asPesoVariableO(),
-                "asPrima": null,
-                "comentarios": vm.comentariosO()
-            }
-        };
-        // parece idiota pero estamos controlando que los indefinidos vayan como nulos
-        if (data.asgObjetivo.asPorObjetivo == null || data.asgObjetivo.asPorObjetivo == "") data.asgObjetivo.asPorObjetivo = 0;
-        if (data.asgObjetivo.asMinNum == null || data.asgObjetivo.asMinNum == "") data.asgObjetivo.asMinNum = 0;
-        if (data.asgObjetivo.asMaxNum == null || data.asgObjetivo.asMaxNum == "") data.asgObjetivo.asMaxNum = 0;
-        
-        $.ajax({
-            type: "POST",
-            url: "api/asg-objetivos",
-            dataType: "json",
-            contentType: "application/json",
-            data: JSON.stringify(data),
-            success: function (data, status) {
-                buscaCargaObjetivosO();
-            },
-            error: errorAjax
-        });
-    };
-    return mf;
-}
-
-function initTablaObjetivosO() {
-    tablaCarro = $('#dt_asgObjetivoO').dataTable({
-        autoWidth: true,
-        preDrawCallback: function () {
-            // Initialize the responsive datatables helper once.
-            if (!responsiveHelper_dt_basic) {
-                responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_asgObjetivoO'), breakpointDefinition);
-            }
-        },
-        rowCallback: function (nRow) {
-            responsiveHelper_dt_basic.createExpandIcon(nRow);
-        },
-        drawCallback: function (oSettings) {
-            responsiveHelper_dt_basic.respond();
-        },
-        language: {
-            processing: "Procesando...",
-            info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-            infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
-            infoFiltered: "(filtrado de un total de _MAX_ registros)",
-            infoPostFix: "",
-            loadingRecords: "Cargando...",
-            zeroRecords: "No se encontraron resultados",
-            emptyTable: "Ningún dato disponible en esta tabla",
-            paginate: {
-                first: "Primero",
-                previous: "Anterior",
-                next: "Siguiente",
-                last: "Último"
-            },
-            aria: {
-                sortAscending: ": Activar para ordenar la columna de manera ascendente",
-                sortDescending: ": Activar para ordenar la columna de manera descendente"
-            }
-        },
-        data: dataObjetivos,
-        columns: [{
-                data: "objetivo.nombre"
-            }, {
-                data: "asPorObjetivo",
-                render: function (data, type, row) {
-                    if (data != null) {
-                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "%</div>";
-                        return html;
-                    } else {
-                        return "";
-                    }
-                }
-            }, {
-                data: "asMinNum",
-                render: function (data, type, row) {
-                    if (data != null) {
-                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "</div>";
-                        return html;
-                    } else {
-                        return "";
-                    }
-                }
-            }, {
-                data: "asMaxNum",
-                render: function (data, type, row) {
-                    if (data != null) {
-                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "</div>";
-                        return html;
-                    } else {
-                        return "";
-                    }
-                }
-            }, {
-                data: "asPesoVariable",
-                render: function (data, type, row) {
-                    if (data != null) {
-                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "%</div>";
-                        return html;
-                    } else {
-                        return "";
-                    }
-                }
-            },{
-                data: "comentarios"
-            },
-         {
-                data: "asgObjetivoId",
-                render: function (data, type, row) {
-                    var bt1 = "<button class='btn btn-circle btn-danger btn-lg' onclick='deleteObjetivoO(" + data + ");' title='Eliminar registro'> <i class='fa fa-trash-o fa-fw'></i> </button>";
-                    var html = "<div class='pull-right'>" + bt1 + "</div>";
-                    return html;
-                }
-            }]
-    });
-}
-
-function loadTablaObjetivosO(data) {
-    var dt = $('#dt_asgObjetivoO').dataTable();
-    if (data !== null && data.length === 0) {
-        //mostrarMensajeSmart('No se han encontrado registros');
-        $("#tbAsgObjetivoO").hide();
-    } else {
-        dt.fnClearTable();
-        dt.fnAddData(data);
-        dt.fnDraw();
-        $("#tbAsgObjetivoO").show();
-    }
-}
-
-function deleteObjetivoO(id) {
-    // eliminar la valiodación
-    $("#frmPuertaAcceso").valid();
-    // mensaje de confirmación
-    var mens = "¿Realmente desea borrar este registro?";
-    $.SmartMessageBox({
-        title: "<i class='fa fa-info'></i> Mensaje",
-        content: mens,
-        buttons: '[Aceptar][Cancelar]'
-    }, function (ButtonPressed) {
-        if (ButtonPressed === "Aceptar") {
-            var data = {
-                objetivoId: id
-            };
-            $.ajax({
-                type: "DELETE",
-                url: "api/asg-objetivos/" + id,
-                dataType: "json",
-                contentType: "application/json",
-                data: JSON.stringify(data),
-                success: function (data, status) {
-                    buscaCargaObjetivosO();
                 },
                 error: errorAjax
             });
@@ -1098,7 +1159,23 @@ function datosOKI() {
     } else {
         opciones.rules.cmbObjetivosI.required = true;
     }
-    return $('#frmIndividual').valid();
+    // -- 
+    if (vm.asPrimaI() == null || vm.asPrimaI() == "") {
+        vm.asPrimaI(0);
+    }
+    if (vm.asPrimaI() > 0 && vm.asPesoVariableI() > 0) {
+        // mensaje de confirmación
+        var mens = "No puede usar simultáneamente prima y variable.";
+        $.SmartMessageBox({
+            title: "<i class='fa fa-info'></i> Mensaje",
+            content: mens,
+            buttons: '[Aceptar]'
+        }, function (ButtonPressed) {
+            return false;
+        });
+    } else {
+        return $('#frmIndividual').valid();
+    }
 }
 
 function aceptarI() {
@@ -1119,7 +1196,7 @@ function aceptarI() {
                 "asMinNum": vm.asMinNumI(),
                 "asMaxNum": vm.asMaxNumI(),
                 "asPesoVariable": vm.asPesoVariableI(),
-                "asPrima": null,
+                "asPrima": vm.asPrimaI(),
                 "comentarios": vm.comentariosI()
             }
         };
@@ -1221,6 +1298,16 @@ function initTablaObjetivosI() {
                         return "";
                     }
                 }
+            },{
+                data: "asPrima",
+                render: function (data, type, row) {
+                    if (data != null) {
+                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "€</div>";
+                        return html;
+                    } else {
+                        return "";
+                    }
+                }
             }, {
                 data: "comentarios"
             },
@@ -1239,7 +1326,7 @@ function loadTablaObjetivosI(data) {
     var dt = $('#dt_asgObjetivoI').dataTable();
     if (data !== null && data.length === 0) {
         //mostrarMensajeSmart('No se han encontrado registros');
-        $("#tbAsgObjetivoI").hide();
+        //$("#tbAsgObjetivoI").hide();
     } else {
         dt.fnClearTable();
         dt.fnAddData(data);
@@ -1579,3 +1666,24 @@ function SiNoI() {
     $("#AceptarI").css("visibility", "visible");
 }
 
+function insertTextAtCursor(text) {
+    var sel, range, textNode;
+    if (window.getSelection) {
+        sel = window.getSelection();
+        if (sel.getRangeAt && sel.rangeCount) {
+            range = sel.getRangeAt(0).cloneRange();
+            range.deleteContents();
+            textNode = document.createTextNode(text);
+            range.insertNode(textNode);
+            
+            // Move caret to the end of the newly inserted text node
+            range.setStart(textNode, textNode.length);
+            range.setEnd(textNode, textNode.length);
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
+    } else if (document.selection && document.selection.createRange) {
+        range = document.selection.createRange();
+        range.pasteHTML(text);
+    }
+}

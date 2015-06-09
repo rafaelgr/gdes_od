@@ -85,6 +85,7 @@ function gup(name) {
 *   they are used in forms in order to and retrieve
 *   field's values in a cookie
 */
+
 function are_cookies_enabled() {
     var cookieEnabled = (navigator.cookieEnabled) ? true : false;
     if (typeof navigator.cookieEnabled == "undefined" && !cookieEnabled) {
@@ -147,3 +148,5 @@ function controlBotones(trabajador) {
         $("#evaluacion").css("visibility", "hidden");
     }
 }
+
+

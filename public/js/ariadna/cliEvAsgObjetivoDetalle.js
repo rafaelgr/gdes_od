@@ -174,18 +174,21 @@ function asgObjetivoData() {
     self.asMinNumF = ko.observable();
     self.asMaxNumF = ko.observable();
     self.asPesoVariableF = ko.observable();
+    self.asPrimaF = ko.observable();
     self.comentariosF = ko.observable(); 
 
     self.asPorObjetivoO = ko.observable();
     self.asMinNumO = ko.observable();
     self.asMaxNumO = ko.observable();
     self.asPesoVariableO = ko.observable();
+    self.asPrimaO = ko.observable();
     self.comentariosO = ko.observable(); 
     
     self.asPorObjetivoI = ko.observable();
     self.asMinNumI = ko.observable();
     self.asMaxNumI = ko.observable();
     self.asPesoVariableI = ko.observable();
+    self.asPrimaI = ko.observable();
     self.comentariosI = ko.observable(); 
     
     
@@ -566,12 +569,7 @@ function initTablaObjetivosF2() {
             {
                 data: "asPesoVariable",
                 render: function (data, type, row) {
-                    if (data != null) {
-                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "%</div>";
-                        return html;
-                    } else {
-                        return "";
-                    }
+                    return detalleRetribucion(row, "F");
                 }
             }]
     });
@@ -690,7 +688,23 @@ function datosOKF() {
     } else {
         opciones.rules.cmbObjetivosF.required = true;
     }
-    return $('#frmFuncional').valid();
+    // -- 
+    if (vm.asPrimaF() == null || vm.asPrimaF() == "") {
+        vm.asPrimaF(0);
+    }
+    if (vm.asPrimaF() > 0 && vm.asPesoVariableF() > 0) {
+        // mensaje de confirmación
+        var mens = "No puede usar simultáneamente prima y variable.";
+        $.SmartMessageBox({
+            title: "<i class='fa fa-info'></i> Mensaje",
+            content: mens,
+            buttons: '[Aceptar]'
+        }, function (ButtonPressed) {
+            return false;
+        });
+    } else {
+        return $('#frmFuncional').valid();
+    }
 }
 
 function aceptarF() {
@@ -711,6 +725,7 @@ function aceptarF() {
                 "asMinNum": vm.asMinNumF(),
                 "asMaxNum": vm.asMaxNumF(),
                 "asPesoVariable": vm.asPesoVariableF(),
+                "asPrima": vm.asPrimaF(),
                 "comentarios": vm.comentariosF()
             }
         };
@@ -788,12 +803,7 @@ function initTablaObjetivosF() {
             {
                 data: "asPesoVariable",
                 render: function (data, type, row) {
-                    if (data != null) {
-                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "%</div>";
-                        return html;
-                    } else {
-                        return "";
-                    }
+                    return detalleRetribucion(row, "F");
                 }
             },
          {
@@ -955,7 +965,23 @@ function datosOKO() {
     } else {
         opciones.rules.cmbObjetivosO.required = true;
     }
-    return $('#frmOrganizacion').valid();
+    // -- 
+    if (vm.asPrimaO() == null || vm.asPrimaO() == "") {
+        vm.asPrimaO(0);
+    }
+    if (vm.asPrimaO() > 0 && vm.asPesoVariableO() > 0) {
+        // mensaje de confirmación
+        var mens = "No puede usar simultáneamente prima y variable.";
+        $.SmartMessageBox({
+            title: "<i class='fa fa-info'></i> Mensaje",
+            content: mens,
+            buttons: '[Aceptar]'
+        }, function (ButtonPressed) {
+            return false;
+        });
+    } else {
+        return $('#frmOrganizacion').valid();
+    }
 }
 
 function aceptarO() {
@@ -976,6 +1002,7 @@ function aceptarO() {
                 "asMinNum": vm.asMinNumO(),
                 "asMaxNum": vm.asMaxNumO(),
                 "asPesoVariable": vm.asPesoVariableO(),
+                "asPrima": vm.asPrimaO(),
                 "comentarios": vm.comentariosO()
             }
         };
@@ -1053,12 +1080,7 @@ function initTablaObjetivosO() {
             {
                 data: "asPesoVariable",
                 render: function (data, type, row) {
-                    if (data != null) {
-                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "%</div>";
-                        return html;
-                    } else {
-                        return "";
-                    }
+                    return detalleRetribucion(row, "O");
                 }
             }]
     });
@@ -1191,12 +1213,7 @@ function initTablaObjetivosI2() {
             {
                 data: "asPesoVariable",
                 render: function (data, type, row) {
-                    if (data != null) {
-                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "%</div>";
-                        return html;
-                    } else {
-                        return "";
-                    }
+                    return detalleRetribucion(row, "I");
                 }
             }]
     });
@@ -1219,7 +1236,7 @@ function loadTablaObjetivosI2(data) {
 
 
 /*------------------------------------------------
- * Funciones I (Puerta de acceso)
+ * Funciones I (Individuales)
  *------------------------------------------------ */
 
 function loadObjetivosI() {
@@ -1316,7 +1333,23 @@ function datosOKI() {
     } else {
         opciones.rules.cmbObjetivosI.required = true;
     }
-    return $('#frmIndividual').valid();
+    // -- 
+    if (vm.asPrimaI() == null || vm.asPrimaI() == "") {
+        vm.asPrimaI(0);
+    }
+    if (vm.asPrimaI() > 0 && vm.asPesoVariableI() > 0) {
+        // mensaje de confirmación
+        var mens = "No puede usar simultáneamente prima y variable.";
+        $.SmartMessageBox({
+            title: "<i class='fa fa-info'></i> Mensaje",
+            content: mens,
+            buttons: '[Aceptar]'
+        }, function (ButtonPressed) {
+            return false;
+        });
+    } else {
+        return $('#frmIndividual').valid();
+    }
 }
 
 function aceptarI() {
@@ -1337,6 +1370,7 @@ function aceptarI() {
                 "asMinNum": vm.asMinNumI(),
                 "asMaxNum": vm.asMaxNumI(),
                 "asPesoVariable": vm.asPesoVariableI(),
+                "asPrima": vm.asPrimaI(),
                 "comentarios": vm.comentariosI()
             }
         };
@@ -1414,12 +1448,7 @@ function initTablaObjetivosI() {
             {
                 data: "asPesoVariable",
                 render: function (data, type, row) {
-                    if (data != null) {
-                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "%</div>";
-                        return html;
-                    } else {
-                        return "";
-                    }
+                    return detalleRetribucion(row, "I");
                 }
             },
             {
@@ -1580,6 +1609,7 @@ function hideF() {
     $("#MaxNumF").show();
     $("#MinNumF").show();
     $("#PesoVariableF").show();
+    $("#PrimaF").show();
     $("#ComentariosF").show();
     $("#AceptarF").show();
     
@@ -1587,6 +1617,7 @@ function hideF() {
     $("#MaxNumF").css("visibility", "hidden");
     $("#MinNumF").css("visibility", "hidden");
     $("#PesoVariableF").css("visibility", "hidden");
+    $("#PrimaF").css("visibility", "hidden");
     $("#ComentariosF").css("visibility", "hidden");
     $("#AceptarF").css("visibility", "hidden");
 }
@@ -1597,6 +1628,7 @@ function PorcentualF() {
     // mostramos los que nos interesa
     $("#PorObjetivoF").css("visibility", "visible");
     $("#PesoVariableF").css("visibility", "visible");
+    $("#PrimaF").css("visibility", "visible");
     $("#ComentariosF").css("visibility", "visible");
     $("#AceptarF").css("visibility", "visible");
 }
@@ -1608,6 +1640,7 @@ function NumericoF() {
     $("#MaxNumF").css("visibility", "visible");
     $("#MinNumF").css("visibility", "visible");
     $("#PesoVariableF").css("visibility", "visible");
+    $("#PrimaF").css("visibility", "visible");
     $("#ComentariosF").css("visibility", "visible");
     $("#AceptarF").css("visibility", "visible");
 
@@ -1618,6 +1651,7 @@ function SiNoF() {
     hideF();
     // mostramos los que nos interesa
     $("#PesoVariableF").css("visibility", "visible");
+    $("#PrimaF").css("visibility", "visible");
     $("#ComentariosF").css("visibility", "visible");
     $("#AceptarF").css("visibility", "visible");
 }
@@ -1652,6 +1686,7 @@ function hideO() {
     $("#MaxNumO").show();
     $("#MinNumO").show();
     $("#PesoVariableO").show();
+    $("#PrimaO").show();
     $("#ComentariosO").show();
     $("#AceptarO").show();
 
@@ -1659,6 +1694,7 @@ function hideO() {
     $("#MaxNumO").css("visibility", "hidden");
     $("#MinNumO").css("visibility", "hidden");
     $("#PesoVariableO").css("visibility", "hidden");
+    $("#PrimaO").css("visibility", "hidden");
     $("#ComentariosO").css("visibility", "hidden");
     $("#AceptarO").css("visibility", "hidden");
 }
@@ -1669,6 +1705,7 @@ function PorcentualO() {
     // mostramos los que nos interesa
     $("#PorObjetivoO").css("visibility", "visible");
     $("#PesoVariableO").css("visibility", "visible");
+    $("#PrimaO").css("visibility", "visible");
     $("#ComentariosO").css("visibility", "visible");
     $("#AceptarO").css("visibility", "visible");
 }
@@ -1680,6 +1717,7 @@ function NumericoO() {
     $("#MaxNumO").css("visibility", "visible");
     $("#MinNumO").css("visibility", "visible");
     $("#PesoVariableO").css("visibility", "visible");
+    $("#PrimaO").css("visibility", "visible");
     $("#ComentariosO").css("visibility", "visible");
     $("#AceptarO").css("visibility", "visible");
 
@@ -1690,6 +1728,7 @@ function SiNoO() {
     hideO();
     // mostramos los que nos interesa
     $("#PesoVariableO").css("visibility", "visible");
+    $("#PrimaO").css("visibility", "visible");
     $("#ComentariosO").css("visibility", "visible");
     $("#AceptarO").css("visibility", "visible");
 }
@@ -1723,6 +1762,7 @@ function hideI() {
     $("#MaxNumI").show();
     $("#MinNumI").show();
     $("#PesoVariableI").show();
+    $("#PrimaI").show();
     $("#ComentariosI").show();
     $("#AceptarI").show();
 
@@ -1730,6 +1770,7 @@ function hideI() {
     $("#MaxNumI").css("visibility", "hidden");
     $("#MinNumI").css("visibility", "hidden");
     $("#PesoVariableI").css("visibility", "hidden");
+    $("#PrimaI").css("visibility", "hidden");
     $("#ComentariosI").css("visibility", "hidden");
     $("#AceptarI").css("visibility", "hidden");
 }
@@ -1740,6 +1781,7 @@ function PorcentualI() {
     // mostramos los que nos interesa
     $("#PorObjetivoI").css("visibility", "visible");
     $("#PesoVariableI").css("visibility", "visible");
+    $("#PrimaI").css("visibility", "visible");
     $("#ComentariosI").css("visibility", "visible");
     $("#AceptarI").css("visibility", "visible");
 }
@@ -1751,6 +1793,7 @@ function NumericoI() {
     $("#MaxNumI").css("visibility", "visible");
     $("#MinNumI").css("visibility", "visible");
     $("#PesoVariableI").css("visibility", "visible");
+    $("#PrimaI").css("visibility", "visible");
     $("#ComentariosI").css("visibility", "visible");
     $("#AceptarI").css("visibility", "visible");
 }
@@ -1760,7 +1803,22 @@ function SiNoI() {
     hideI();
     // mostramos los que nos interesa
     $("#PesoVariableI").css("visibility", "visible");
+    $("#PrimaI").css("visibility", "visible");
     $("#ComentariosI").css("visibility", "visible");
     $("#AceptarI").css("visibility", "visible");
 }
 
+function detalleRetribucion(data, tipo) {
+    var html = "";
+    if (data.asPesoVariable > 0) {
+        if (tipo == "F") {
+            html = numeral(data.asPesoVariable).format('#,###,##0.00') + "% del variable funcional";
+        } else {
+            html = numeral(data.asPesoVariable).format('#,###,##0.00') + "% del variable";
+        }
+    }
+    if (data.asPrima > 0) {
+        html = "Prima de " + numeral(data.asPrima).format('#,###,##0.00') + "€";
+    }
+    return html;
+}

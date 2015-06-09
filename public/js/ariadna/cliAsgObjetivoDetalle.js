@@ -516,12 +516,7 @@ function initTablaObjetivosF() {
             {
                 data: "asPesoVariable",
                 render: function (data, type, row) {
-                    if (data != null) {
-                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "%</div>";
-                        return html;
-                    } else {
-                        return "";
-                    }
+                    return detalleRetribucion(row, "F");
                 }
             }]
     });
@@ -531,7 +526,7 @@ function loadTablaObjetivosF(data) {
     var dt = $('#dt_asgObjetivoF').dataTable();
     if (data !== null && data.length === 0) {
         //mostrarMensajeSmart('No se han encontrado registros');
-        $("#tbAsgObjetivoF").hide();
+        //$("#tbAsgObjetivoF").hide();
     } else {
         dt.fnClearTable();
         dt.fnAddData(data);
@@ -744,12 +739,7 @@ function initTablaObjetivosO() {
             {
                 data: "asPesoVariable",
                 render: function (data, type, row) {
-                    if (data != null) {
-                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "%</div>";
-                        return html;
-                    } else {
-                        return "";
-                    }
+                    return detalleRetribucion(row, "O");
                 }
             }]
     });
@@ -759,7 +749,7 @@ function loadTablaObjetivosO(data) {
     var dt = $('#dt_asgObjetivoO').dataTable();
     if (data !== null && data.length === 0) {
         //mostrarMensajeSmart('No se han encontrado registros');
-        $("#tbAsgObjetivoO").hide();
+        //$("#tbAsgObjetivoO").hide();
     } else {
         dt.fnClearTable();
         dt.fnAddData(data);
@@ -1002,12 +992,7 @@ function initTablaObjetivosI() {
             {
                 data: "asPesoVariable",
                 render: function (data, type, row) {
-                    if (data != null) {
-                        var html = "<div style='text-align:right'>" + numeral(data).format('#,###,##0.00') + "%</div>";
-                        return html;
-                    } else {
-                        return "";
-                    }
+                    return detalleRetribucion(row, "I");
                 }
             }]
     });
@@ -1017,7 +1002,7 @@ function loadTablaObjetivosI(data) {
     var dt = $('#dt_asgObjetivoI').dataTable();
     if (data !== null && data.length === 0) {
         //mostrarMensajeSmart('No se han encontrado registros');
-        $("#tbAsgObjetivoI").hide();
+        //$("#tbAsgObjetivoI").hide();
     } else {
         dt.fnClearTable();
         dt.fnAddData(data);
@@ -1272,3 +1257,17 @@ function SiNoI() {
     $("#AceptarI").css("visibility", "visible");
 }
 
+function detalleRetribucion(data, tipo) {
+    var html = "";
+    if (data.asPesoVariable > 0) {
+        if (tipo == "F") {
+            html = numeral(data.asPesoVariable).format('#,###,##0.00') + "% del variable funcional";
+        } else {
+            html = numeral(data.asPesoVariable).format('#,###,##0.00') + "% del variable";
+        }
+    }
+    if (data.asPrima > 0) {
+        html = "Prima de " + numeral(data.asPrima).format('#,###,##0.00') + "€";
+    }
+    return html;
+}
