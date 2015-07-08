@@ -352,7 +352,7 @@ function aceptar() {
                     "trabajadorId": vm.strabajadorId()
                 },
                 "ejercicio": {
-                    "ejercicioId": vm.ejercicio().ejercicioId
+                    "ejercicioId": vm.sejercicioId()
                 },
                 "pais": {
                     "paisId": vm.spaisId()

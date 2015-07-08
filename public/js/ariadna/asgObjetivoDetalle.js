@@ -9,6 +9,8 @@ var responsiveHelper_datatable_tabletools = undefined;
 
 var asgObjetivoId = 0;
 var asgTrabajadorId = 0;
+var unidadId = 0;
+var unidadNombre = "";
 
 var dataObjetivos;
 
@@ -57,12 +59,14 @@ function initForm() {
     
     $("#btnAceptarPA").click(aceptarPA());
     $("#btnSalirPA").click(salir());
+    $("#btnExportPA").click(exportPA());
     
     $("#btnAceptarF").click(aceptarF());
     $("#btnSalirF").click(salir());
     
     $("#btnAceptarO").click(aceptarO());
     $("#btnSalirO").click(salir());
+    $("#btnExportarO").click(exportO());
     
     $("#btnAceptarI").click(aceptarI());
     $("#btnSalirI").click(salir());
@@ -203,6 +207,9 @@ function mostrarAsignacionTrabajador(data) {
     // valores 
     $("#txtFijo").text(numeral(data.fijo).format('#,###,##0.00') + "€");
     $("#txtVariable").text(numeral(data.variable).format('#,###,##0.00') + "%");
+    // guardar la unidad asignada para ser usada en masivas organizacionales
+    unidadId = data.unidad.unidadId;
+    unidadNombre = data.unidad.nombre;
 }
 
 
@@ -1686,4 +1693,80 @@ function insertTextAtCursor(text) {
         range = document.selection.createRange();
         range.pasteHTML(text);
     }
+}
+
+function exportPA() {
+    var mf = function () {
+        // preguntar si realmente quiere hacer el proceso.
+        // mensaje de confirmación
+        var mens = "El efecto de este proceso es que estos objetivos de 'Puerta de acceso' pasarán a ser los de todos los usuarios, independientemente de los que ya tuvieran asignados. ¿Es eso lo que quiere hacer?";
+        $.SmartMessageBox({
+            title: "<i class='fa fa-info'></i> Mensaje",
+            content: mens,
+            buttons: '[Si][No]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "Si") {
+                var data = {
+                    "asgModelo": {
+                        "asgTrabajadorId": asgTrabajadorId,
+                        "categoriaId": "0",
+                        "unidadId": "0"
+                    }
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "api/asg-masivo-puertadeacceso/",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    success: function (data, status) {
+                        mostrarMensajeSmart("Exportación realizada");
+                    },
+                    error: errorAjax
+                });
+            }
+            if (ButtonPressed === "No") {
+            // no hacemos nada (no quiere borrar)
+            }
+        });
+    }
+    return mf;
+}
+
+function exportO() {
+    var mf = function () {
+        // preguntar si realmente quiere hacer el proceso.
+        // mensaje de confirmación
+        var mens = "Estos objetivos serán los de todos los trabajadores asignados a esta unidad (" + unidadNombre +  ") . ¿Es eso lo que quiere hacer?";
+        $.SmartMessageBox({
+            title: "<i class='fa fa-info'></i> Mensaje",
+            content: mens,
+            buttons: '[Si][No]'
+        }, function (ButtonPressed) {
+            if (ButtonPressed === "Si") {
+                var data = {
+                    "asgModelo": {
+                        "asgTrabajadorId": asgTrabajadorId,
+                        "categoriaId": "1",
+                        "unidadId": unidadId
+                    }
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "api/asg-masivo-organizacion/",
+                    dataType: "json",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    success: function (data, status) {
+                        mostrarMensajeSmart("Exportación realizada");
+                    },
+                    error: errorAjax
+                });
+            }
+            if (ButtonPressed === "No") {
+            // no hacemos nada (no quiere borrar)
+            }
+        });
+    }
+    return mf;
 }

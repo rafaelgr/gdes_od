@@ -18,6 +18,8 @@
   <ItemGroup>
     <Content Include="config.json" />
     <Content Include="package.json" />
+    <Compile Include="lib\asg_masivo_api.js" />
+    <Compile Include="lib\asg_masivo_db_mysql.js" />
     <Compile Include="lib\colectivos_api.js" />
     <Compile Include="lib\colectivos_db_mysql.js" />
     <Compile Include="lib\empresas_api.js" />

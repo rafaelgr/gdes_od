@@ -35,6 +35,7 @@ var asg_objetivos_api = require("./lib/asg_objetivos_api.js");
 var evaluados_api = require("./lib/evaluados_api.js");
 var empresas_api = require("./lib/empresas_api.js");
 var colectivos_api = require("./lib/colectivos_api.js");
+var asg_masivo_api = require("./lib/asg_masivo_api.js");
 
 // ficheros en los que se grabarán los log de aplicación
 var express_log_file = __dirname + "/logs/node.express.log";
@@ -348,6 +349,11 @@ router.route("/colectivos/:colectivoId")
 router.route("/colectivos-buscar")
 	.post(colectivos_api.postColectivosBuscar);
 
+// --> Relacionadas con asignaciones masivas.
+router.route("/asg-masivo-puertadeacceso")
+	.post(asg_masivo_api.postAsgMasivoPuertaDeAcceso);
+router.route("/asg-masivo-organizacion")
+	.post(asg_masivo_api.postAsgMasivoOrganizacion);
 
 //================================================================
 // Registro de rutas y arranque del servidor
