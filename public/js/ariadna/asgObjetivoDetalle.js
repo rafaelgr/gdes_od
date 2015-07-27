@@ -414,6 +414,9 @@ function loadTablaObjetivosPA(data) {
     if (data !== null && data.length === 0) {
         //mostrarMensajeSmart('No se han encontrado registros');
         //$("#tbAsgObjetivoPA").hide();
+        dt.fnClearTable();
+        dt.fnDraw();
+        $("#tbAsgObjetivoPA").show();
     } else {
         dt.fnClearTable();
         dt.fnAddData(data);
@@ -720,6 +723,9 @@ function loadTablaObjetivosO(data) {
     if (data !== null && data.length === 0) {
         //mostrarMensajeSmart('No se han encontrado registros');
         //$("#tbAsgObjetivoO").hide();
+        dt.fnClearTable();
+        dt.fnDraw();
+        $("#tbAsgObjetivoO").show();
     } else {
         dt.fnClearTable();
         dt.fnAddData(data);
@@ -1027,6 +1033,9 @@ function loadTablaObjetivosF(data) {
     if (data !== null && data.length === 0) {
         //mostrarMensajeSmart('No se han encontrado registros');
         //$("#tbAsgObjetivoF").hide();
+        dt.fnClearTable();
+        dt.fnDraw();
+        $("#tbAsgObjetivoF").show();
     } else {
         dt.fnClearTable();
         dt.fnAddData(data);
@@ -1334,6 +1343,9 @@ function loadTablaObjetivosI(data) {
     if (data !== null && data.length === 0) {
         //mostrarMensajeSmart('No se han encontrado registros');
         //$("#tbAsgObjetivoI").hide();
+        dt.fnClearTable();
+        dt.fnDraw();
+        $("#tbAsgObjetivoI").show();
     } else {
         dt.fnClearTable();
         dt.fnAddData(data);
